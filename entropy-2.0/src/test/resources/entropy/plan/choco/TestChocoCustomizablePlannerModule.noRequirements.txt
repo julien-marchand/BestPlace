@@ -1,0 +1,9 @@
+#list of nodes
+N2 2 4 4
+N3 2 4 4
+#list of VMs
+vm6 1 2->0 1
+#initial configuration
+N2
+N3 vm6
+FARM

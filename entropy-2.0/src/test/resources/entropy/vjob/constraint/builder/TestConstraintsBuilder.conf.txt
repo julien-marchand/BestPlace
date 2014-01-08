@@ -1,0 +1,28 @@
+#list of nodes
+N1 2 2 3837
+N2 2 2 3837
+N3 2 2 3837
+N4 2 2 3837
+N5 2 2 3837
+N6 2 2 3837
+N7 2 2 3837
+N8 2 2 3837
+N9 2 2 3837
+#list of VMs
+vm1 1 1 1
+vm2 1 2 4
+vm3 1 1 1
+vm5 1 2 4
+vm6 1 10 20
+vm10 12 12 12
+#initial configuration
+N1
+N2
+N3
+N4
+N5 vm6
+N6
+N7
+N8 vm3 vm5
+N9 vm1 vm2
+FARM vm10

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2009 Ecole des Mines de Nantes.
+ 
+     This file is part of Entropy.
+ 
+    Entropy is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    Entropy is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+    You should have received a copy of the GNU Lesser General Public License
+    along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<document>
+  <properties>
+    <title>Welcome to Entropy</title>
+    <author>Fabien Hermenier</author>
+    <author>Adrien Lèbre</author>
+    </properties>
+<body>
+<!--<div style=" font-size: 7pt; position: absolute right; float: right; width: 250px; border: solid lightgray 1px; margin-left: 10px; margin-bottom: 10px; margin-top: 20px;">
+<a href="download.html" style="font-weight: bold;"><div style="float: left"><img src="images/news.png"/></div>
+<span style="text-decoration: underline; margin-bottom: 5px; font-size: 8pt; font-weight: bold;">Try Entropy 1.2.0 (1MB)</span></a><br/>
+<div style="text-align: right; font-weight: bold; margin-bottom: 5px;">Experimental, latest build: 29 April 2009</div>
+<span style="text-decoration: underline; margin-bottom: 5px; font-size: 8pt; font-weight: bold;">New results concerning VM operations...</span></a><br/>
+<div style="text-align: right; font-weight: bold; margin-bottom: 5px;">Released: 10 April 2009</div>
+<span style="text-decoration: underline; margin-bottom: 5px; font-size: 8pt; font-weight: bold;">Try Entropy 1.0.0 (1MB)</span></a><br/>
+<div style="text-align: right; font-weight: bold; margin-bottom: 5px;">Released: 11 february 2009</div>
+<a href="download.html#Instructions">Installation Instructions</a>, <a href="release-notes.html#1.0.0">Release Notes</a>
+</div>-->
+
+<div style=" font-size: 7pt; position: absolute right; float: right; width: 200px; height: 800px; margin-left: 10px; margin-bottom: 10px; margin-top: 20px;">
+<div style="float: left"><img src="images/news-64x64.png"/></div>
+ <div style="text-align: right; margin-bottom: 5px;">
+  <a href="download.html#Experimental"><span style="text-decoration: underline; color: #aa2d14; margin-bottom: 5px; font-size: 8pt; font-weight: bold;">Try Entropy 1.2.0</span></a>
+  <br/>
+  Experimental<br/>Latest build: <span style="font-weight: bold;">29 April 2009</span>
+ </div>
+ <div style="text-align: right; margin-bottom: 5px;">
+  <a href="https://gforge.inria.fr/docman/view.php/1603/6122/eval-pastel-march2009.pdf"><span style="text-decoration: underline; color: #aa2d14 ; margin-bottom: 5px; font-size: 8pt; font-weight: bold;">Latest experiments</span></a>
+  <br/>
+  Impact of VM operations<br/>PDF file: <span style="font-weight: bold;">10 April 2009</span>
+ </div>
+ <div style="text-align: right; margin-bottom: 5px;">
+ <a href="download.html#Stable"><span style="text-decoration: underline; color: #aa2d14; margin-bottom: 5px; font-size: 8pt; font-weight: bold;">Try Entropy 1.0</span></a>
+ <br/>
+ A consolidation manager<br/>Released: <span style="font-weight: bold">19 February 2009</span>
+ </div>
+</div>
+
+
+<section name="Welcome to Entropy">
+
+<p>
+  Entropy is a virtual machine
+  manager for clusters. Developed by the <a href="http://www.emn.fr/x-info/ascola/">ASCOLA research group</a>,
+  at the <a href="http://www.emn.fr/">Ecole des Mines de Nantes</a>, the Entropy system 
+  acts as an infinite control loop, which
+  performs a globally optimized placement according to cluster resource 
+  usage and scheduler objectives.
+</p>
+  
+<p>
+  Relying on an encapsulation of jobs
+  into VMs, Entropy enables to implement finer scheduling policies
+  through cluster-wide context switches: permutations between VMs
+  present in the cluster. It results a more flexible use of cluster
+  resources and relieve end-users of the burden of dealing with time
+  estimates.
+</p>
+
+<p>
+  The major advantage of the Entropy system concerns the cluster-wide
+  context switch process itself. Entropy computes a new viable
+  configuration and an optimized reconfiguration plan. This plan
+  describes the sequences of transitions to perform (i.e. the run,
+  migrate, suspend/resume, stop VM operations) in order to pass from
+  the current situation to the new one.  As the cost of each action and  
+  the dependencies between them is considered, Entropy reduces, the
+  duration of each cluster-wide context switch by performing a minimum number 
+  of actions, in the most efficient way.
+</p>
+
+<p>
+From technical point of view, Entropy currently works
+with Xen (3.2.1 and higher) and Ganglia 3.0.7. Each of the
+VMs and each of the Domain-0 are running a Ganglia monitoring daemon. In
+addition, a shell script running on each Domain-0, provides additional
+monitoring metrics. Deployed on the front-end node, the Entropy JAVA system manipulates VM through drivers implemented with SSH
+commands or use the xen API. 
+The decision module has to be implemented by the administrator to fulfill a specific scheduling policy.
+The version 1.2.0 is released with a default scheduling policy. Based on a First Come First Serve strategy, this algorithm tries to maximize 
+the number of VMs running on the cluster. 
+</p>
+
+
+<p>The previous and still official release (<a href="release-notes.html#1.0.0">Entropy 1.0 </a>) focuses on the consolidation issue: Entropy observes the current CPU
+  and memory requirements of each virtual machine and computed a globally optimized placement of
+  them that satisfy all their requirements while using a minimum number of hosts.
+</p>
+
+<div align="center"><img src="images/control_loop2.png" title="The control loop"/><br/><br/><span style="font-weight: bold">Architecture Overview</span></div>
+  <section name="Learning about Entropy">
+     <ul>  
+     <li><a href="howto.html"><div class="header">How to use Entropy</div></a>
+         Informations for those wanting to use Entropy on their cluster. It describes how to 
+	 configure Entropy, how it can be used with the monitoring system <a href="http://ganglia.info">ganglia</a>
+         and the <a href="http://xen.org">Xen Hypervisor</a>.
+     </li>
+     <li><a href="publications.html"><div class="header">Publications</div></a>
+         A list of scientific publications related to Entropy.
+     </li>
+     <li><a href="team-list.html"><div class="header">The team</div></a>
+         List of the members involved in the development of Entropy with
+         contacts.
+     </li>
+     <li><div class="header">Project documentation</div>
+     Various informations about <a href="project-info.html">the project itself</a>
+     and <a href="project-reports.html">some reports</a> related to the source code of Entropy.
+     </li>
+</ul>
+</section>
+  <div style="vertical-align: bottom; text-align: center;">
+	<a href="http://www.emn.fr" target="_blank"><img src="images/logo-emn.gif"/></a>
+	<a href="http://www.lina.fr" target="_blank"><img src="images/logoinria.png"/></a>
+	<a href="http://www.lina.univ-nantes.fr/?lang=en" target="_blank"><img src="images/logolina.png"/></a>
+  </div>
+</section>
+</body>
+</document>

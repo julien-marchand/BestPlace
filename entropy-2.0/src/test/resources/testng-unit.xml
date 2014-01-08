@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd">
+<suite name="Unit tests">
+  <test name="unit tests" verbose="0" parallel="methods" thread-count="5">
+    <groups>
+      <run>
+	<include name="unit"/>
+      </run>
+    </groups>
+    <packages>
+      <package name="entropy.*"/>
+    </packages>
+  </test>
+</suite>

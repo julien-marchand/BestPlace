@@ -1,0 +1,12 @@
+R1 = {WN1, WN2, WN3, WN4};
+R2 = WN[5..9];
+B1 = WN[9..12];
+R3 = B1 + {SN1};
+ban({WN5, SN1});
+T1 = VM[1..3];
+T2 = VM[4..7];
+T3 = VM[8..9];
+spread(T1);
+spread(T2);
+spread(T3);
+fence(T3, R1 | R2 |ÊB1);

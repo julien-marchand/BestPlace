@@ -1,0 +1,19 @@
+#list of nodes
+N1 1 1 1
+N2 2 200 2048
+N3 3 3 3
+#list of VMs
+VM1 1 1 1
+VM2 2 2 3
+VM3 3 3 3
+VM4 1 2 3
+#initial configuration
+N1 VM1 (VM2)
+N2 VM3
+(N3)
+FARM VM4
+#Reconfiguration Plan
+0:7 migrate(VM1,N1,N2)
+0:10 startup(N3)
+10:12 stop(VM3,N2)
+10:15 resume(VM2,N1,N3)

@@ -1,0 +1,100 @@
+			---
+			Using ganglia with Entropy
+			---
+			Fabien Hermenier
+			---
+			01/28/2009
+
+~~ Copyright (c) 2009 Ecole des Mines de Nantes.
+~~ 
+~~     This file is part of Entropy.
+~~ 
+~~    Entropy is free software: you can redistribute it and/or modify
+~~     it under the terms of the GNU Lesser General Public License as published by
+~~     the Free Software Foundation, either version 3 of the License, or
+~~    (at your option) any later version.
+~~ 
+~~     Entropy is distributed in the hope that it will be useful,
+~~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+~~     GNU Lesser General Public License for more details.
+~~ 
+~~     You should have received a copy of the GNU Lesser General Public License
+~~     along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
+~~
+
+Using ganglia with Entropy
+
+      This document describes the necessary steps to use Entropy with a monitoring
+      system based on {{{http://ganglia.info} Ganglia}}. This document
+      does not deal with the installation and the configuration of ganglia. 
+      
+      Our adapter was tested using the version 3.0.7 (Fosset). We made some
+       tests with the version 3.1.1, but we observe problems with the monitors in
+       the virtual machines.
+
+* Global design of the monitoring architecture
+
+	We suppose that a monitor is running on each node, each virtual machine and
+	a <gmeta daemon> is running and collects the metrics of all the monitors.
+      
+** Detection of the containers
+
+	The ganglia adapter of Entropy requests the <gmeta daemon> to build a configuration.
+	To identify which run an hypervisor compatible with Entropy, it is necessary
+	to define some additional metrics with <gmetric>. A host is considered as a <container>
+	 iff all the required metrics are defined (refer to the following table).
+	A common way to define these metrics is to run a script that send the
+	current values of the metrics.
+	
+*---+---+---*
+|<<Metric Identifier>> | <<Description>> | <<type>> |
+*---+---+---*
+|<<container.mem_total>> |  The total amount of memory available for the virtual machines in KB | uint32 |
+*---+---+---*
+| <<container.cpu_num>> | The total number of physical CPUs available for the virtual machines | uint16 |
+*---+---+---*
+| <<container.vms>> | The name of the virtual machines hosted on the container. Each name is separated by a space character| string |
+*---+---+---*
+| <<container.driver.migration>> | The identifier of the driver used to migrate the virtual machines | string |
+*---+---+---*
+| <<container.type>> | The identifier of the container | string |
+*---+---+---*
+Metrics that define a container
+
+** Detection of the virtual machines
+  
+   Hosts that are not considered as a container are considered as a potential virtual machine. In order
+   to check wether a host is really a virtual machine, we only take into account hosts that are defined as
+   a virtual machine in a <<container.vms>> metric. Standard metrics of Ganglia are used to specify 
+   the resources requirements of a virtual machine.
+   
+*---+---+
+|<<Metric Identifier>> | <<Description>> |
+*---+---+
+| <<cpu_num>>   | The number of CPU (virtual in this situations) used by the virtual machine. At this moment, the virtual machine must only have 1 CPU |
+*---+---+
+| <<mem_total>> | The amount of memory allocated to the virtual machine in KB |
+*---+---+
+| <<cpu_speed>> | The frequency of each CPU in MHz |
+*---+---+
+| <<cpu_system>> + <<cpu_user>> + <<cpu_nice>> | The % of CPU consumed by the virtual machine (the additions are performed by the adapter)|
+*---+---+
+Metrics used by Entropy for the virtual machines 
+
+* Additional considerations
+
+** What about the <others hosts>
+  
+   Hosts that are not considered as a container or a virtual machine are ignored by Entropy.
+   
+** Offline hosts
+
+   The ganglia adapter observes the values of the <TMAX> and <TN> values of each <HOST> field to detect offline hosts.
+   Just as gmetad, a host is considered offline and is ignored if <TN \> 4 * TMAX>.
+   
+** Incoherent configurations
+
+	A incoherent configuration contains at least on container that declare a virtual machine
+	 that is not present or online in the gmeta daemon response. In this situation,
+	Entropy skip this configuration to avoid problems related to invalid configurations.

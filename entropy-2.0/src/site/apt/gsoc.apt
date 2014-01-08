@@ -1,0 +1,82 @@
+			---
+			Google Summer of Code 2009 - Entropy
+			---
+			---
+
+~~ Copyright (c) 2009 Ecole des Mines de Nantes.
+~~ 
+~~     This file is part of Entropy.
+~~ 
+~~    Entropy is free software: you can redistribute it and/or modify
+~~     it under the terms of the GNU Lesser General Public License as published by
+~~     the Free Software Foundation, either version 3 of the License, or
+~~     (at your option) any later version.
+~~ 
+~~     Entropy is distributed in the hope that it will be useful,
+~~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+~~     GNU Lesser General Public License for more details.
+~~ 
+~~     You should have received a copy of the GNU Lesser General Public License
+~~     along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
+~~
+
+Google Summer of Code 2009
+
+   The Entropy project-team is applying as a mentoring organization for the Google Summer of Code 2009 program. 
+   
+   The current release is available since January 2009 and required two years of intensive developments and benchmarking phases.
+   This first release aims at dynamically managing virtual machines on a cluster thanks to an autonomic model. 
+   In other words, we try to provide a production cluster tool to exploit in an efficient manner
+   the VM placement on the physical nodes (from both performance and energy point of view). 
+   
+   Started in 2006, this project is focused to resolve research challenges concerning virtualization and distributed architectures such as cluster (mainly data centers), grid and more recently cloud computing. 
+   The project becomes bigger and the extension needs are increased. 
+   
+   Therefore, we are applying to the Google Summer of Code 2009 program mainly: 
+   
+   * To attract more contributors; 
+   
+   * To gain more visibility and get concrete feedbacks on the interest of the Entropy proposal (several building blocks have been stabilized and we would like to push this first solution to the cluster academic and industrial communities); 
+   
+   * To sensitize new programmers (and especially motivated students) to work in a challenging research project.
+
+
+* Contact
+
+   Adrien Lebre (adrien.lebre@emn.fr) and Jean-Marc Menaud (jean-marc.menaud@emn.fr) will be the organization administrators.
+  
+   Don't hesitate to contact {{{mailto:entropy-contact@lists.gforge.inria.fr}us}} if you have any questions or new ideas to contribute to the project. 
+ 
+   We are waiting for the mentoring organization results for this 2009 Google SoC. 
+   According to the score, we will provide more details concerning the student selection (applicant template : 
+   Name, Mail, Background (did you already contribute / are you involved in an Open Source project ?), 
+   Why are you interested by Entropy ?, ...
+   
+   Last but not least, Entropy is mainly developed in JAVA with the {{{http://maven.apache.org/} maven}} project management software. 
+   Mailing lists and subversion repository are provided by the {{{http://www.inria.fr} INRIA}} forge (the French National Institute For Research in Computer Science and Control). 
+   New contributors could easily {{{http://gforge.inria.fr}create a new account}} and subscribe to the different mailing lists.
+
+* Current list of ideas 
+
+** Entropy graphical interfaces: 
+   
+   There is no dedicated interface for Entropy, monitoring information are transparently exploited and administrators have to use the interfaces provided by the monitoring solution (such as the {{{http://ganglia.info/?page_id=69} Ganglia one}}). 
+   The objectives consist in developing graphical interfaces relying on an AJAX model. Administrators should be able (i) to visualize physical and virtual resource informations and (ii) to manage VM. 
+   
+     * Mentors (Jean-Marc Menaud / Hien NGuyen Van); 
+     
+     * Applicant should be familiar with web development (virtualization or distributed algorithms competences	are not mandatory for this work).
+     
+** Generic VM actuators  
+
+   Deployed on the cluster front-end, Entropy is currently able to migrate Xen VMs from one compute node to another one by using the Xen XML-RPC layers.  
+   We would like to improve the current model in order (i) to complete the VM operations (i.e. adding suspend, resume and snapshot functionalities) and (ii) to interact with whatever kind of VM thanks to the generic libvirt layer. 
+   
+     * Mentors for this project will be (Adrien Lebre / Fabien Hermenier);
+     
+     * Applicant should be interested by system/network development (this work requires strong expertise in Linux (mainly debian) and virtualization technologies). 	
+	  
+* Google Summer of Code information
+ 
+  Direct access to the Google SoC {{{http://socghop.appspot.com/document/show/program/google/gsoc2009/faqs} FAQ}}, for further informations, please visit the Google SoC {{{http://code.google.com/soc/}pages}} !

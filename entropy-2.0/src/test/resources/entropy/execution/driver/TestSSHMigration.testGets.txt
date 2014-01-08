@@ -1,0 +1,3 @@
+auth.privateKey = myPrivateKey
+auth.username = root
+driver.sshMigration.command = plz move $VM 2 $DESTINATION coze it is naa good staying on $SOURCE. yeah really, move 2 $DESTINATION

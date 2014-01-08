@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="2137.8894"
+   height="354.76822"
+   id="svg3681"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="left_banner2.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0"
+   inkscape:export-filename="/Users/alebre/RESEARCH/ENTROPY/CODE/branches/entropy-1.2.0/src/site/resources/images/left_banner2.png"
+   inkscape:export-xdpi="21.12394"
+   inkscape:export-ydpi="21.12394">
+  <defs
+     id="defs3683">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective3689" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="592.14286"
+     inkscape:cy="-165.71429"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1440"
+     inkscape:window-height="829"
+     inkscape:window-x="0"
+     inkscape:window-y="22"
+     showguides="false" />
+  <metadata
+     id="metadata3686">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(1633.0927,330.51747)"
+     style="opacity:1">
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3856"
+       style="font-size:110px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;font-family:Impact;-inkscape-font-specification:Impact Bold"
+       transform="translate(-1604.3644,-622.65197)"><flowRegion
+         id="flowRegion3858"><rect
+           id="rect3860"
+           width="2055.1321"
+           height="710.35272"
+           x="963.22351"
+           y="297.91373"
+           style="font-size:110px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Impact;-inkscape-font-specification:Impact Bold" /></flowRegion><flowPara
+         id="flowPara3870"
+         style="font-size:105px">an Autonomic VM Manager</flowPara><flowPara
+         id="flowPara3874"
+         style="font-size:105px">for Clusters</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3848"
+       style="font-size:320px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#aa2d14;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline;font-family:Impact;-inkscape-font-specification:Impact Bold"
+       transform="translate(-1776.1552,-519.56088)"><flowRegion
+         id="flowRegion3850"><rect
+           id="rect3852"
+           width="1161.1461"
+           height="461.81949"
+           x="131.94843"
+           y="113.18594"
+           style="font-size:320px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#aa2d14;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;font-family:Impact;-inkscape-font-specification:Impact Bold" /></flowRegion><flowPara
+         id="flowPara3854">Entropy</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3563"
+       style="font-size:56px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;font-family:Bitstream Vera Sans"
+       transform="translate(-1618.8967,351.3156)"><flowRegion
+         id="flowRegion3565"><rect
+           id="rect3567"
+           width="2227.7314"
+           height="131.36325"
+           x="-12.333079"
+           y="-394.51929"
+           style="font-size:56px" /></flowRegion><flowPara
+         id="flowPara3577">http://entropy.gforge.inria.fr<flowSpan
+   style="font-style:italic;-inkscape-font-specification:Bitstream Vera Sans Italic"
+   id="flowSpan3906" /></flowPara></flowRoot>  </g>
+</svg>

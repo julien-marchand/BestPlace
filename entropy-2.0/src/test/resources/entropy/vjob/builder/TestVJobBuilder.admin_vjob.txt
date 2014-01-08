@@ -1,0 +1,2 @@
+//Define sample virtual machines
+ban(VM[1..50], $SERVICES);

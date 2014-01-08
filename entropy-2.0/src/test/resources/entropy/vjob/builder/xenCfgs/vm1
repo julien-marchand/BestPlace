@@ -1,0 +1,69 @@
+# Configuration file for the Xen instance atest, created
+# by xen-tools 3.8 on Mon May 19 02:15:05 2008.
+#
+
+#
+# Kernel + memory size
+#
+#kernel = '/boot/vmlinuz-2.6.24-17-xen'
+#ramdisk = '/boot/initrd.img-2.6.24-17-xen'
+builder = "hvm"
+memory = '1024'
+#
+# Hostname
+#
+name = "atest"
+vcpus=4
+#cpus = "0,1,2,3"
+pae=0
+acpi=1#1 for windows vista....
+apic=1 #If it works on your guest, keep it
+#apic is One of the best known APIC architectures by intel, provides much more complex priority schemas than 8259A
+#
+# Networking
+#
+dhcp = "dhcp"
+#vif = [ 'mac=00:16:3E:5F:C3:25' ]
+vif = ['bridge=xenbr0']
+#vif = ['ip = "10.0.11.13", bridge=xenbr0']
+
+#vif = [ 'ip=192.168.0.132,mac=00:16:3E:5F:C3:25' ] if you want a static IP, this is the way to go
+
+#
+# Disk device(s).
+#
+root = '/dev/xvda2 ro'
+disk = [
+
+'tap:aio:/hd2/testmatch.img,hda,w',
+'tap:aio:/hd2/TAFEELEH_V2.iso,hdc:cdrom,r'
+#'phy:/dev/loop0,hdc:cdrom,r'
+
+#To mount a CD and not boot from it
+# normally, we would say 'tap:aio:/hd2/Fedora-9-x86_64-DVD.iso,hdc:cdrom,r' to load a cd rom into IDE-2 master
+
+
+
+# : will display something like /dev/loop1: [0811]:24577 (/hd2/winxpsp2.iso)
+#and now you can use 'phy:/dev/loop0,hdc:cdrom,r' as cd, remember to set boot="dc" on the next line if you want to boot from hdc (Our CD)
+]
+boot="dc"
+#
+# Behaviour
+#
+on_poweroff = 'destroy'
+on_reboot = 'restart'
+on_crash = 'restart'
+#device_model = "/usr/lib/xen/bin/qemu-dm"
+#cdrom='/hd2/TAFEELEH_V2.iso' this is old thing, these days it is merged with disks
+#boot='d' Also obsolete
+sdl=1
+#vnc=1
+#vncviewer=0
+stdvga=0#this means, use the cirrus VGA not the old VGA
+#serial="pty"
+#ne2000=0
+
+
+#i commented this coz i added above
+extra = '2 console=xvc0'

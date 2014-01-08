@@ -1,0 +1,83 @@
+			---
+			Using Xen with Entropy
+			---
+			Fabien Hermenier
+			---
+			01/28/2009
+
+~~ Copyright (c) 2009 Ecole des Mines de Nantes.
+~~ 
+~~     This file is part of Entropy.
+~~ 
+~~    Entropy is free software: you can redistribute it and/or modify
+~~     it under the terms of the GNU Lesser General Public License as published by
+~~     the Free Software Foundation, either version 3 of the License, or
+~~     (at your option) any later version.
+~~ 
+~~     Entropy is distributed in the hope that it will be useful,
+~~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+~~     GNU Lesser General Public License for more details.
+~~ 
+~~     You should have received a copy of the GNU Lesser General Public License
+~~     along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
+~~
+
+Using Xen with Entropy
+
+      This document describes the necessary steps to use Entropy with the
+       {{{http://xen.org} Xen hypervisor}}.
+      For this version, we use the version 3.2.1 of Xen (the debian package
+       for the distribution lenny).
+       This document does not discuss about the compilation and the installation of Xen and
+       we suppose that each node run the Xen hypervisor and the Domain-0.
+
+*  {Domain-0} and Entropy
+
+   The Domain-0 is a particular virtual machine. In the context of Entropy,
+   it comes from the impossibility to migrate this domain. This situation has some consequences when
+   we want to use Entropy with Xen.
+   
+   We choose to exclude the Domain-0 from the pool of virtual machines to manage. However, we cannot
+   ignore that it consumes some resources. At this moment, we suppose that its CPU consumption
+   is neglictible but we consider its memory consumption.
+   
+   When we use Xen as Hypervisor, we choose to remove the Domain-0 from the list 
+   of virtual machines to manage and to reduce the total amount of memory usuable for the virtual
+   machines by the amount of memory allocated to the Domain-0. These considerations
+   appears during the monitoring.
+   
+*  The <<<xen>>> {migration} driver:
+   
+   Before using the migration driver, you have to check that the relocation server is
+   enabled and allows incoming migrations. Check this in </etc/xen/xend-config.sxp>:
+
+---
+(xend-relocation-server yes)
+(xend-relocation-address '')
+(xend-relocation-hosts-allow '')
+(xend-relocation-port 8002)
+---
+      
+   The migration driver uses the HTTP interface of xend. Thus, the HTTP
+   server must be enabled and accepting migration requests from Entropy.
+   Check this in </etc/xen/xend-config.sxp>: 
+
+---
+#Enable the HTTP server
+(xend-http-server yes) 
+#Binding address from the HTTP server (here, it listening on all the addresses)
+(xend-address '')
+#Listening port
+(xend-port 8000)
+---
+
+  At this moment, the relocation port must be 8002, the migrations are
+  performed in live and the HTTP server must be listening on the port 8000.
+
+  <<Warning>>: As Xen is only focused on the migration
+   of the state of the virtual machine, you have to provide a shared storage management
+    system that supports the live migration, such as NFS server, iSCSI, DRDB, ...
+
+
+

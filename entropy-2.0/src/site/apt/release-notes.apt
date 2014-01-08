@@ -1,0 +1,60 @@
+		---
+		Release Notes
+		---
+		---
+
+~~ Copyright (c) 2009 Ecole des Mines de Nantes.
+~~ 
+~~     This file is part of Entropy.
+~~ 
+~~    Entropy is free software: you can redistribute it and/or modify
+~~     it under the terms of the GNU Lesser General Public License as published by
+~~     the Free Software Foundation, either version 3 of the License, or
+~~     (at your option) any later version.
+~~ 
+~~     Entropy is distributed in the hope that it will be useful,
+~~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+~~     GNU Lesser General Public License for more details.
+~~ 
+~~     You should have received a copy of the GNU Lesser General Public License
+~~     along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
+~~
+
+Release notes
+
+* Entropy {1.2.0}
+
+   The version 1.2.0 of Entropy is a generalization of the dynamic management of VM in clusters. 
+   Leveraging the version 1.0.0, this new research prototype aims at providing a way to define advanced scheduling policies for 
+   virtualized jobs (that is jobs encapsulating into VMs) on a cluster. The major advantage in comparison with the previous 
+   release concerns the used of run, stop, suspend and resume VM capabilities in addition to the migrate one. Administrators can 
+   now implement their own scheduler objectives to dynamically manage under-used and overloaded clusters.
+   The code is under heavy development and cannot be considered as stable. 
+
+   * Isolation of the different parts of the code
+   
+   * Generalization of the VMRP module into the Context Switch resolution problem.
+
+   * Implementation of a default decision module which aims at performing a maximum of virtualized jobs.
+   
+* Entropy {1.0.0}
+
+   The version 1.0.0 of Entropy is a complete rewrite from scratch  of a previous research prototype.
+   This has been made to clean the code and improve its usability. This release is the first one
+    so the notes only summarizes some major points:
+
+   * Isolation of the different parts of the code
+
+   * Implementation of a default control loop that perform dynamic consolidation
+
+   * Implementation of a adapter for the Ganglia monitoring system
+   
+   * Implementation of a migration driver for Xen 3.2
+   
+   * A number of SLOC divided by 3, replaced by documentations and tests
+ 
+   * A small set of documents focused on the deployment and the integration of Entropy
+     into an existing cluster environment
+
+   * Entropy is published onto the LGPL license.

@@ -1,0 +1,8 @@
+/*
+* VJob describing a datacenter with capacity constraints on each rack
+*/
+$R1 = pastel-[1..10].b217.home;
+$R2 = pastel-[11..20].b217.home;
+//Each rach can not host more than 10 VMs;
+capacity($R1, 54);
+capacity($R2, 54);

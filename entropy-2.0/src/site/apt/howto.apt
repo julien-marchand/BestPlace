@@ -1,0 +1,121 @@
+			---
+			Using Entropy
+			---
+			---
+
+~~ Copyright (c) 2009 Ecole des Mines de Nantes.
+~~ 
+~~     This file is part of Entropy.
+~~ 
+~~    Entropy is free software: you can redistribute it and/or modify
+~~     it under the terms of the GNU Lesser General Public License as published by
+~~     the Free Software Foundation, either version 3 of the License, or
+~~     (at your option) any later version.
+~~ 
+~~     Entropy is distributed in the hope that it will be useful,
+~~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+~~     GNU Lesser General Public License for more details.
+~~ 
+~~     You should have received a copy of the GNU Lesser General Public License
+~~     along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
+~~
+
+How to use Entropy
+   
+   Entropy has not been developed as a standalone cluster management system. It requires 2 components:
+
+   * <<A virtualized cluster>>. The cluster must be able to run virtual machines and perform live migrations between hosts using a 
+    <migration driver>. At this moment, The {{{http://www.xen.org} Xen hypervisor}} is supported.
+   Refer to {{{xen.html} this page}} for further informations.   
+
+   * <<A monitoring system>>. It monitors each node and virtual machines that are involved in the dynamic
+     reconfiguration process. It provides this informations to Entropy using an 
+     {{{apidocs/entropy/monitoring/ConfigurationAdapter.html}Adapter}}. At this moment, an adapter for {{{http://www.ganglia.info} Ganglia}} is
+     provided. Refer to {{{ganglia.html} this page}} for further informations.
+   
+
+* How to use Entropy with Xen and Ganglia
+   
+** Configure the Xen hypervisors
+
+   Just check that your Xen hypervisor allows live migrations. More informations about using its configuration
+   are available on this {{{xen.html#migration} page}}.
+
+** Configure the Ganglia environment
+
+   [[1]] Check that the Domain-0 and the virtual machines are monitored. Datas must be accessible from a gmeta daemon.
+
+   [[2]] Create a script, that define the values of the additional metrics with xen tools.
+   		This script must be executed in the Domain-0 and must be able to execute <gmetric> and <xenstore-*>.   		
+   		Here is a sample script that consider the situation of the Domain-0 (more informations on {{{xen.html#Domain-0} this page}}):
+
+---
+#!/bin/sh
+OPTS="-c /etc/ganglia/gmond.conf"
+
+#We consider the memory consumption of the Domain-0
+dom0_memory=`xenstore-read /local/domain/0/memory/target`
+gmetric $OPTS -n container.mem_total \
+              -v $((`xm info|grep total_memory |cut -d ':' -f 2` * 1024 - $dom0_memory)) -u KB -t uint32 -s zero
+gmetric $OPTS -n container.cpu_num \
+              -v `xm info|grep nr_cpus| cut -d ':' -f 2` -t uint8
+gmetric $OPTS -n container.type -v xen-3.3 -t string -s zero
+gmetric $OPTS -n container.driver.migration -v xen -t string -s zero
+
+#List the VMs on the node (we omit the Domain-0)
+while [ true ]; do	
+  vms="`xenstore-ls /local/domain|grep "name ="|grep -v Domain-0|cut -d '"' -f 2`"
+  gmetric $OPTS -n container.vms \
+                -v "$vms"  -t string -s zero
+  sleep 1
+done
+---
+
+** Configure Entropy
+
+   First {{{download.html}Get a distribution}} of Entropy and follow the {{{download.html#Instructions}installation instructions}}. Then
+   look at the main configuration file "<config/entropy.properties>". 
+    
+   [[1]] Specify if necessary the address and eventually the port of the gmeta daemon
+
+   [[2]] Adapt the solving time for both the vmpp and the vmrp 
+   	 (properties <dynamicConsolidation.vmpp.solvingTime> and <dynamicConsolidation.vmrp.solvingTime>)
+
+   [[3]] If your virtual machines does not execute pure CPU intensive applications, desactivate the simplification
+         of the configurations (property <dynamicConsolidation.simplify.activate>)..
+     
+	For detailled informations about the configuration of entropy,
+   refer to {{{configuration.html}this page}}.
+   
+** Launch Entropy
+
+   Launch entropy by executing "<./bin/controlLoop.sh start>" in the base directory of the distribution.
+   Entropy acts as a daemon, all its activity is logged into the <./logs> directory. <entropy.log> contains informations related to the activity of the reconfiguration engine.
+
+   You can stop entropy by executing "<./bin/controlLoop.sh stop>" in the base directory of the distribution.
+This operation may takes times as Entropy must set cluster in a coherent state.
+
+* How to use another monitoring system
+  
+
+   There is a lot of monitoring systems for clusters and it may not be possible to use the default monitoring system
+   used by Entropy. However, it is possible to create your own adapter for your monitoring system. The first step
+   is to look at the code of Entropy, especially the abstract class {{{/apidocs/entropy/monitoring/ConfigurationAdapter.html}ConfigurationAdapter}}.
+   Then you have to extend it to create your own adapter.
+
+   Once this adapter is implemented and appears to be functionnal, {{{team-list.html} contact us}} to discuss how it can be integrated 
+   to Entropy.
+
+* How to use another virtual machine monitor
+
+   At this moment, Entropy only requires the live migration feature. So many others virtual machines monitors should be compatible, 
+  such as {{{http://www.vmware.com}VMWare}} or {{{http://kvm.qumranet.com/kvmwiki} KVM}}. 
+     
+  Using a specific virtual machine monitor with Entropy require two points. First, it must be used in collaboration with the monitoring
+  service, as an example to define the location of each virtual machine. Then, it is necessary to implement a <migration driver> that
+   will perform the migration of a virtual machine when necessary.
+
+  It might be interresting to use the {{{http://www.libvirt.org} libvirt API}} to hide some specificities as it provides
+  a certain level of abstraction. However, it may hide the incompatibilities that exists between the hypervisors.
+   

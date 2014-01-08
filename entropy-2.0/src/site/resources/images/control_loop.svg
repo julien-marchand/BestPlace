@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="671.70312"
+   height="439.8252"
+   id="svg2450"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="control_loop.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0"
+   inkscape:export-filename="/Users/alebre/RESEARCH/ENTROPY/CODE/trunk/src/site/resources/images/control_loop2.png"
+   inkscape:export-xdpi="61.388023"
+   inkscape:export-ydpi="61.388023">
+  <defs
+     id="defs2452">
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend"
+       style="overflow:visible">
+      <path
+         id="path3374"
+         style="font-size:12px;fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.97309,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend"
+       style="overflow:visible">
+      <path
+         id="path3362"
+         d="M 0,0 L 5,-5 L -12.5,0 L 5,5 L 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend"
+       style="overflow:visible">
+      <path
+         id="path3356"
+         d="M 0,0 L 5,-5 L -12.5,0 L 5,5 L 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective2458" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.2391286"
+     inkscape:cx="335.85156"
+     inkscape:cy="219.9126"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:snap-global="true"
+     inkscape:snap-bbox="true"
+     inkscape:object-paths="true"
+     inkscape:object-nodes="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-intersection-line-segments="true"
+     inkscape:snap-center="true"
+     objecttolerance="2"
+     gridtolerance="11"
+     guidetolerance="12"
+     inkscape:snap-guide="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1280"
+     inkscape:window-height="752"
+     inkscape:window-x="0"
+     inkscape:window-y="22">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2460"
+       visible="true"
+       enabled="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata2455">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(153,140.88)">
+    <rect
+       style="opacity:1;fill:#e6e6e6;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:4, 4;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3336"
+       width="430.5"
+       height="133.41699"
+       x="-23"
+       y="158.94519"
+       rx="10"
+       inkscape:export-filename="/Users/fabien/Entropy2/entropy/entropy/src/site/resources/images/control_loop.png"
+       inkscape:export-xdpi="100.76655"
+       inkscape:export-ydpi="100.76655" />
+    <rect
+       style="opacity:1;fill:#f0f0c0;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3340"
+       width="130"
+       height="100"
+       x="267"
+       y="182.36218"
+       rx="5"
+       ry="5" />
+    <rect
+       style="opacity:1;fill:#ececec;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:4, 4;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3488"
+       width="450"
+       height="60"
+       x="-33"
+       y="-127.63782"
+       rx="10" />
+    <rect
+       rx="5"
+       y="187.36218"
+       x="315"
+       height="71.583015"
+       width="42"
+       id="use5779"
+       style="fill:#ff6600;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       style="opacity:1;fill:#f0f0c0;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3324"
+       width="180"
+       height="50"
+       x="338.20312"
+       y="22.862181"
+       rx="10" />
+    <rect
+       style="opacity:1;fill:#f0f0c0;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3330"
+       width="181"
+       height="51"
+       x="-152.5"
+       y="22.362181"
+       rx="10" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="-120.46924"
+       y="59.046268"
+       id="text3326"><tspan
+         sodipodi:role="line"
+         id="tspan3328"
+         x="-120.46924"
+         y="59.046268"
+         style="font-size:30px">Monitor</tspan></text>
+    <rect
+       style="opacity:1;fill:#f0f0c0;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.96418816;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3332"
+       width="130.03581"
+       height="40.035812"
+       x="-23.517906"
+       y="-117.15572"
+       rx="9.2882719" />
+    <rect
+       style="opacity:1;fill:#f0f0c0;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.98122895;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3334"
+       width="134.24823"
+       height="39.518772"
+       x="272.76117"
+       y="-117.6472"
+       rx="9.6235285" />
+    <text
+       xml:space="preserve"
+       style="font-size:36px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans"
+       x="-1.4916992"
+       y="-87.489388"
+       id="text3336"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3338"
+         x="-1.4916992"
+         y="-87.489388"
+         style="font-size:30px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans">VMPP</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:36px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans"
+       x="295.104"
+       y="-87.39856"
+       id="text3340"><tspan
+         sodipodi:role="line"
+         id="tspan3342"
+         x="295.104"
+         y="-87.39856"
+         style="font-size:30px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans">VMRP</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="354.45557"
+       y="59.046268"
+       id="text3344"><tspan
+         sodipodi:role="line"
+         id="tspan3346"
+         x="354.45557"
+         y="59.046268"
+         style="font-size:30px">Execution</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       x="-61.5"
+       y="92.36219"
+       id="text5713"><tspan
+         sodipodi:role="line"
+         id="tspan5715"
+         x="-61.5"
+         y="92.36219">Statistics</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       x="-63"
+       y="-27.637819"
+       id="text5719"><tspan
+         sodipodi:role="line"
+         x="-63"
+         y="-27.637819"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+         id="tspan13766">Current configuration</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;text-align:end;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       x="444.78125"
+       y="-27.637819"
+       id="text5729"><tspan
+         sodipodi:role="line"
+         x="444.78125"
+         y="-27.637819"
+         id="tspan5733">Reconfiguration plan to</tspan><tspan
+         sodipodi:role="line"
+         x="444.78125"
+         y="-7.6378193"
+         id="tspan6336">an optimized configuration</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       x="335.92969"
+       y="109.03406"
+       id="text5745"><tspan
+         sodipodi:role="line"
+         id="tspan5747"
+         x="335.92969"
+         y="109.03406">Migration orders</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:30px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Impact;-inkscape-font-specification:Impact Bold"
+       x="145.59665"
+       y="-117.16418"
+       id="text3490"><tspan
+         sodipodi:role="line"
+         id="tspan3492"
+         x="145.59665"
+         y="-117.16418">Entropy</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="288.34177"
+       y="262.78452"
+       id="text2490"
+       transform="translate(-122.5,-118.13782)"><tspan
+         sodipodi:role="line"
+         id="tspan2492"
+         x="288.34177"
+         y="262.78452" /></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2510"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       transform="translate(401.86475,-117.06215)"><flowRegion
+         id="flowRegion2512"><rect
+           id="rect2514"
+           width="74.390945"
+           height="41.191681"
+           x="-77.464951"
+           y="305.20581"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed" /></flowRegion><flowPara
+         id="flowPara2516">VM6</flowPara></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans"
+       x="114.65234"
+       y="-75.598747"
+       id="text2522"
+       inkscape:export-filename="/Users/fabien/Entropy2/entropy/entropy/src/site/resources/images/control_loop.png"
+       inkscape:export-xdpi="100.76655"
+       inkscape:export-ydpi="100.76655"><tspan
+         sodipodi:role="line"
+         id="tspan2524"
+         x="114.65234"
+         y="-75.598747">Front-end node</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow2Lend);stroke-opacity:1"
+       d="M -94.254299,21.862182 C -94.254299,1.8621812 -84.254299,-78.137818 -24.254299,-98.137818"
+       id="path4929"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.04985631px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow2Lend);stroke-opacity:1"
+       d="M 106.41509,-97.63793 C 161.87334,-97.63793 217.33159,-97.63793 272.78983,-97.63793"
+       id="path8113"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow2Lend);stroke-opacity:1"
+       d="M 478.75429,72.86218 C 478.75429,92.862175 468.7543,172.86218 408.7543,192.86218"
+       id="path8646"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow2Lend);stroke-opacity:1"
+       d="M -23.765439,192.86218 C -83.765437,172.86218 -93.765437,92.86218 -93.765437,72.86218"
+       id="path8648"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow2Lend);stroke-opacity:1"
+       d="M 410.03145,-98.051829 C 470.03145,-78.051829 480.03145,1.9481733 480.03145,21.948173"
+       id="path9177"
+       sodipodi:nodetypes="cc" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot13602"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Impact;-inkscape-font-specification:Impact Bold"><flowRegion
+         id="flowRegion13604"><rect
+           id="rect13606"
+           width="81.936981"
+           height="21.031952"
+           x="382.51865"
+           y="251.01361" /></flowRegion><flowPara
+         id="flowPara13608">hy</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot13610"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Impact;-inkscape-font-specification:Impact Bold"><flowRegion
+         id="flowRegion13612"><rect
+           id="rect13614"
+           width="88.071304"
+           height="24.537277"
+           x="377.69882"
+           y="239.62129" /></flowRegion><flowPara
+         id="flowPara13616" /></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot13618"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Impact;-inkscape-font-specification:Impact Bold"><flowRegion
+         id="flowRegion13620"><rect
+           id="rect13622"
+           width="56.085209"
+           height="21.908283"
+           x="409.68491"
+           y="242.25029" /></flowRegion><flowPara
+         id="flowPara13624" /></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot13630"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Impact;-inkscape-font-specification:Impact Bold"><flowRegion
+         id="flowRegion13632"><rect
+           id="rect13634"
+           width="69.668343"
+           height="28.48077"
+           x="407.93225"
+           y="253.20444" /></flowRegion><flowPara
+         id="flowPara13636" /></flowRoot>    <rect
+       style="opacity:1;fill:#f0f0c0;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect13646"
+       width="130.5"
+       height="100.5"
+       x="127"
+       y="182.36218"
+       rx="5"
+       ry="5" />
+    <rect
+       rx="5"
+       y="187.36218"
+       x="160"
+       height="71.583015"
+       width="92"
+       id="rect13650"
+       style="fill:#ff6600;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot13660"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       transform="translate(273.54639,-117.06215)"><flowRegion
+         id="flowRegion13662"><rect
+           id="rect13664"
+           width="74.390945"
+           height="41.191681"
+           x="-77.464951"
+           y="305.20581"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed" /></flowRegion><flowPara
+         id="flowPara13666">VM4</flowPara></flowRoot>    <rect
+       style="opacity:1;fill:#f0f0c0;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect13678"
+       width="130.5"
+       height="99.5"
+       x="-13"
+       y="182.36218"
+       rx="5"
+       ry="5" />
+    <rect
+       style="opacity:1;fill:#aa2d14;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect13704"
+       width="126.5"
+       height="16.916956"
+       x="-11"
+       y="262.94519"
+       rx="5"
+       ry="5" />
+    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       x="11.930176"
+       y="277.74057"
+       id="text13706"><tspan
+         sodipodi:role="line"
+         id="tspan13708"
+         x="11.930176"
+         y="277.74057">VM Monitor</tspan></text>
+    <rect
+       rx="5"
+       y="187.36218"
+       x="130.13496"
+       height="71.583015"
+       width="26.865036"
+       id="rect13710"
+       style="fill:#ff6600;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot13712"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       transform="translate(209.97666,-117.06215)"><flowRegion
+         id="flowRegion13714"><rect
+           id="rect13716"
+           width="74.390945"
+           height="41.191681"
+           x="-77.464951"
+           y="305.20581"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed" /></flowRegion><flowPara
+         id="flowPara13718">VM3</flowPara></flowRoot>    <rect
+       rx="5"
+       y="188.36218"
+       x="52.75"
+       height="70.583015"
+       width="59.25"
+       id="rect13720"
+       style="fill:#ff6600;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       rx="5"
+       y="188.36218"
+       x="-11"
+       height="70.583015"
+       width="58"
+       id="rect13722"
+       style="fill:#ff6600;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       rx="5"
+       y="186.86218"
+       x="269.5"
+       height="72.083015"
+       width="42.5"
+       id="rect13724"
+       style="fill:#ff6600;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot13726"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       transform="translate(356.5874,-117.29555)"><flowRegion
+         id="flowRegion13728"><rect
+           id="rect13730"
+           width="74.390945"
+           height="41.191681"
+           x="-77.464951"
+           y="305.20581"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed" /></flowRegion><flowPara
+         id="flowPara13732">VM5</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot13738"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       transform="translate(149.9502,-117.06215)"><flowRegion
+         id="flowRegion13740"><rect
+           id="rect13742"
+           width="74.390945"
+           height="41.191681"
+           x="-77.464951"
+           y="305.20581"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed" /></flowRegion><flowPara
+         id="flowPara13744">VM2</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot13746"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       transform="translate(86.596191,-117.06215)"><flowRegion
+         id="flowRegion13748"><rect
+           id="rect13750"
+           width="74.390945"
+           height="41.191681"
+           x="-77.464951"
+           y="305.20581"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed" /></flowRegion><flowPara
+         id="flowPara13752">VM1</flowPara></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       x="28.282227"
+       y="298.72546"
+       id="text13754"><tspan
+         sodipodi:role="line"
+         id="tspan13756"
+         x="28.282227"
+         y="298.72546">Node 1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       x="167.45166"
+       y="298.72546"
+       id="text13758"><tspan
+         sodipodi:role="line"
+         id="tspan13760"
+         x="167.45166"
+         y="298.72546">Node 2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       x="307.14893"
+       y="298.72546"
+       id="text13762"><tspan
+         sodipodi:role="line"
+         id="tspan13764"
+         x="307.14893"
+         y="298.72546">Node 3</tspan></text>
+    <rect
+       style="opacity:1;fill:#aa2d14;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect13770"
+       width="126.5"
+       height="16.916956"
+       x="128.9333"
+       y="263.20081"
+       rx="5"
+       ry="5" />
+    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       x="151.86348"
+       y="277.99619"
+       id="text13772"><tspan
+         sodipodi:role="line"
+         id="tspan13774"
+         x="151.86348"
+         y="277.99619">VM Monitor</tspan></text>
+    <rect
+       style="opacity:1;fill:#aa2d14;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect13776"
+       width="126.5"
+       height="16.916956"
+       x="268.48599"
+       y="263.20081"
+       rx="5"
+       ry="5" />
+    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial Narrow;-inkscape-font-specification:Arial Narrow Bold Condensed"
+       x="291.41617"
+       y="277.99619"
+       id="text13778"><tspan
+         sodipodi:role="line"
+         id="tspan13780"
+         x="291.41617"
+         y="277.99619">VM Monitor</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans"
+       x="144.94637"
+       y="176.21783"
+       id="text2484"
+       inkscape:export-filename="/Users/fabien/Entropy2/entropy/entropy/src/site/resources/images/control_loop.png"
+       inkscape:export-xdpi="100.76655"
+       inkscape:export-ydpi="100.76655"><tspan
+         sodipodi:role="line"
+         id="tspan2486"
+         x="144.94637"
+         y="176.21783">Cluster</tspan></text>
+  </g>
+</svg>

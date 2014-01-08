@@ -1,0 +1,2 @@
+auth.username = toto
+auth.privateKey = myKey

@@ -1,0 +1,12 @@
+/*
+* VJob describing a fully replicated web application.
+*/
+$T1 = VM[1..10];
+$T2 = VM[11..15];
+$T3 = {VM16, VM17};
+//$T1 is composed of independant HTTP servers. no synchronization
+lSpread($T1);
+//$T2 is composed of independant Tomcat servers. No synchronization
+lSpread($T2);
+//$T3 is composed of fully repplicated database. Replication require small latency
+lSpread($T3);oneOf($T3,$small);

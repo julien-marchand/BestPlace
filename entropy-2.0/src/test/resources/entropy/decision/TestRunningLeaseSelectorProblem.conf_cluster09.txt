@@ -1,0 +1,32 @@
+#list of nodes
+pastel-2.b217.home 2 4000 3673
+pastel-5.b217.home 2 4000 3670
+pastel-8.b217.home 2 4000 3678
+pastel-11.b217.home 2 4200 3670
+pastel-14.b217.home 2 4200 3668
+pastel-3.b217.home 2 4000 3665
+pastel-6.b217.home 2 4200 3665
+pastel-9.b217.home 2 4200 3669
+pastel-12.b217.home 2 4200 3665
+pastel-15.b217.home 2 4000 3668
+pastel-1.b217.home 2 4000 3668
+pastel-4.b217.home 2 4200 3668
+pastel-7.b217.home 2 4200 3587
+pastel-10.b217.home 2 4000 3587
+#list of VMs
+#initial configuration
+pastel-2.b217.home
+pastel-5.b217.home
+pastel-8.b217.home
+pastel-11.b217.home
+pastel-14.b217.home
+pastel-3.b217.home
+pastel-6.b217.home
+pastel-9.b217.home
+pastel-12.b217.home
+pastel-15.b217.home
+pastel-1.b217.home
+pastel-4.b217.home
+pastel-7.b217.home
+pastel-10.b217.home
+FARM

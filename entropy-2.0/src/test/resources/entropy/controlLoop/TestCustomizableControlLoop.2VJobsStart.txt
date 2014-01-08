@@ -1,0 +1,36 @@
+#list of nodes
+N1 2 4 4
+N2 2 4 4
+N3 2 4 4
+N4 2 4 4
+N5 2 4 4
+N6 2 4 4
+N7 2 4 4
+N8 2 4 4
+N9 2 4 4
+#list of VMs
+vm111 1 2 1
+vm112 1 1->3 1
+vm113 1 1->4 1
+vm121 1 1 1
+vm122 1 1 1
+vm101 1 2->1 1
+vm102 1 2 1
+vm211 1 1 1
+vm212 1 2->1 1
+vm213 1 2 1
+vm214 1 1 1
+vm221 1 2->1 1
+vm231 1 2 1
+vm241 1 2 1
+#initial configuration
+N1 vm111 vm112 vm113
+N2 vm121 vm122
+N3 vm101 vm102
+N4
+N5
+N6 vm211 vm212 vm214
+N7 vm213 vm221
+N8 vm231 vm241
+N9
+FARM

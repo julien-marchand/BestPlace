@@ -1,0 +1,26 @@
+#!/bin/sh
+
+JAVA_OPTS="-server -Xmx2G -Dcom.sun.management.jmxremote -Dlogback.configurationFile=config/logback.xml"
+#Define the classpath
+JARS=`ls jar/*.jar`
+
+for JAR in $JARS; do
+ CLASSPATH=$JAR:$CLASSPATH
+done
+
+if [ $# -ne 1 ]; then
+    echo "Usage: `basename $0` start|stop"
+    exit 1
+fi
+
+case $1 in
+    start)
+	java $JAVA_OPTS -cp $CLASSPATH entropy.EntropyLauncher $* &
+	;;
+    stop)
+	java $JAVA_OPTS -cp $CLASSPATH entropy.EntropyLauncher $*
+	;;
+    *)
+	echo "Usage: `basename $0` start|stop"
+	exit 1
+esac

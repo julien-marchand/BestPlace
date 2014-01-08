@@ -1,0 +1,12 @@
+#list of nodes
+N1 1 2 2
+N2 1 6 5
+N3 1 5 1
+#list of VMs
+VM1 1 1->5 1
+VM2 1 1 1
+
+#initial configuration
+N1 
+N2 VM1
+N3 VM2
