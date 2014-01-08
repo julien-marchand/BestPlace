@@ -1,0 +1,2 @@
+constraintsCatalog.load=m1
+constraintsCatalog.location.m1=entropy.vjob.builder.MockConstraintBuilder

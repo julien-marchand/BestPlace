@@ -1,0 +1,51 @@
+			---
+			Use Entropy as a library
+			---
+			---
+			
+Using Entropy as a Library
+
+* Using Entropy in a maven project
+
+	Add a new dependency in your pom.xml and declare a new repository
+	as Entropy is not uploaded into the central repository of maven:
+	
+	
+---
+<project>
+  ...
+  <dependencies>
+    ...
+    <dependency>
+      <groupId>entropy</groupId>
+      <artifactId>entropy</artifactId>
+      <version>1.0</version>
+      <scope>compile</scope>
+    </dependency>
+    ...
+  </dependencies>
+  ...
+  <repositories>
+    ...
+    <repository>
+      <id>entropy.releases</id>
+      <name>Entropy releases</name>
+      <url>http://entropy.gforge.inria.fr/repos/releases</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+     ...
+  </repositories>
+  ...
+</project>
+---
+
+* Using as a standard library
+
+   {{{download.html}Download}} Entropy as a single JAR and add this jar to your classpath
+   
+   

@@ -1,0 +1,3 @@
+driver.xenapi.port = 12
+driver.xenapi.username = toto
+driver.xenapi.password = secret

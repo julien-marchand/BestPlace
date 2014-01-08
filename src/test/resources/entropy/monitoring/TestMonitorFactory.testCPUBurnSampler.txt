@@ -1,0 +1,5 @@
+monitoring.adapter.impl = entropy.monitoring.MockConfigurationAdapterBuilder
+monitoring.adapter.ganglia.host = localhost
+monitoring.adapter.ganglia.port = 6667
+monitoring.simplify.cpu.impl = CPUBurning
+monitoring.simplify.cpu.CPUBurning.threshold = 1000

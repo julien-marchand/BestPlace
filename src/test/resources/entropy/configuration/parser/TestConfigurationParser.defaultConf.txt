@@ -1,0 +1,65 @@
+#list of nodes
+pastel-2.b217.home 2 2 3837
+pastel-5.b217.home 2 2 3837
+pastel-8.b217.home 2 2 3837
+pastel-3.b217.home 2 2 3837
+pastel-6.b217.home 2 2 3837
+pastel-9.b217.home 2 2 3837
+pastel-1.b217.home 2 2 3837
+pastel-7.b217.home 2 2 3837
+pastel-10.b217.home 2 2 3837
+N10 1 2 3
+N11 1 2 3
+#list of VMs
+lenny8 1 1 512 running
+lenny3 1 1 512 running
+lenny7 1 1 512 running
+lenny11 1 1 512 running
+lenny5 1 1 512 running
+lenny6 1 1 512 running
+lenny16 1 1 512 running
+lenny9 1 1 512 running
+lenny14 1 1 512 running
+lenny4 1 1 512 running
+lenny2 1 1 512 running
+lenny1 1 1 512 running
+bigLenny3 1 0 1024 running
+bigLenny9 1 0 1024 running
+bigLenny1 1 0 1024 running
+bigLenny2 1 0 1024 running
+bigLenny4 1 0 1024 running
+bigLenny5 1 0 1024 running
+bigLenny6 1 0 1024 running
+bigLenny7 1 0 1024 running
+bigLenny8 1 0 1024 running
+lenny12 1 0 512 running
+lenny18 1 0 512 running
+lenny10 1 0 512 running
+lenny15 1 0 512 running
+lenny17 1 0 512 running
+lenny13 1 0 512 running
+smallLenny7 1 0 256 running
+smallLenny8 1 0 256 running
+smallLenny6 1 0 256 running
+smallLenny5 1 0 256 running
+smallLenny1 1 0 256 running
+smallLenny2 1 0 256 running
+smallLenny3 1 0 256 running
+smallLenny4 1 0 256 running
+VM10 1 1 12
+VM13 1 1 15 
+VM11 1 1 24
+VM12 1 1 2
+#initial configuration
+pastel-2.b217.home lenny8 lenny12 bigLenny3 bigLenny9 lenny3 (VM10)
+pastel-5.b217.home bigLenny1 bigLenny2 lenny7 lenny11 (VM13)
+pastel-8.b217.home lenny5 smallLenny7 smallLenny8 lenny6 lenny18 smallLenny6 smallLenny5 lenny10
+pastel-3.b217.home lenny15 lenny16 lenny17 smallLenny1 smallLenny2 smallLenny3 smallLenny4 lenny9 lenny14
+pastel-6.b217.home bigLenny4 bigLenny5 bigLenny6 lenny4
+pastel-9.b217.home
+pastel-1.b217.home
+pastel-7.b217.home bigLenny7 bigLenny8 lenny2 lenny1 lenny13
+pastel-10.b217.home
+(N10)
+(N11)
+FARM VM11 VM12

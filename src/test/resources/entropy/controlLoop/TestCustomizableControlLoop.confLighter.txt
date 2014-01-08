@@ -1,0 +1,45 @@
+#list of nodes
+pastel-8.b217.home 2 4188 3534
+pastel-11.b217.home 2 4188 3534
+pastel-14.b217.home 2 4188 3534
+pastel-17.b217.home 2 4188 3534
+pastel-12.b217.home 2 4188 3534
+pastel-15.b217.home 2 4188 3534
+pastel-1.b217.home 2 3990 3534
+pastel-10.b217.home 2 4188 3534
+pastel-16.b217.home 2 4188 3534
+pastel-20.b217.home 2 4200 3534
+#list of VMs
+fhHA2-2.b217.home 1 67->50 506
+fhHA3-4.b217.home 1 186->500 1020
+fhHA1-2.b217.home 1 102->50 506
+fhHA1-5.b217.home 1 138->50 1020
+fhHA3-6.b217.home 1 2077->50 1020
+fhHA2-7.b217.home 1 2085->50 1020
+fhHA1-7.b217.home 1 2089->2900 1020
+fhHA1-3.b217.home 1 142->50 1020
+fhHA2-4.b217.home 1 205->250 1020
+fhHA3-2.b217.home 1 92->50 506
+fhHA1-6.b217.home 1 1040->50 1020
+fhHA2-6.b217.home 1 1183->50 1020
+fhHA3-5.b217.home 1 209->50 1020
+fhHA3-7.b217.home 1 659->50 1020
+fhHA3-1.b217.home 1 90->100 506
+fhHA2-3.b217.home 1 230->50 1020
+fhHA2-5.b217.home 1 192->50 1020
+fhHA3-3.b217.home 1 190->200 1020
+fhHA2-1.b217.home 1 96->50 506
+fhHA1-1.b217.home 1 98->50 506
+fhHA1-4.b217.home 1 115->50 1020
+#initial configuration
+pastel-8.b217.home fhHA3-7.b217.home fhHA3-1.b217.home fhHA2-3.b217.home
+pastel-11.b217.home fhHA1-3.b217.home fhHA2-4.b217.home fhHA3-2.b217.home
+pastel-14.b217.home fhHA2-5.b217.home fhHA3-3.b217.home fhHA2-1.b217.home
+pastel-17.b217.home fhHA2-2.b217.home fhHA3-4.b217.home
+pastel-12.b217.home fhHA1-6.b217.home fhHA2-6.b217.home fhHA3-5.b217.home
+pastel-15.b217.home fhHA1-1.b217.home fhHA1-4.b217.home
+pastel-1.b217.home
+pastel-10.b217.home fhHA3-6.b217.home fhHA2-7.b217.home fhHA1-7.b217.home
+pastel-16.b217.home fhHA1-2.b217.home fhHA1-5.b217.home
+pastel-20.b217.home
+FARM

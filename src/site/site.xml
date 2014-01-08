@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2009 Ecole des Mines de Nantes.
+ 
+     This file is part of Entropy.
+ 
+    Entropy is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    Entropy is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+    You should have received a copy of the GNU Lesser General Public License
+    along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<project name="Entropy">
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-stylus-skin</artifactId>
+    <version>1.1</version>
+  </skin>
+  <publishDate position="left" format="MM-dd-yyyy k:m"/>
+  <bannerLeft>
+    <name>Entropy</name>
+    <src>images/left_banner2.png</src>
+    <href>http://entropy.gforge.inria.fr/index.html</href>
+  </bannerLeft>
+  <body>
+  	<links>
+  		<item name="Entropy@GForge" href="http://gforge.inria.fr/projects/entropy/"/>
+  	</links>
+    <menu name="About Entropy">
+      <item name="Welcome" href="index.html"/>
+      <item name="Publications" href="publications.html"/><item
+      	name="Status and Roadmap" href="status.html">
+</item>
+    </menu>
+    <menu name="Get Entropy">
+      <item name="Download" href="download.html"/>
+      <item name="License" href="license.html"/>
+      <item name="Release notes" href="release-notes.html"/>
+    </menu>
+
+    <menu name="Using Entropy">
+      <item name="How to" href="howto.html"/>
+      <item name="Configuration Files" href="configuration.html"/>      
+      <item name="Integration with Xen" href="xen.html"/>      
+      <item name="Integration with Ganglia" href="ganglia.html"/>
+      <item name="Using as a library" href="library.html"/>
+    </menu>
+    ${reports}
+  </body>
+</project>

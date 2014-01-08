@@ -1,0 +1,10 @@
+#!/bin/sh
+
+#Define the classpath
+JARS=`ls jar/*.jar`
+ 
+for JAR in $JARS; do
+ CLASSPATH=$JAR:$CLASSPATH
+done
+
+java $JAVA_OPTS -cp $CLASSPATH entropy.tools.ConfigurationConverter $*

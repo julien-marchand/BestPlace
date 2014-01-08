@@ -1,0 +1,31 @@
+#list of nodes
+pastel-2.b217.home 2 2 3837
+pastel-5.b217.home 2 2 3587
+pastel-8.b217.home 2 2 3587
+pastel-3.b217.home 2 2 3587
+pastel-6.b217.home 2 2 3837
+pastel-9.b217.home 2 2 3587
+pastel-1.b217.home 2 2 3587
+pastel-7.b217.home 2 2 3587
+pastel-10.b217.home 2 2 3587
+#list of VMs
+lenny1 1 1 512
+lenny2 1 1 512
+lenny3 1 1 512
+lenny4 1 1 512
+lenny6 1 1 512
+lenny5 1 1 512
+lenny7 1 0 512
+lenny8 1 0 512
+lenny9 1 0 512
+tinyLenny1 1 0 128
+#initial configuration
+pastel-2.b217.home
+pastel-5.b217.home
+pastel-8.b217.home
+pastel-3.b217.home lenny7 lenny8 lenny9
+pastel-6.b217.home
+pastel-9.b217.home
+pastel-1.b217.home tinyLenny1 lenny1 lenny2 lenny3 lenny4 lenny6 lenny5
+pastel-7.b217.home
+pastel-10.b217.home

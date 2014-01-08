@@ -1,0 +1,25 @@
+#list of nodes
+N1 1 1 1
+N2 2 200 2048
+N3 3 3 3
+N4 4 4 4
+N5 5 5 5
+#list of VMs
+VM1 1 1 1
+VM2 2 2 3
+VM3 3 3 3
+VM4 1 2 3
+VM5 1 1 1
+VM6 2 2 3
+VM7 3 3 3
+VM8 1 2 3
+#initial configuration
+N1 VM1 VM5 (VM2)
+N2 VM3
+(N3)
+N4 VM6 (VM7)
+N5
+FARM VM4 VM8
+
+
+

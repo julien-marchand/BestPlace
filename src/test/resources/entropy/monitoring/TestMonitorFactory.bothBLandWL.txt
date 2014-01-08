@@ -1,0 +1,5 @@
+monitoring.adapter.impl = ganglia
+monitoring.adapter.ganglia.host = localhost
+monitoring.adapter.ganglia.port = 6667
+monitoring.adapter.nodesBlacklist = src/test/resources/entropy/monitoring/sampleList.txt
+monitoring.adapter.nodesWhitelist = src/test/resources/entropy/monitoring/sampleList.txt

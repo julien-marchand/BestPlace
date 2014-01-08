@@ -1,0 +1,2 @@
+constraintsCatalog.load=m3
+constraintsCatalog.location.m3=BAAAD

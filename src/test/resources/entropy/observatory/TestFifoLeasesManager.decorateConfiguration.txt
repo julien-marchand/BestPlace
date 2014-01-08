@@ -1,0 +1,10 @@
+#list of nodes
+N1 100 100 100 
+N2 100 100 100
+N3 100 100 100
+#list of VMs
+VM1 1 2 3
+TOTO 1 2 9
+#initial configuration
+N1 VM1
+N2 TOTO

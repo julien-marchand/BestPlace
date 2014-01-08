@@ -1,0 +1,5 @@
+monitoring.adapter.impl = entropy.monitoring.MockConfigurationAdapterBuilder
+monitoring.adapter.ganglia.host = localhost
+monitoring.adapter.ganglia.port = 6667
+monitoring.simplify.mem.impl = sampler
+monitoring.simplify.mem.sampler.size = 1000

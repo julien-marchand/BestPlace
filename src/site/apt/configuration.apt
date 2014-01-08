@@ -1,0 +1,59 @@
+			---
+			Configuration of Entropy
+			---
+			---
+
+~~ Copyright (c) 2009 Ecole des Mines de Nantes.
+~~ 
+~~     This file is part of Entropy.
+~~ 
+~~    Entropy is free software: you can redistribute it and/or modify
+~~     it under the terms of the GNU Lesser General Public License as published by
+~~     the Free Software Foundation, either version 3 of the License, or
+~~     (at your option) any later version.
+~~ 
+~~     Entropy is distributed in the hope that it will be useful,
+~~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+~~     GNU Lesser General Public License for more details.
+~~ 
+~~     You should have received a copy of the GNU Lesser General Public License
+~~     along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
+~~
+
+Configuration of Entropy
+
+  This document describes the options when configuring Entropy.
+  All the options are defined in the file <config/entropy.properties>
+  and are loaded at startup.
+
+* {Monitoring} section
+
+  This section describes the parameters to connect Entropy
+  to the <gmeta daemon>.
+
+*---*---*---*
+| <<Property>> | <<Description>> | <<Default value>> |
+*---*---+---*
+| <<gmetad.host>> | The IP or hostname of the <gmeta> daemon | localhost |
+*---*---+---*
+| <<gmetad.port>> | The port of the <gmeta> daemon | 8651 |
+*---*---+---*
+
+* Dynamic {consolidation} section
+
+  This section describes the parameters to tune the decision
+  and the plan module.
+
+*---*---*---*
+| <<Property>> | <<Description>> |  <<Default value>> |
+*---*---+---*
+| <<dynamicConsolidation.vmpp.solvingTime>> | The solving time for the decision module in seconds. With a short solving time, the system is more reactive but may miss improved solutions or even a single solution if the problem is hard. | 60 |
+*---*---+---*
+| <<dynamicConsolidation.vmrp.solvingTime>> | The solving time for the plan  module in seconds. The explanation are the same than above | 60 |
+*---*---+---*
+| <<dynamicConsolidation.simplify.activate>> | If the virtual machine are CPU intensive, then they can be considered as <actives> when they require their own CPU (e.g when a big computation is performed). Otherwise, they are inactive and their current consumption does not require a dedicated CPU. If this property is set to true, then the current requirement of each virtual machine is mapped following this model (it simplify the problem). | true |
+*---*---+---*
+| <<dynamicConsolidation.simplify.threshold>> | If the simplification is activated, then this property define the activity threshold. If the CPU consumption of a virtual machine is below this value, then the virtual machine is considered as inactive. Otherwise, it is considered inactive | 500 |
+*---*---+---*
+

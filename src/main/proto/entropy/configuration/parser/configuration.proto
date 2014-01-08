@@ -1,0 +1,32 @@
+/**
+ * 
+ * @author Fabien Hermenier
+ */
+
+option java_package = "entropy.configuration.parser";
+option java_outer_classname = "PBConfiguration";
+
+import 'entropy/configuration/parser/node.proto';
+import 'entropy/configuration/parser/vm.proto';
+
+message Configuration {
+
+    enum HostedVMState {
+        RUNNING = 0;
+        SLEEPING = 2;
+    }
+
+    message Hosted {
+        required VirtualMachine vm = 1;
+        required HostedVMState state = 2;
+    }
+
+    message Hoster {
+        required Node node = 1;
+        repeated Hosted hosted = 2;
+    }
+
+    repeated Hoster onlines = 1;
+    repeated Node offlines = 2;
+    repeated VirtualMachine waitings = 3;
+}

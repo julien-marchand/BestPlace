@@ -1,0 +1,11 @@
+#list of nodes
+N1 1 100 2048
+N2 1 200 2048
+
+#list of VMs
+VM1 1 0 1024
+VM2 1 0 1024
+
+#initial configuration
+N1 VM1
+N2 VM2

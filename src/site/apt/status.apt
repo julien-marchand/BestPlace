@@ -1,0 +1,92 @@
+			---
+			Current Status and Roadmap of Entropy
+			---
+			---
+
+~~ Copyright (c) 2009 Ecole des Mines de Nantes.
+~~ 
+~~     This file is part of Entropy.
+~~ 
+~~    Entropy is free software: you can redistribute it and/or modify
+~~     it under the terms of the GNU Lesser General Public License as published by
+~~     the Free Software Foundation, either version 3 of the License, or
+~~     (at your option) any later version.
+~~ 
+~~     Entropy is distributed in the hope that it will be useful,
+~~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+~~     GNU Lesser General Public License for more details.
+~~ 
+~~     You should have received a copy of the GNU Lesser General Public License
+~~     along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
+~~
+Status and Roadmap 
+
+* Current Status
+
+  The current release is Entropy 1.0.0. Please visit the release-note {{{release-notes.html} page}} for further information. 
+
+* Roadmap
+
+	* Research activities:
+   
+ 		* Extend the VMPP/VMRP module (currently only based on CPU and memory usage) to take into account VM network requirements.
+
+		* Exploit the VM snapshotting functionality to be able to restart serial and parallel applications (fault tolerant mechanisms).
+
+		* Hierarchical autonomic manager: extends Entropy from the cluster to the Grid (federation of clusters).
+  
+	[]
+  
+  
+	* Development / Integration: 
+   
+		* AJAX graphical interfaces:  
+ 
+		* Provide VM and cluster resource statistics (VMs per physical node, CPU/memory load, VM in migration, ...) by leveraging monitoring facilities;
+     
+		* Interactive interfaces in order to manage VM manually (suspend/resume/migrate...).
+		
+	* VM Farm integration: coordination between Entropy and VM farm/deployment utilities (such as {{{http://sysweb.cs.toronto.edu/snowflock}SnowFlock}}).
+    
+* Student Internship Program
+
+ Funds can be delivered for the following works (short internships at the EMN, approximately two or three months). 
+ Applicants should send a resume and references to adrien.lebre@emn.fr. 
+
+	* Entropy VM Job submissions (or VM provisioning):
+  
+  	The current implementation of Entropy only consider VMs running on the cluster. That is, there is no way to inject a new VM (or a group of VMs) without using specific
+	VM deployment infrastructures such as SnowFlock / VMDeploy (Grid5000), ....  
+	The goal of this intern consists in designing and developing a java tool to submit new jobs in the context of Entropy. 
+	In other words, the command should request for a new VM startup (or a group of VMs) where the submitted application will be encapsulated.
+	One of the main challenge will concern the configuration of the virtual environment at the end of the deployment (enabling access and NFS sharing for the user).
+
+		* Mentors : Adrien Lebre / Jean-Marc Menaud ;       
+    
+		* Applicants should be familiar with java development and should have basic Linux knowledge. Python skills would be desirable since we
+		are really interesting by the {{{http://trac.enomalism.com/}enomaly}} project (BSc level).
+	
+	[]
+	
+	* <<Entropy graphical interfaces:>> 
+   
+	<<There is no dedicated interface for Entropy, monitoring information are transparently exploited and administrators have to use the interfaces provided by the monitoring solution (such as the {{{http://ganglia.info/?page_id=69} Ganglia one}}). 
+	The objectives consist in developing graphical interfaces relying on an AJAX model. Administrators should be able (i) to visualize physical and virtual resource informations and (ii) to manage VM. 
+	We are particularly interesting by leveraging the {{{http://trac.enomalism.com/}enomaly}} project.>>
+
+		* <<Mentors : Adrien Lebre / Jean-Marc Menaud ;>> 
+     
+		* <<Applicants should be familiar with web development (Python and TurboGear skills would be highly desirable). 
+		A strong background in virtualization and/or distributed algorithms is not mandatory for this work (BSc level).>>
+
+	[]
+	* Generic VM actuators  
+
+	Deployed on the cluster front-end, Entropy is currently able to migrate Xen VMs from one compute node to another one by using the Xen XML-RPC layers.  
+	We would like to improve the current model in order (i) to complete the VM operations (i.e. adding suspend, resume and snapshot functionalities) and (ii) to interact with whatever kind of VM thanks to the generic libvirt layer. 
+   
+		* Mentors : Adrien Lebre / Fabien Hermenier;
+     
+		* Applicants should be interested by system/network development (this work requires strong expertise in Linux (mainly debian) and virtualization technologies). 	
+	  

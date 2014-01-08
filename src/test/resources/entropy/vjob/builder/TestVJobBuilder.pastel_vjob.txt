@@ -1,0 +1,8 @@
+$T1 = {VM1, VM2, VM3};
+$T2 = VM[4..7];
+$T3 = VM[8..9];
+lSpread($T1);
+lSpread($T2);
+lSpread($T3);
+$A1 = $T1 + $T2 + $T3;
+oneOf($T3, $medium);

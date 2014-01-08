@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd">
+<suite name="Production tests" parallel="tests" thread-count="1">
+  <test name="Production tests" verbose="0" >
+      <groups>
+      <run>
+	<include name="unit"/>
+	<include name="non-regression"/>
+      </run>
+    </groups>
+    <packages>
+      <package name="entropy.*"/>
+    </packages>
+  </test>
+</suite>

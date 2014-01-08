@@ -1,0 +1,19 @@
+#list of nodes
+pastel-19.b217.home 2 4200 3587
+pastel-14.b217.home 2 4200 3668
+pastel-6.b217.home 2 4200 3665
+#list of VMs
+ED.A-7.b217.home 1 2000 1024
+ED.A-4.b217.home 1 2000 1024
+ED.A-3.b217.home 1 2000 1024
+ED.A-2.b217.home 1 2000 1024
+ED.A-5.b217.home 1 2000 1024
+ED.A-8.b217.home 1 2000 1024
+ED.A-9.b217.home 1 2000 1024
+ED.A-6.b217.home 1 2000 1024
+ED.A-1.b217.home 1 2000 1024
+#initial configuration
+pastel-19.b217.home (ED.A-1.b217.home) (ED.A-2.b217.home) (ED.A-3.b217.home) (ED.A-5.b217.home)
+pastel-14.b217.home (ED.A-8.b217.home) (ED.A-9.b217.home) (ED.A-6.b217.home)
+pastel-6.b217.home (ED.A-7.b217.home) (ED.A-4.b217.home)
+FARM

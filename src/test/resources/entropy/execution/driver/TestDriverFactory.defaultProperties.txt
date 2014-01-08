@@ -1,0 +1,14 @@
+driver.xenapi.port = 12
+driver.xenapi.username = 
+driver.xenapi.password = 
+driver.xenapi.relocationPort = 2000
+
+auth.privateKey = aKey
+auth.username = toto
+
+driver.sshShutdown.command = pss
+driver.sshRun.command = run command
+driver.sshStop.command = stfu
+driver.sshMigration.command = i like to move it
+driver.xenapi.stateFilesLocation = /toto
+driver.xenapi.stateFilesPrefix = prefix

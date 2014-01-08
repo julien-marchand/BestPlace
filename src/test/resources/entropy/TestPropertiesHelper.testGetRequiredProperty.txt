@@ -1,0 +1,2 @@
+oneProp = ok
+twoProp = 2

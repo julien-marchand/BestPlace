@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2009 Ecole des Mines de Nantes.
+ 
+     This file is part of Entropy.
+ 
+    Entropy is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    Entropy is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+    You should have received a copy of the GNU Lesser General Public License
+    along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<document>
+  <properties>
+    <title>Welcome to Entropy</title>
+    <author>Fabien Hermenier</author>
+  </properties>
+  <body>
+  <section name="Publications">
+  <p>
+    Here is the list of publications related to Entropy.
+  </p>
+  <div style="display: block; margin-left: auto; margin-right: auto; width: 700px;">
+  <table>
+  <tr>
+    <td width="160"><div align="center">
+	<a href="http://portal.acm.org/citation.cfm?id=1508293.1508300&amp;coll=Portal&amp;dl=ACM&amp;type=series&amp;idx=SERIES11259&amp;part=series&amp;WantType=Proceedings&amp;title=VEE&amp;CFID=26920502&amp;CFTOKEN=89165717"><img src="images/vee09.jpg"/><br/>VEE'09 paper</a>
+	<a href="http://hal.archives-ouvertes.fr/docs/00/32/06/46/PDF/RR-6639.pdf">INRIA Report</a>
+	<a href="http://gforge.inria.fr/docman/view.php/1603/5955/VEE09-slides.pdf">Slides</a>
+    </div></td>
+    <td><div style="text-align: justify;">Fabien Hermenier, Xavier Lorca, Jean-Marc Menaud, Gilles Muller, and Julia Lawall.
+        Entropy: a Consolidation Manager for Clusters.
+   	<i>In the 2009 <a href="http://www.cs.purdue.edu/VEE09/Home.html">International Conference on Virtual Execution Environments (VEE'09)</a>.</i><br/>
+   	This paper leverages an internal INRIA Research report (<a href="http://hal.archives-ouvertes.fr/docs/00/32/06/46/PDF/RR-6639.pdf">RR-6639</a>).</div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div align="center">
+      <img src="images/abstract-osdi08.jpg"/> <img src="images/poster.jpg" title="Poster"/><br/>
+          <a href="https://gforge.inria.fr/docman/view.php/1603/5822/osdi08-abstract.pdf">Abstract</a> - 
+	  <a href="https://gforge.inria.fr/docman/view.php/1603/5822/osdi08-poster.pdf">Poster</a> 
+	  </div>
+    </td>
+    <td><div style="text-align: justify;">Fabien Hermenier, Xavier Lorca, Jean-Marc Menaud, Gilles Muller, and Julia Lawall.
+    Entropy: a Consolidation Manager for Clusters.
+    <i><a href="http://www.usenix.org/events/osdi08/poster.html">Poster Session</a> of the <a href="http://www.usenix.org/event/osdi08/">8th USENIX Symposium on Operating System Design and Implementation (OSDI'08)</a>, dec. 2008.</i></div></td>
+  </tr>
+  <tr>
+  <td><div align="center"><a href="http://gforge.inria.fr/docman/view.php/1603/5820/xhpc06.pdf">
+      <img src="images/xhpc06.jpg"/><br/>
+      Get the paper
+  </a>
+      </div>
+  </td>
+  <td><div style="text-align: justify;">Fabien Hermenier, Nicolas Loriant, and Jean-Marc Menaud.
+    Power Management in Grid Computing with Xen.
+    <i>In Proceedings of 2006 on XEN in HPC Cluster and Grid Computing Environments (XHPC06)</i>
+    <a href="http://www.springerlink.com/content/3108262774957451/">number 4331 of Lecture Notes in Computer Science,  pages 407-416</a>, Sorento, Italy, December 2006. Springer-Verlag.
+    </div>
+  </td>
+  </tr>
+  <tr>
+  <td><div align="center"><a href="https://gforge.inria.fr/docman/view.php/1603/5819/cfse08.pdf">
+      <img src="images/cfse08.jpg"/><br/>
+      Paper
+  </a>
+      </div>
+  </td>
+  <td><div style="text-align: justify;">
+   Fabien Hermenier, Xavier Lorca, Hadrien Cambazard, Jean-Marc Menaud, and Narendra Jussien.
+   Reconfiguration automatique du placement dans les grilles de calculs dirigee par des objectifs.
+   <i>In Proc. of <a href="http://gridgroup.tic.hefr.ch/renpar/">6ieme Conference Francophone sur les Systemes d'Exploitation (CFSE06)</a>, Fribourg, Swiss, February 2008</i>.
+   </div></td>
+   </tr>
+  </table>
+  </div>
+  </section>
+  </body>
+</document>
