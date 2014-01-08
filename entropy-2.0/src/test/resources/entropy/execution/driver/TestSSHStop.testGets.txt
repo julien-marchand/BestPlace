@@ -1,3 +1,0 @@
-auth.privateKey = myPrivateKey
-auth.username = root
-driver.sshStop.command = plz stop $VM. Its on fire on $HOST

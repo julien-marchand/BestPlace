@@ -1,1 +1,0 @@
-monitoring.adapter.impl = entropy.monitoring.MockConfigurationAdapterBuilder

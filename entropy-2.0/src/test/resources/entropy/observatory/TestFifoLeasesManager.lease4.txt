@@ -1,4 +1,0 @@
-lease4
-tinkie-winky 1 2 3 waiting
-po 12 3 4 waiting
-nala 23 12 12 running

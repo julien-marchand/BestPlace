@@ -1,7 +1,0 @@
-gunit DurationEvaluatorParser;
-
-vm_expr:
-	"3"	OK
-	"3 + VM#memory"	OK
-	"3 + 5 - 7"	returns[1]
-	

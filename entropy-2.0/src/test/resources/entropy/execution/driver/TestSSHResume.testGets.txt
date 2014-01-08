@@ -1,3 +1,0 @@
-auth.privateKey = myPrivateKey
-auth.username = root
-driver.sshMigration.command = ssh $DESTINATION xm restore $SOURCE/$VM.chk

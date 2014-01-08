@@ -1,3 +1,0 @@
-auth.privateKey = myPrivateKey
-auth.username = root
-driver.sshRun.command = plz run my VM. Its name iz $VM. It will be fine in $HOST
