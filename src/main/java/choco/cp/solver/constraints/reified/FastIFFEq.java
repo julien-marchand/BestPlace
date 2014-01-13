@@ -33,6 +33,7 @@ import choco.kernel.solver.constraints.integer.AbstractBinIntSConstraint;
 import choco.kernel.solver.variables.integer.IntDomainVar;
 
 /**
+ * 
  * A fast implementation for BVAR => VAR = CSTE
  * <br/>
  *
