@@ -20,8 +20,6 @@
 package entropy.plan.choco.actionModel.slice;
 
 
-import choco.kernel.solver.variables.integer.IntDomainVar;
-import choco.kernel.solver.variables.scheduling.TaskVar;
 import entropy.configuration.Node;
 import entropy.plan.Plan;
 import entropy.plan.choco.ReconfigurationProblem;

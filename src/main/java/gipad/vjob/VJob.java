@@ -19,7 +19,10 @@
 
 package gipad.vjob;
 
+
 import gipad.configuration.ManagedElementList;
+import gipad.placementconstraint.PlacementConstraint;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -175,14 +178,6 @@ public interface VJob {
      * @return a list of labeled elements. May be empty
      */
     Collection<String> getVariables();
-
-    /**
-     * Get the element associated to a label.
-     *
-     * @param label the label
-     * @return the element if exists. {@code null} otherwise
-     */
-    VJobElement getVariable(String label);
 
     /**
      * Store the vjob into a file.

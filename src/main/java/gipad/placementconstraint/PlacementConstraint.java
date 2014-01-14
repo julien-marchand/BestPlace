@@ -16,13 +16,13 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
  */
-package gipad.vjob;
+package gipad.placementconstraint;
 
 import entropy.configuration.Configuration;
 import entropy.configuration.Node;
 import entropy.configuration.VirtualMachine;
 import entropy.plan.choco.ReconfigurationProblem;
-import gipad.configuration.SimpleManagedElementList;
+import gipad.configuration.ManagedElementList;
 
 /**
  * An interface to specify some constraints related to the planification of the action.
@@ -57,14 +57,14 @@ public interface PlacementConstraint {
      *
      * @return a set of virtual machines.
      */
-    SimpleManagedElementList<VirtualMachine> getAllVirtualMachines();
+    ManagedElementList<VirtualMachine> getAllVirtualMachines();
 
     /**
      * Get the nodes explicitely involved in the constraints.
      *
      * @return a set of nodes that may be empty
      */
-    SimpleManagedElementList<Node> getNodes();
+    ManagedElementList<Node> getNodes();
 
     /**
      * Get all the mis-placed virtual machines in a configuration.
@@ -72,6 +72,6 @@ public interface PlacementConstraint {
      * @param cfg the configuration
      * @return a set of virtual machines where their position violate the constraint.
      */
-    SimpleManagedElementList<VirtualMachine> getMisPlaced(Configuration cfg);
+    ManagedElementList<VirtualMachine> getMisPlaced(Configuration cfg);
 
 }

@@ -1,15 +1,18 @@
+
 package gipad.plan.choco;
 
 import java.util.List;
-import org.discovery.DiscoveryModel.model.*;
 
-import choco.kernel.solver.constraints.SConstraint;
-import gipad.plan.*;
-import gipad.vjob.VJob;
+import org.discovery.DiscoveryModel.model.VirtualMachine;
+
+import entropy.plan.choco.ReconfigurationProblem;
 import gipad.configuration.CostFunction;
-import gipad.plan.CustomizablePlannerModule;
-import gipad.configuration.*;
-import gipad.configuration.configuration.*;
+import gipad.configuration.ManagedElementList;
+import gipad.configuration.configuration.Configuration;
+import gipad.plan.PlanException;
+import gipad.plan.SequencedReconfigurationPlan;
+import gipad.vjob.VJob;
+
 
 
 public class ChocoCustom3RP {

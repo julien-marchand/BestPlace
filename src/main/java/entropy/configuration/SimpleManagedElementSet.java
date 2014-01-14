@@ -20,7 +20,7 @@
 package entropy.configuration;
 
 
-import gnu.trove.TIntObjectHashMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 
 import java.util.ArrayList;
 import java.util.Collection;

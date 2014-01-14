@@ -18,7 +18,6 @@
  */
 package entropy.plan.choco.actionModel;
 
-import choco.kernel.solver.variables.integer.IntDomainVar;
 import entropy.configuration.Configuration;
 import entropy.plan.action.Action;
 import entropy.plan.choco.ReconfigurationProblem;
