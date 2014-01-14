@@ -4,10 +4,12 @@ import java.util.List;
 import org.discovery.DiscoveryModel.model.*;
 
 import choco.kernel.solver.constraints.SConstraint;
-import entropy.plan.choco.ReconfigurationProblem;
+import gipad.plan.*;
 import gipad.vjob.VJob;
 import gipad.configuration.CostFunction;
 import gipad.plan.CustomizablePlannerModule;
+import gipad.configuration.*;
+import gipad.configuration.configuration.*;
 
 
 public class ChocoCustom3RP {
@@ -40,8 +42,12 @@ public class ChocoCustom3RP {
 	}
 
 	public void setTimeLimit(int entropyPlanTimeout) {
+		// TODO Auto-generated method stub		
+	}
+	
+	public SequencedReconfigurationPlan compute(Configuration src, ManagedElementList<VirtualMachine> q) throws PlanException {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 }

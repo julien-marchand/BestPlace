@@ -1,7 +1,7 @@
 package gipad.scheduling;
 
 import gipad.configuration.configuration.Configuration;
-import entropy.plan.TimedReconfigurationPlan;
+import gipad.plan.*;
 
 //An abstract scheduler
 public abstract class AbstractScheduler {
@@ -29,7 +29,7 @@ public abstract class AbstractScheduler {
 	protected Configuration newConfiguration;
 	
 	//The reconfiguration plan
-	protected TimedReconfigurationPlan reconfigurationPlan;
+	protected SequencedReconfigurationPlan reconfigurationPlan;
 	
 	/**
 	 * The time spent to compute VMPP

@@ -1,4 +1,4 @@
-package scheduling;
+package gipad.scheduling;
 
 
 import java.io.BufferedReader;

@@ -19,7 +19,7 @@
 
 package gipad.vjob;
 
-import gipad.configuration.SimpleManagedElementList;
+import gipad.configuration.ManagedElementList;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,14 +53,14 @@ public interface VJob {
      *
      * @return a set of virtual machines. May be empty
      */
-    SimpleManagedElementList<VirtualMachine> getVirtualMachines();
+    ManagedElementList<VirtualMachine> getVirtualMachines();
 
     /**
      * The nodes involved in the vjob.
      *
      * @return a set of nodes. May be empty
      */
-    SimpleManagedElementList<Node> getNodes();
+    ManagedElementList<Node> getNodes();
 
     /**
      * Add a placement constraint on the vjob.
@@ -91,7 +91,7 @@ public interface VJob {
      * @param e the virtual machines to add
      * @return {@code true} if the virtual machines where added
      */
-    boolean addVirtualMachines(SimpleManagedElementList<VirtualMachine> e);
+    boolean addVirtualMachines(ManagedElementList<VirtualMachine> e);
 
     /**
      * Add a virtual machine.
@@ -107,14 +107,14 @@ public interface VJob {
      * @param e the nodes to add
      * @return {@code true} if the nodes were added
      */
-    boolean addNodes(SimpleManagedElementList<Node> e);
+    boolean addNodes(ManagedElementList<Node> e);
 
     /**
      * Get all the multi sets of nodes.
      *
      * @return a list of multiset, may be empty.
      */
-    List<SimpleManagedElementList<Node>> getMultiNodeSets();
+    List<ManagedElementList<Node>> getMultiNodeSets();
 
     /**
      * Get a multi set of nodes using its label.
@@ -122,14 +122,14 @@ public interface VJob {
      * @param var the identifier of the multi set
      * @return the multi set of nodes associated to the label if exists. {@code null} otherwise
      */
-    SimpleManagedElementList<Node> getMultiNodeSet(String var);
+    ManagedElementList<Node> getMultiNodeSet(String var);
 
     /**
      * Get all the multi sets of virtual machines.
      *
      * @return a list of multiset, may be empty.
      */
-    List<SimpleManagedElementList<VirtualMachine>> getMultiVirtualMachineSets();
+    List<ManagedElementList<VirtualMachine>> getMultiVirtualMachineSets();
 
     /**
      * Get a multi set of virtual machines using its label.
@@ -137,14 +137,14 @@ public interface VJob {
      * @param var the identifier of the multi set
      * @return the multi set of virtual machines associated to the label if exists. {@code null} otherwise
      */
-    SimpleManagedElementList<VirtualMachine> getMultiVirtualMachineSet(String var);
+    ManagedElementList<VirtualMachine> getMultiVirtualMachineSet(String var);
 
     /**
      * Get all the sets of nodes.
      *
      * @return a list of sets, may be empty.
      */
-    List<SimpleManagedElementList<Node>> getNodeSets();
+    List<ManagedElementList<Node>> getNodeSets();
 
     /**
      * Get a set of node using its label.
@@ -152,14 +152,14 @@ public interface VJob {
      * @param var the identifier of the set
      * @return the set of nodes associated to the label if exists. {@code null} otherwise
      */
-    SimpleManagedElementList<Node> getNodeSet(String var);
+    ManagedElementList<Node> getNodeSet(String var);
 
     /**
      * Get all the sets of virtual machines.
      *
      * @return a list of sets, may be empty.
      */
-    List<SimpleManagedElementList<VirtualMachine>> getVirtualMachineSets();
+    List<ManagedElementList<VirtualMachine>> getVirtualMachineSets();
 
     /**
      * Get a set of virtual machines using its label.
@@ -167,7 +167,7 @@ public interface VJob {
      * @param var the identifier of the set
      * @return the set of virtual machines associated to the label if exists. {@code null} otherwise
      */
-    SimpleManagedElementList<VirtualMachine> getVirtualMachineSet(String var);
+    ManagedElementList<VirtualMachine> getVirtualMachineSet(String var);
 
     /**
      * Get all the labeled elements.
