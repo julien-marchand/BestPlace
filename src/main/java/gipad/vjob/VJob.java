@@ -52,14 +52,14 @@ public interface VJob {
      *
      * @return a set of virtual machines. May be empty
      */
-    List<VirtualMachine> getVirtualMachines();
+    ExplodedSet<VirtualMachine> getVirtualMachines();
 
     /**
      * The nodes involved in the vjob.
      *
      * @return a set of nodes. May be empty
      */
-    List<Node> getNodes();
+    ExplodedSet<Node> getNodes();
 
     /**
      * Add a placement constraint on the vjob.
