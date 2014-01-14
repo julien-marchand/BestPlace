@@ -35,10 +35,10 @@ public class TestMultiSetsDifference {
     /*public void testExpandAndAllElements() {
         ExplodedMultiSet<DefaultNode> ms1 = new ExplodedMultiSet<DefaultNode>();
         ExplodedMultiSet<DefaultNode> ms2 = new ExplodedMultiSet<DefaultNode>();
-        List<ExplodedSet<DefaultNode>> ns = new LinkedList<ExplodedSet<DefaultNode>>();
-        ExplodedSet<DefaultNode> all = new ExplodedSet<DefaultNode>();
-        ExplodedSet<DefaultNode> s = new ExplodedSet<DefaultNode>();
-        ExplodedSet<DefaultNode> e = new ExplodedSet<DefaultNode>();
+        List<ExplodedList<DefaultNode>> ns = new LinkedList<ExplodedList<DefaultNode>>();
+        ExplodedList<DefaultNode> all = new ExplodedList<DefaultNode>();
+        ExplodedList<DefaultNode> s = new ExplodedList<DefaultNode>();
+        ExplodedList<DefaultNode> e = new ExplodedList<DefaultNode>();
         ExplodedMultiSet<DefaultNode> ms = ms1;
 
         for (int i = 1; i <= 20; i++) {
@@ -48,9 +48,9 @@ public class TestMultiSetsDifference {
             e.add(n);
             if (i % 5 == 0) {
                 ms.add(s);
-                s = new ExplodedSet<DefaultNode>();
+                s = new ExplodedList<DefaultNode>();
                 ns.add(e);
-                e = new ExplodedSet<DefaultNode>();
+                e = new ExplodedList<DefaultNode>();
             }
             if (i == 10) {
                 ms = ms2;

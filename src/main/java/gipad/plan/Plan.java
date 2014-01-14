@@ -28,6 +28,8 @@ import entropy.configuration.Configuration;
 import entropy.configuration.ManagedElementSet;
 import entropy.configuration.Node;
 import entropy.configuration.VirtualMachine;
+import entropy.plan.PlanException;
+import entropy.plan.TimedReconfigurationPlan;
 import entropy.vjob.VJob;
 
 /**

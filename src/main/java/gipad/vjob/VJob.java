@@ -27,8 +27,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import entropy.configuration.Node;
-import entropy.configuration.VirtualMachine;
+import org.discovery.DiscoveryModel.model.*;
 
 /**
  * Interface to specify a VJob.
@@ -52,14 +51,14 @@ public interface VJob {
      *
      * @return a set of virtual machines. May be empty
      */
-    ExplodedSet<VirtualMachine> getVirtualMachines();
+    ExplodedList<VirtualMachine> getVirtualMachines();
 
     /**
      * The nodes involved in the vjob.
      *
      * @return a set of nodes. May be empty
      */
-    ExplodedSet<Node> getNodes();
+    ExplodedList<Node> getNodes();
 
     /**
      * Add a placement constraint on the vjob.
@@ -90,7 +89,7 @@ public interface VJob {
      * @param e the virtual machines to add
      * @return {@code true} if the virtual machines where added
      */
-    boolean addVirtualMachines(VJobSet<VirtualMachine> e);
+    boolean addVirtualMachines(VJobList<VirtualMachine> e);
 
     /**
      * Add a multi set of virtual machines to the vjob.
@@ -98,7 +97,7 @@ public interface VJob {
      * @param e the multiset to add
      * @return {@code true} if the virtual machines where added
      */
-    boolean addVirtualMachines(VJobMultiSet<VirtualMachine> e);
+    boolean addVirtualMachines(VJobMultiList<VirtualMachine> e);
 
     /**
      * Add a virtual machine.
@@ -114,7 +113,7 @@ public interface VJob {
      * @param e the nodes to add
      * @return {@code true} if the nodes were added
      */
-    boolean addNodes(VJobSet<Node> e);
+    boolean addNodes(VJobList<Node> e);
 
     /**
      * Add a multi set of nodes to the vjob.
@@ -122,14 +121,14 @@ public interface VJob {
      * @param e the multi set to add
      * @return {@code true} if the nodes where added
      */
-    boolean addNodes(VJobMultiSet<Node> e);
+    boolean addNodes(VJobMultiList<Node> e);
 
     /**
      * Get all the multi sets of nodes.
      *
      * @return a list of multiset, may be empty.
      */
-    List<VJobMultiSet<Node>> getMultiNodeSets();
+    List<VJobMultiList<Node>> getMultiNodeSets();
 
     /**
      * Get a multi set of nodes using its label.
@@ -137,14 +136,14 @@ public interface VJob {
      * @param var the identifier of the multi set
      * @return the multi set of nodes associated to the label if exists. {@code null} otherwise
      */
-    VJobMultiSet<Node> getMultiNodeSet(String var);
+    VJobMultiList<Node> getMultiNodeSet(String var);
 
     /**
      * Get all the multi sets of virtual machines.
      *
      * @return a list of multiset, may be empty.
      */
-    List<VJobMultiSet<VirtualMachine>> getMultiVirtualMachineSets();
+    List<VJobMultiList<VirtualMachine>> getMultiVirtualMachineSets();
 
     /**
      * Get a multi set of virtual machines using its label.
@@ -152,14 +151,14 @@ public interface VJob {
      * @param var the identifier of the multi set
      * @return the multi set of virtual machines associated to the label if exists. {@code null} otherwise
      */
-    VJobMultiSet<VirtualMachine> getMultiVirtualMachineSet(String var);
+    VJobMultiList<VirtualMachine> getMultiVirtualMachineSet(String var);
 
     /**
      * Get all the sets of nodes.
      *
      * @return a list of sets, may be empty.
      */
-    List<VJobSet<Node>> getNodeSets();
+    List<VJobList<Node>> getNodeSets();
 
     /**
      * Get a set of node using its label.
@@ -167,14 +166,14 @@ public interface VJob {
      * @param var the identifier of the set
      * @return the set of nodes associated to the label if exists. {@code null} otherwise
      */
-    VJobSet<Node> getNodeSet(String var);
+    VJobList<Node> getNodeSet(String var);
 
     /**
      * Get all the sets of virtual machines.
      *
      * @return a list of sets, may be empty.
      */
-    List<VJobSet<VirtualMachine>> getVirtualMachineSets();
+    List<VJobList<VirtualMachine>> getVirtualMachineSets();
 
     /**
      * Get a set of virtual machines using its label.
@@ -182,7 +181,7 @@ public interface VJob {
      * @param var the identifier of the set
      * @return the set of virtual machines associated to the label if exists. {@code null} otherwise
      */
-    VJobSet<VirtualMachine> getVirtualMachineSet(String var);
+    VJobList<VirtualMachine> getVirtualMachineSet(String var);
 
     /**
      * Get all the labeled elements.

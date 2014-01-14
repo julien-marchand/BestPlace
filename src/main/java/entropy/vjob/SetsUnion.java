@@ -72,7 +72,7 @@ public class SetsUnion<T extends ManagedElement> extends ComposedSet<T> {
      */
     @Override
     public ExplodedSet<T> flatten() {
-/*        ExplodedSet<T> ex = new ExplodedSet<T>();
+/*        ExplodedList<T> ex = new ExplodedList<T>();
         ex.addAll(leftOperand().flatten());
         ex.addAll(rightOperand().flatten());
         return ex;*/

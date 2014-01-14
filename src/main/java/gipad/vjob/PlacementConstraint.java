@@ -56,14 +56,14 @@ public interface PlacementConstraint {
      *
      * @return a set of virtual machines.
      */
-    ExplodedSet<VirtualMachine> getAllVirtualMachines();
+    ExplodedList<VirtualMachine> getAllVirtualMachines();
 
     /**
      * Get the nodes explicitely involved in the constraints.
      *
      * @return a set of nodes that may be empty
      */
-    ExplodedSet<Node> getNodes();
+    ExplodedList<Node> getNodes();
 
     /**
      * Get all the mis-placed virtual machines in a configuration.
@@ -71,6 +71,6 @@ public interface PlacementConstraint {
      * @param cfg the configuration
      * @return a set of virtual machines where their position violate the constraint.
      */
-    ExplodedSet<VirtualMachine> getMisPlaced(Configuration cfg);
+    ExplodedList<VirtualMachine> getMisPlaced(Configuration cfg);
 
 }

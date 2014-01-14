@@ -136,7 +136,7 @@ public class OneOf implements PlacementConstraint {
 
         //ChocoCustomizablePlannerModule.LOGGER.debug(vmGrpId + " " + Arrays.toString(toKeep));
         //ManagedElementSet<Node> toKeep = groups.getElements();
-        //new Fence(getAllVirtualMachines(), new ExplodedSet<Node>(toKeep)).inject(core);
+        //new Fence(getAllVirtualMachines(), new ExplodedList<Node>(toKeep)).inject(core);
         //model.addConstraint(Choco.among(vmGrpId, toKeep));
         List<ExplodedSet<Node>> all = getGroups().expand();
         ManagedElementSet<Node> involved = getGroups().getElements();
