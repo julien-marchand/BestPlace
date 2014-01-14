@@ -22,7 +22,7 @@ package gipad.execution;
 import java.util.HashSet;
 import java.util.Set;
 
-import entropy.plan.action.Action;
+import gipad.plan.action.*;
 
 /**
  * Dependencies defines the actions that must be terminated to make another action feasible.

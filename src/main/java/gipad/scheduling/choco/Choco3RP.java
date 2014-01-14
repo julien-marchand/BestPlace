@@ -3,8 +3,7 @@ package gipad.scheduling.choco;
 import org.discovery.DiscoveryModel.model.*;
 
 import gipad.execution.*;
-import entropy.plan.action.Action;
-import entropy.plan.action.Migration;
+import gipad.plan.action.*;
 
 import gipad.scheduling.EntropyProperties;
 import gipad.configuration.*;
