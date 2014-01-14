@@ -22,15 +22,12 @@ package gipad.plan.choco;
 import java.util.List;
 import java.util.Set;
 
-import choco.Choco;
-import choco.kernel.solver.Solver;
-import choco.kernel.solver.constraints.SConstraint;
-import choco.kernel.solver.variables.integer.IntDomainVar;
-import choco.kernel.solver.variables.set.SetVar;
+import org.discovery.DiscoveryModel.model.Node;
+import org.discovery.DiscoveryModel.model.VirtualMachine;
+
+import solver.variables.IntVar;
+import solver.variables.SetVar;
 import entropy.configuration.Configuration;
-import entropy.configuration.ManagedElementSet;
-import entropy.configuration.Node;
-import entropy.configuration.VirtualMachine;
 import entropy.plan.SolutionStatistics;
 import entropy.plan.SolvingStatistics;
 import entropy.plan.TimedReconfigurationPlan;
@@ -40,23 +37,24 @@ import entropy.plan.choco.actionModel.slice.ConsumingSlice;
 import entropy.plan.choco.actionModel.slice.DemandingSlice;
 import entropy.plan.choco.constraint.pack.SatisfyDemandingSliceHeights;
 import entropy.plan.durationEvaluator.DurationEvaluator;
+import gipad.configuration.ManagedElementList;
 
 /**
  * Specification of a reconfiguration problem.
  *
  * @author Fabien Hermenier
  */
-public interface ReconfigurationProblem extends Solver {
+public interface ReconfigurationProblem {
 
     /**
      * The maximum number of group of nodes.
      */
-    Integer MAX_NB_GRP = 100;
+//    Integer MAX_NB_GRP = 100;
 
     /**
      * The maximum duration of a plan.
      */
-    Integer MAX_TIME = Choco.MAX_UPPER_BOUND / 10;
+//    Integer MAX_TIME = 10;
 
     /**
      * Get all the nodes in the model. Indexed by their identifier.
@@ -85,7 +83,7 @@ public interface ReconfigurationProblem extends Solver {
      *
      * @return a set, may be empty
      */
-    ManagedElementSet<VirtualMachine> getFutureRunnings();
+    ManagedElementList<VirtualMachine> getFutureRunnings();
 
     /**
      * Get the virtual machines that will be in the waiting state at the
@@ -93,7 +91,7 @@ public interface ReconfigurationProblem extends Solver {
      *
      * @return a set, may be empty
      */
-    ManagedElementSet<VirtualMachine> getFutureWaitings();
+    ManagedElementList<VirtualMachine> getFutureWaitings();
 
     /**
      * Get the virtual machines that will be in the sleeping state at the
@@ -101,7 +99,7 @@ public interface ReconfigurationProblem extends Solver {
      *
      * @return a set, may be empty
      */
-    ManagedElementSet<VirtualMachine> getFutureSleepings();
+    ManagedElementList<VirtualMachine> getFutureSleepings();
 
     /**
      * Get the virtual machines that will be in the terminated state at the
@@ -109,7 +107,7 @@ public interface ReconfigurationProblem extends Solver {
      *
      * @return a set, may be empty
      */
-    ManagedElementSet<VirtualMachine> getFutureTerminated();
+    ManagedElementList<VirtualMachine> getFutureTerminated();
 
     /**
      * Get the nodes that will be in the online state at the
@@ -117,7 +115,7 @@ public interface ReconfigurationProblem extends Solver {
      *
      * @return a set, may be empty
      */
-    ManagedElementSet<Node> getFutureOnlines();
+    ManagedElementList<Node> getFutureOnlines();
 
     /**
      * Get the nodes that will be in the offline state at the
@@ -125,21 +123,21 @@ public interface ReconfigurationProblem extends Solver {
      *
      * @return a set, may be empty
      */
-    ManagedElementSet<Node> getFutureOfflines();
+    ManagedElementList<Node> getFutureOfflines();
 
     /**
      * Get the starting moment of the reconfiguration.
      *
      * @return a variable equals to 0
      */
-    IntDomainVar getStart();
+    IntVar getStart();
 
     /**
      * Get the end  moment of the reconfiguration
      *
      * @return a variable, should be equals to the last end moment of actions
      */
-    IntDomainVar getEnd();
+    IntVar getEnd();
 
     /**
      * Get the index of a virtual machine
@@ -209,7 +207,7 @@ public interface ReconfigurationProblem extends Solver {
      * @param n the node
      * @return the free CPU capacity for this node
      */
-    IntDomainVar getFreeCPU(Node n);
+    IntVar getFreeCPU(Node n);
 
     /**
      * Get the free memory capacity of a node.
@@ -217,7 +215,7 @@ public interface ReconfigurationProblem extends Solver {
      * @param n the node
      * @return the free memory capacity for this node
      */
-    IntDomainVar getFreeMem(Node n);
+    IntVar getFreeMem(Node n);
 
     /**
      * Get the variable associated to a group of VMs.
@@ -226,7 +224,7 @@ public interface ReconfigurationProblem extends Solver {
      * @param vms the group of virtual machines.
      * @return the variable associated to the group or null if at least one VM of the proposed new group already belong to a group
      */
-    IntDomainVar getVMGroup(ManagedElementSet<VirtualMachine> vms);
+    IntVar getVMGroup(ManagedElementList<VirtualMachine> vms);
 
     /**
      * Make a group variable.
@@ -235,7 +233,7 @@ public interface ReconfigurationProblem extends Solver {
      * @param nodes the possible hosting group
      * @return a variable denoting the assignment of the VMs group to one of the group of nodes
      */
-    IntDomainVar makeGroup(ManagedElementSet<VirtualMachine> vms, List<ManagedElementSet<Node>> nodes);
+    IntVar makeGroup(ManagedElementList<VirtualMachine> vms, List<ManagedElementList<Node>> nodes);
 
     /**
      * Get the group variable associated to a virtual machine.
@@ -243,14 +241,14 @@ public interface ReconfigurationProblem extends Solver {
      * @param vm the virtual machine
      * @return the group variable if it exists, null otherwise
      */
-    IntDomainVar getAssociatedGroup(VirtualMachine vm);
+    IntVar getAssociatedGroup(VirtualMachine vm);
 
     /**
      * Get all the defined groups of virtual machines.
      *
      * @return a set of group of VMs, may be empty
      */
-    Set<ManagedElementSet<VirtualMachine>> getVMGroups();
+    Set<ManagedElementList<VirtualMachine>> getVMGroups();
 
     /**
      * Get identifier associated to a group of nodes.
@@ -259,14 +257,14 @@ public interface ReconfigurationProblem extends Solver {
      * @param nodes the group to define
      * @return the value associated to the group. -1 if the maximum number of group of nodes has been reached.
      */
-    int getGroup(ManagedElementSet<Node> nodes);
+    int getGroup(ManagedElementList<Node> nodes);
 
     /**
      * Get all the defined groups of nodes.
      *
      * @return a set of group of nodes, may be empty
      */
-    Set<ManagedElementSet<Node>> getNodesGroups();
+    Set<ManagedElementList<Node>> getNodesGroups();
 
     /**
      * Get the different groups associated to a node.
@@ -282,7 +280,7 @@ public interface ReconfigurationProblem extends Solver {
      * @param idx the identifier
      * @return the group of nodes if it exists, null otherwise
      */
-    ManagedElementSet<Node> getNodeGroup(int idx);
+    ManagedElementList<Node> getNodeGroup(int idx);
 
     int[] getNodesGroupId();
 
@@ -313,7 +311,7 @@ public interface ReconfigurationProblem extends Solver {
      * @param vms the virtual machines
      * @return a list of actions. The order is the same than the order of the VMs.
      */
-    List<VirtualMachineActionModel> getAssociatedActions(ManagedElementSet<VirtualMachine> vms);
+    List<VirtualMachineActionModel> getAssociatedActions(ManagedElementList<VirtualMachine> vms);
 
     /**
      * Get the set model of the nodes.
