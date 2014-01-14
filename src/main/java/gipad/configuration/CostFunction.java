@@ -9,5 +9,5 @@ import entropy.plan.durationEvaluator.DurationEvaluator;
  *
  */
 public interface CostFunction {
-	DurationEvaluator getDurationEvaluator();
+	int getCout();
 }
