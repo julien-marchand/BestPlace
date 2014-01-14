@@ -16,9 +16,8 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
  */
-package entropy.vjob;
+package gipad.placementconstraint;
 
-import solver.Cause;
 import entropy.configuration.Configuration;
 import entropy.configuration.DefaultManagedElementSet;
 import entropy.configuration.ManagedElementSet;
@@ -154,7 +153,7 @@ public class Ban implements PlacementConstraint {
                     if (t != null) {
                         for (int x = 0; x < nodesIdx.length; x++) {
                             try {
-                                t.hoster().removeValue(nodesIdx[x],Cause.Null);
+                                t.hoster().remVal(nodesIdx[x]);
                             } catch (Exception e) {
                                 VJob.logger.error(e.getMessage(), e);
                             }

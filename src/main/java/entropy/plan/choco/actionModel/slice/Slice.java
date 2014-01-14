@@ -18,9 +18,12 @@
  */
 package entropy.plan.choco.actionModel.slice;
 
-import choco.kernel.solver.ContradictionException;
-import choco.kernel.solver.variables.integer.IntDomainVar;
-import choco.kernel.solver.variables.scheduling.TaskVar;
+import solver.Cause;
+import solver.ICause;
+import solver.variables.IntVar;
+import solver.variables.Task;
+import solver.variables.VF;
+import solver.exception.ContradictionException;
 import entropy.plan.Plan;
 import entropy.plan.choco.ReconfigurationProblem;
 
@@ -32,12 +35,12 @@ import entropy.plan.choco.ReconfigurationProblem;
  */
 public class Slice {
 
-    private TaskVar task;
+    private Task task;
 
     /**
      * Indicates the identifier of slice hoster.
      */
-    private IntDomainVar hoster;
+    private IntVar hoster;
 
     /**
      * The CPU height of the slice.
@@ -61,8 +64,8 @@ public class Slice {
      * @param memHeight the memory height of the slice
      */
     public Slice(String name,
-                 IntDomainVar h,
-                 TaskVar t,
+                 IntVar h,
+                 Task t,
                  int cpuHeight,
                  int memHeight) {
         this.name = name;
@@ -95,7 +98,7 @@ public class Slice {
      *
      * @return the index of the node.
      */
-    public IntDomainVar hoster() {
+    public IntVar hoster() {
         return hoster;
     }
 
@@ -114,28 +117,28 @@ public class Slice {
      */
     public String pretty() {
         StringBuilder builder = new StringBuilder();
-        builder.append(getName()).append("{[").append(start().getInf()).append(",");
-        if (start().getSup() == ReconfigurationProblem.MAX_TIME) {
+        builder.append(getName()).append("{[").append(start().getLB()).append(",");
+        if (start().getUB() == ReconfigurationProblem.MAX_TIME) {
             builder.append("MAX");
         } else {
-            builder.append(start().getSup());
+            builder.append(start().getUB());
         }
         builder.append("] + [")
-                .append(duration().getInf()).append(",");
-        if (duration().getSup() == ReconfigurationProblem.MAX_TIME) {
+                .append(duration().getLB()).append(",");
+        if (duration().getUB() == ReconfigurationProblem.MAX_TIME) {
             builder.append("MAX");
         } else {
-            builder.append(duration().getSup());
+            builder.append(duration().getUB());
         }
         builder.append("] = [")
-                .append(end().getInf()).append(",");
-        if (end().getInf() == ReconfigurationProblem.MAX_TIME) {
+                .append(end().getLB()).append(",");
+        if (end().getLB() == ReconfigurationProblem.MAX_TIME) {
             builder.append("MAX");
         } else {
-            builder.append(end().getSup());
+            builder.append(end().getUB());
         }
         builder.append("] on [")
-                .append(hoster().getInf()).append(",").append(hoster().getSup()).append("]}");
+                .append(hoster().getLB()).append(",").append(hoster().getUB()).append("]}");
         return builder.toString();
     }
 
@@ -154,9 +157,9 @@ public class Slice {
      */
     public void addToModel(ReconfigurationProblem core) {
         core.post(core.leq(duration(), core.getEnd()));
-        if (start().isInstantiated() && duration().isInstantiated()) {
+        if (start().instantiated() && duration().instantiated()) {
             try {
-                end().setVal(duration().getVal() + start().getVal());
+        	end().instantiateTo(duration().getValue() + start().getValue(), Cause.Null);//FIXME slice shoul inmplement ICause
             } catch (ContradictionException e) {
                 System.err.println(e.getMessage());
             }
@@ -171,8 +174,8 @@ public class Slice {
      *
      * @return a positive moment
      */
-    public IntDomainVar start() {
-        return task.start();
+    public IntVar start() {
+        return task.getStart();
     }
 
     /**
@@ -180,8 +183,8 @@ public class Slice {
      *
      * @return a positive moment
      */
-    public IntDomainVar duration() {
-        return task.duration();
+    public IntVar duration() {
+        return task.getDuration();
     }
 
     /**
@@ -189,8 +192,8 @@ public class Slice {
      *
      * @return a positive moment
      */
-    public IntDomainVar end() {
-        return task.end();
+    public IntVar end() {
+        return task.getEnd();
     }
 
     /**
@@ -209,7 +212,7 @@ public class Slice {
      */
     public void fixDuration(int d) {
         try {
-            duration().setVal(d);
+            duration().instantiateTo(d, Cause.Null);
         } catch (Exception e) {
             Plan.logger.error(e.getMessage(), e);
         }
@@ -230,9 +233,9 @@ public class Slice {
         if (!hoster.equals(slice.hoster)) {
             return false;
         }
-        if (!task.start().equals(slice.task.start()) ||
-                !task.end().equals(slice.task.end()) ||
-                !task.duration().equals(slice.task.duration())) {
+        if (!task.getStart().equals(slice.task.getStart()) ||
+                !task.getEnd().equals(slice.task.getEnd()) ||
+                !task.getDuration().equals(slice.task.getDuration())) {
             return false;
         }
 

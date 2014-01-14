@@ -18,8 +18,6 @@
  */
 package entropy.plan.choco.actionModel;
 
-import choco.kernel.solver.ContradictionException;
-import choco.kernel.solver.variables.integer.IntDomainVar;
 import entropy.configuration.Configuration;
 import entropy.configuration.VirtualMachine;
 import entropy.plan.Plan;

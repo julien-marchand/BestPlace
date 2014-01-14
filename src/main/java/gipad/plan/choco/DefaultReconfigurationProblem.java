@@ -28,15 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import choco.cp.solver.CPSolver;
-import choco.cp.solver.constraints.integer.bool.BooleanFactory;
-import choco.cp.solver.constraints.reified.ReifiedFactory;
-import choco.cp.solver.constraints.set.InverseSetInt;
-import choco.kernel.solver.Solution;
-import choco.kernel.solver.constraints.SConstraint;
-import choco.kernel.solver.search.measure.IMeasures;
-import choco.kernel.solver.variables.integer.IntDomainVar;
-import choco.kernel.solver.variables.set.SetVar;
 import entropy.configuration.Configuration;
 import entropy.configuration.Configurations;
 import entropy.configuration.ManagedElementSet;
@@ -74,7 +65,6 @@ import entropy.plan.choco.constraint.pack.SatisfyDemandingSlicesHeightsFastBP;
 import entropy.plan.choco.constraint.sliceScheduling.SlicesPlanner;
 import entropy.plan.durationEvaluator.DurationEvaluationException;
 import entropy.plan.durationEvaluator.DurationEvaluator;
-import gnu.trove.TIntIntHashMap;
 
 /**
  * A CSP to model a reconfiguration plan composed of time bounded actions.

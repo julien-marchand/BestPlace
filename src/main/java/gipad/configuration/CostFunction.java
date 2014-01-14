@@ -8,6 +8,6 @@ import entropy.plan.durationEvaluator.DurationEvaluator;
  * @author Pocman
  *
  */
-public interface CostFunction extends DurationEvaluator {
-
+public interface CostFunction {
+	DurationEvaluator getDurationEvaluator();
 }
