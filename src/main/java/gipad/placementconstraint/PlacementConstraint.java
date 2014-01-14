@@ -16,7 +16,7 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
  */
-package gipad.vjob;
+package gipad.placementconstraint;
 
 import entropy.configuration.Configuration;
 import entropy.configuration.Node;
