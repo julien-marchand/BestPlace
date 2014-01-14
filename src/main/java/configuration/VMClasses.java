@@ -19,13 +19,6 @@ public class VMClasses{
     // Class variables
     ///////////////////////////////////////////////////////////////////////////
 	
-	public VMClasses(Host host, String name, int nbCores, int ramsize,
-			int netBW, String diskPath, int diskSize, int i, int dpIntensity) {
-		// TODO Auto-generated constructor stub
-	}
-
-
-
 	private final static String CLASS_FILE = "config" + File.separator + "vm_classes.txt";
 	
 	/**
@@ -104,6 +97,19 @@ public class VMClasses{
 	    // Accessors
 	    ///////////////////////////////////////////////////////////////////////////
 
+		public VMClass(Host host, String name, int nbOfCPUs, int memSize,
+				int netBW, String diskPath, int diskSize, int i,
+				int dpIntensity) {
+			super();
+			this.name = name;
+			this.nbOfCPUs = nbOfCPUs;
+			this.memSize = memSize;
+            this.netBW = netBW;
+            this.migNetBW = diskSize; //false
+            this.memIntensity = dpIntensity;
+		}
+
+
 		/**
 		 * Returns the name of the class
 		 */
@@ -153,6 +159,13 @@ public class VMClasses{
 		public String toString(){
 			return name + ":" + nbOfCPUs + ":" + memSize;
 		}
+
+
+		public void migrate(Host host) {
+			// TODO Auto-generated method stub
+			
+		}
+
 	}
 
 

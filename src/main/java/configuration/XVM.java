@@ -1,11 +1,13 @@
 package configuration;
 
+import configuration.VMClasses.VMClass;
+
 //import org.simgrid.msg.*;
 
 /**
  * A stupid VM extension to associate a daemon to the VM
  */
-public class XVM extends VMClasses{
+public class XVM extends VMClass{
 
 
     private int dpIntensity;
@@ -62,8 +64,7 @@ public class XVM extends VMClasses{
         //Msg.info("End of migration of VM " + this.getName() + " to node " + host.getName());
     }
 
-	public double getName() {
-		// TODO Auto-generated method stub
-		return 0;
+	public String getName() {
+		return super.getName();
 	}
 }

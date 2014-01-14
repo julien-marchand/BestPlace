@@ -61,7 +61,7 @@ public class NodeTests extends TestCase {
 
 		List<VirtualMachine> vms = new ArrayList<VirtualMachine>() {
 			{
-				add(new VirtualMachine("vm1", new VirtualMachineStates.Running(),	VirtualMachineTests.vmHardwareSpecification));
+				add(new VirtualMachine("vm1", new VirtualMachineStates.Running(), VirtualMachineTests.vmHardwareSpecification));
 				add(new VirtualMachine("vm2", new VirtualMachineStates.Running(), VirtualMachineTests.vmHardwareSpecification));
 			}
 		};
