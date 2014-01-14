@@ -7,6 +7,7 @@ import choco.kernel.solver.constraints.SConstraint;
 import entropy.plan.choco.ReconfigurationProblem;
 
 import gipad.vjob.VJob;
+import gipad.configuration.CostFunction;
 import gipad.plan.CustomizablePlannerModule;
 
 public class ChocoCustom3RP {
@@ -24,6 +25,20 @@ public class ChocoCustom3RP {
     
 	public ChocoCustom3RP() {
 		super();
+	}
+
+	public ChocoCustom3RP(CostFunction costFunc) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public void setRepairMode(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setTimeLimit(int entropyPlanTimeout) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

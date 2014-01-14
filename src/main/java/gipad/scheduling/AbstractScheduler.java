@@ -1,6 +1,6 @@
-package scheduling;
+package gipad.scheduling;
 
-import entropy.configuration.Configuration;
+import gipad.configuration.configuration.Configuration;
 import entropy.plan.TimedReconfigurationPlan;
 
 //An abstract scheduler
