@@ -19,16 +19,16 @@
 
 package gipad.vjob;
 
-import entropy.configuration.ManagedElement;
-import entropy.configuration.ManagedElementSet;
-import entropy.configuration.SimpleManagedElementSet;
+import gipad.configuration.ManagedElement;
+import gipad.configuration.ManagedElementSet;
+import gipad.configuration.SimpleManagedElementSet;
 
 /**
  * A set of elements specified individually.
  *
  * @author Fabien Hermenier
  */
-public class ExplodedList<T extends ManagedElement> extends SimpleManagedElementSet<T> implements VJobList<T> {
+public class ExplodedList<T> extends SimpleManagedElementSet<T> implements VJobList<T> {
 
     /**
      * The label of the set. Optionnal

@@ -23,13 +23,15 @@ import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 import gipad.configuration.ManagedElementList;
+import gipad.configuration.SimpleManagedElementList;
+import gipad.configuration.configuration.Configuration;
 import gnu.trove.TIntIntHashMap;
 import gnu.trove.TIntObjectHashMap;
 
 /**
  * Default implementation of Configuration.
  *
- * @author Fabien Hermenier
+ * @author Fabien Hermenier & pocman
  */
 public class SimpleConfiguration implements Configuration, Cloneable {
 
@@ -45,13 +47,13 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 
     private static final int OFFLINES = 2;
 
-    private ManagedElementSet<Node> allNodes;
+    private ManagedElementList<Node> allNodes;
 
-    private ManagedElementSet<VirtualMachine> allVMs;
+    private ManagedElementList<VirtualMachine> allVMs;
 
-    private ManagedElementSet<Node>[] nodesByState;
+    private ManagedElementList<Node>[] nodesByState;
 
-    private ManagedElementSet<VirtualMachine>[] vmsByState;
+    private ManagedElementList<VirtualMachine>[] vmsByState;
 
     private TIntIntHashMap vmState;
 
@@ -59,30 +61,31 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 
     private TIntObjectHashMap<Node> vmPlace;
 
-    private TIntObjectHashMap<ManagedElementSet<VirtualMachine>>[] hosted;
+    private TIntObjectHashMap<ManagedElementList<VirtualMachine>>[] hosted;
 
     /**
      * Build an empty configuration.
      */
-    public SimpleConfiguration() {
-        this.vmsByState = new ManagedElementSet[3];
+    @SuppressWarnings("unchecked")
+	public SimpleConfiguration() {
+        this.vmsByState = new ManagedElementList[3];
         this.vmState = new TIntIntHashMap();
         this.nodeState = new TIntIntHashMap();
 
-        nodesByState = new ManagedElementSet[2];
+        nodesByState = new ManagedElementList[2];
         for (int i = 0; i < nodesByState.length; i++) {
-            nodesByState[i] = new SimpleManagedElementSet<Node>();
+            nodesByState[i] = new SimpleManagedElementList<Node>();
         }
 
         for (int i = 0; i < vmsByState.length; i++) {
-            vmsByState[i] = new SimpleManagedElementSet<VirtualMachine>();
+            vmsByState[i] = new SimpleManagedElementList<VirtualMachine>();
         }
         this.hosted = new TIntObjectHashMap[2];
         for (int i = 0; i < hosted.length; i++) {
-            this.hosted[i] = new TIntObjectHashMap<ManagedElementSet<VirtualMachine>>();
+            this.hosted[i] = new TIntObjectHashMap<ManagedElementList<VirtualMachine>>();
         }
-        this.allNodes = new SimpleManagedElementSet<Node>();
-        this.allVMs = new SimpleManagedElementSet<VirtualMachine>();
+        this.allNodes = new SimpleManagedElementList<Node>();
+        this.allVMs = new SimpleManagedElementList<VirtualMachine>();
         this.vmPlace = new TIntObjectHashMap<Node>();
     }
 
@@ -187,8 +190,8 @@ public class SimpleConfiguration implements Configuration, Cloneable {
     @Override
     public void addOnline(Node n) {
         if (nodeState.get(n.hashCode()) != ONLINES) {
-            hosted[RUNNINGS + IDX_SHIFT].put(n.hashCode(), new SimpleManagedElementSet<VirtualMachine>());
-            hosted[SLEEPINGS + IDX_SHIFT].put(n.hashCode(), new SimpleManagedElementSet<VirtualMachine>());
+            hosted[RUNNINGS + IDX_SHIFT].put(n.hashCode(), new SimpleManagedElementList<VirtualMachine>());
+            hosted[SLEEPINGS + IDX_SHIFT].put(n.hashCode(), new SimpleManagedElementList<VirtualMachine>());
         }
         this.allNodes.add(n);
         switchState(n, ONLINES);
@@ -203,7 +206,7 @@ public class SimpleConfiguration implements Configuration, Cloneable {
      */
     private boolean isUsed(Node n) {
         for (int i = 0; i < hosted.length; i++) {
-            ManagedElementSet<VirtualMachine> s = hosted[i].get(n.hashCode());
+            ManagedElementList<VirtualMachine> s = hosted[i].get(n.hashCode());
             if (s != null && s.size() > 0) {
                 return true;
             }
@@ -216,51 +219,51 @@ public class SimpleConfiguration implements Configuration, Cloneable {
         if (isUsed(n)) {
             return false;
         }
-        hosted[RUNNINGS + IDX_SHIFT].put(n.hashCode(), new SimpleManagedElementSet<VirtualMachine>());
-        hosted[SLEEPINGS + IDX_SHIFT].put(n.hashCode(), new SimpleManagedElementSet<VirtualMachine>());
+        hosted[RUNNINGS + IDX_SHIFT].put(n.hashCode(), new SimpleManagedElementList<VirtualMachine>());
+        hosted[SLEEPINGS + IDX_SHIFT].put(n.hashCode(), new SimpleManagedElementList<VirtualMachine>());
         allNodes.add(n);
         return switchState(n, OFFLINES);
     }
 
     @Override
-    public ManagedElementSet<Node> getOnlines() {
+    public ManagedElementList<Node> getOnlines() {
         return nodesByState[ONLINES + IDX_SHIFT];
     }
 
     @Override
-    public ManagedElementSet<Node> getOfflines() {
+    public ManagedElementList<Node> getOfflines() {
         return nodesByState[OFFLINES + IDX_SHIFT];
     }
 
     @Override
-    public ManagedElementSet<VirtualMachine> getRunnings() {
+    public ManagedElementList<VirtualMachine> getRunnings() {
         return vmsByState[RUNNINGS + IDX_SHIFT];
     }
 
     @Override
-    public ManagedElementSet<VirtualMachine> getSleepings() {
+    public ManagedElementList<VirtualMachine> getSleepings() {
         return vmsByState[SLEEPINGS + IDX_SHIFT];
     }
 
     @Override
-    public ManagedElementSet<VirtualMachine> getWaitings() {
+    public ManagedElementList<VirtualMachine> getWaitings() {
         return vmsByState[WAITINGS + IDX_SHIFT];
     }
 
 
     @Override
-    public ManagedElementSet<VirtualMachine> getSleepings(Node n) {
+    public ManagedElementList<VirtualMachine> getSleepings(Node n) {
         return hosted[SLEEPINGS + IDX_SHIFT].get(n.hashCode());
     }
 
     @Override
-    public ManagedElementSet<VirtualMachine> getRunnings(Node n) {
+    public ManagedElementList<VirtualMachine> getRunnings(Node n) {
         return hosted[RUNNINGS + IDX_SHIFT].get(n.hashCode());
     }
 
     @Override
-    public ManagedElementSet<VirtualMachine> getRunnings(ManagedElementSet<Node> ns) {
-        ManagedElementSet<VirtualMachine> vms = new SimpleManagedElementSet<VirtualMachine>();
+    public ManagedElementList<VirtualMachine> getRunnings(ManagedElementList<Node> ns) {
+        ManagedElementList<VirtualMachine> vms = new SimpleManagedElementList<VirtualMachine>();
         for (Node n : ns) {
             vms.addAll(getRunnings(n));
         }
@@ -269,12 +272,12 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 
 
     @Override
-    public ManagedElementSet<VirtualMachine> getAllVirtualMachines() {
+    public ManagedElementList<VirtualMachine> getAllVirtualMachines() {
         return allVMs;
     }
 
     @Override
-    public ManagedElementSet<Node> getAllNodes() {
+    public ManagedElementList<Node> getAllNodes() {
         return allNodes;
     }
 
@@ -386,18 +389,18 @@ public class SimpleConfiguration implements Configuration, Cloneable {
         StringBuilder buf = new StringBuilder();
         for (Node n : allNodes) {
             if (nodeState.get(n.hashCode()) == OFFLINES) {
-                buf.append("(").append(n.getName()).append(")");
+                buf.append("(").append(n.name()).append(")");
             } else {
-                buf.append(n.getName());
+                buf.append(n.name());
             }
             buf.append(":");
             for (VirtualMachine vm : this.getRunnings(n)) {
                 buf.append(" ");
-                buf.append(vm.getName());
+                buf.append(vm.name());
             }
             for (VirtualMachine vm : this.getSleepings(n)) {
                 buf.append(" (");
-                buf.append(vm.getName());
+                buf.append(vm.name());
                 buf.append(")");
             }
             buf.append("\n");
@@ -405,132 +408,9 @@ public class SimpleConfiguration implements Configuration, Cloneable {
         buf.append("FARM");
         for (VirtualMachine vm : this.getWaitings()) {
             buf.append(" ");
-            buf.append(vm.getName());
+            buf.append(vm.name());
         }
         buf.append("\n");
         return buf.toString();
     }
-
-	@Override
-	public boolean setRunOn(VirtualMachine vm, Node node) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean setSleepOn(VirtualMachine vm, Node node) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void addWaiting(VirtualMachine vm) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void remove(VirtualMachine vm) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean remove(Node n) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void addOnline(Node node) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean addOffline(Node node) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public ManagedElementList<VirtualMachine> getSleepings(Node n) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ManagedElementList<VirtualMachine> getRunnings(Node n) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	@Deprecated
-	Node getSleepingLocation(VirtualMachine vm) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	@Deprecated
-	Node getRunningLocation(VirtualMachine vm) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Node getLocation(VirtualMachine vm) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isOnline(Node n) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isOffline(Node n) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isRunning(VirtualMachine vm) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isWaiting(VirtualMachine vm) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isSleeping(VirtualMachine vm) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public ManagedElementList<VirtualMachine> getRunnings(
-			ManagedElementList<Node> ns) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean contains(Node n) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean contains(VirtualMachine vm) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }
