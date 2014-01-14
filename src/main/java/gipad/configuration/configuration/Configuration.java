@@ -1,7 +1,7 @@
-package configuration.configuration;
+package gipad.configuration.configuration;
 
 //import entropy.configuration.Configuration;
-import configuration.ManagedElementList;
+import gipad.configuration.ManagedElementList;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
