@@ -70,8 +70,10 @@ public class VirtualMachineTests extends TestCase {
 	public void testVirtualMachineCreation() {
 
 		// These lines illustrate how to create a virtual machine
-		VirtualMachine vm = new VirtualMachine("vm1",
-				new VirtualMachineStates.Running(), vmHardwareSpecification);
+		VirtualMachine vm = new VirtualMachine("vm1", new VirtualMachineStates.Running(), vmHardwareSpecification);
+		System.out.println(vm.hardwareSpecification().memory());
+		System.out.println(vm.hardwareSpecification().cpus());
+		System.out.println(vm.hardwareSpecification().storageDevices());
 		assert (vm != null);
 	}
 }
