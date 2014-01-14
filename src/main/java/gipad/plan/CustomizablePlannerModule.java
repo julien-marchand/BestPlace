@@ -25,6 +25,10 @@ import entropy.configuration.Configuration;
 import entropy.configuration.ManagedElementSet;
 import entropy.configuration.Node;
 import entropy.configuration.VirtualMachine;
+import entropy.plan.PlanException;
+import entropy.plan.SolutionStatistics;
+import entropy.plan.SolvingStatistics;
+import entropy.plan.TimedReconfigurationPlan;
 import entropy.plan.durationEvaluator.DurationEvaluator;
 import entropy.vjob.VJob;
 
