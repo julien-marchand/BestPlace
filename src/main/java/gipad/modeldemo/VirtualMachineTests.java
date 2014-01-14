@@ -74,6 +74,9 @@ public class VirtualMachineTests extends TestCase {
 		System.out.println(vm.hardwareSpecification().memory());
 		System.out.println(vm.hardwareSpecification().cpus());
 		System.out.println(vm.hardwareSpecification().storageDevices());
+		System.out.println(Units.GIGA());
+		System.out.println(Units.BYTE());
+		System.out.println(Units.KILO());
 		assert (vm != null);
 	}
 }

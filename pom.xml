@@ -57,11 +57,12 @@
         </url>
     </scm>
     <dependencies>
-        <!--<dependency>
+        <dependency>
             <groupId>choco</groupId>
             <artifactId>choco-solver</artifactId>
             <version>3.1.0</version>
-        </dependency>-->
+        </dependency>
+        <!--
         <dependency>
             <groupId>choco</groupId>
             <artifactId>choco-solver</artifactId>
@@ -70,6 +71,7 @@
             <scope>compile</scope>
             <optional>false</optional>
         </dependency>
+        -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
