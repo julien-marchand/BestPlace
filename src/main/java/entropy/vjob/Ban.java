@@ -18,6 +18,7 @@
  */
 package entropy.vjob;
 
+import solver.Cause;
 import entropy.configuration.Configuration;
 import entropy.configuration.DefaultManagedElementSet;
 import entropy.configuration.ManagedElementSet;
@@ -153,7 +154,7 @@ public class Ban implements PlacementConstraint {
                     if (t != null) {
                         for (int x = 0; x < nodesIdx.length; x++) {
                             try {
-                                t.hoster().remVal(nodesIdx[x]);
+                                t.hoster().removeValue(nodesIdx[x],Cause.Null);
                             } catch (Exception e) {
                                 VJob.logger.error(e.getMessage(), e);
                             }
