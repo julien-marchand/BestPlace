@@ -12,16 +12,17 @@ import entropy.configuration.parser.FileConfigurationSerializerFactory;
 //import org.simgrid.msg.Msg;
 import scheduling.AbstractScheduler;
 import scheduling.EntropyProperties;
-import simulation.CentralizedResolver;
-import simulation.Main;
+//import simulation.CentralizedResolver;
+//import simulation.Main;
 
 
-import configuration.ConfigurationManager;
+//import configuration.ConfigurationManager;
 import configuration.SimulatorProperties;
 //import dvms.log.Logger;
 
 import entropy.PropertiesHelper;
 import entropy.configuration.Configuration;
+import entropy.configuration.DefaultConfiguration;
 import entropy.configuration.SimpleManagedElementSet;
 import entropy.configuration.VirtualMachine;
 import entropy.execution.Dependencies;
@@ -33,8 +34,9 @@ import entropy.plan.action.Action;
 import entropy.plan.action.Migration;
 import entropy.plan.choco.ChocoCustomRP;
 import entropy.plan.durationEvaluator.MockDurationEvaluator;
-import entropy.vjob.DefaultVJob;
+import entropy.vjob.BasicVJob;
 import entropy.vjob.VJob;
+import entropy.vjob.VJobSet;
 
 public class Entropy2RP extends AbstractScheduler {
 	
@@ -58,7 +60,7 @@ public class Entropy2RP extends AbstractScheduler {
             pw.write(initialConfiguration.toString());
             pw.flush();
             pw.close();*/
-            FileConfigurationSerializerFactory.getInstance().write(initialConfiguration, fileName);
+            FileConfigurationSerializerFactory.getInstance().write((DefaultConfiguration) initialConfiguration, fileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -71,7 +73,7 @@ public class Entropy2RP extends AbstractScheduler {
 		
 		// All VMs are encapsulated into the same vjob for the moment - Adrien, Nov 18 2011
 		List<VJob> vjobs = new ArrayList<VJob>();
-		VJob v = new DefaultVJob("v1");//Entropy2.1
+		VJob v = new BasicVJob("v1");//Entropy2.1
 //		VJob v = new BasicVJob("v1");//Entropy2.0
 		/*for(VirtualMachine vm : initialConfiguration.getRunnings()){
 			v.addVirtualMachine(vm);
@@ -81,7 +83,7 @@ public class Entropy2RP extends AbstractScheduler {
 			n.setPowerBase(100);
 			n.setPowerMax(200);
 		}*///Entropy2.0 Power
-		v.addVirtualMachines(initialConfiguration.getRunnings());//Entropy2.1
+		v.addVirtualMachines((VJobSet<VirtualMachine>) initialConfiguration.getRunnings());//Entropy2.1
 		vjobs.add(v);
 		try {
 			timeToComputeVMRP = System.currentTimeMillis();
@@ -242,20 +244,20 @@ public class Entropy2RP extends AbstractScheduler {
 			}
 
             // Wait for completion of all migrations
-            while(CentralizedResolver.ongoingMigration()){
+          //  while(CentralizedResolver.ongoingMigration()){
 //                try {
 //                    org.simgrid.msg.Process.currentProcess().waitFor(1);
 //                } catch (HostFailureException e) {
 //                    e.printStackTrace();
 //                }
-            }
+            //}
 		}
 		
             private void instantiateAndStart(Action a) throws InterruptedException{
                 if(a instanceof Migration){
                     Migration migration = (Migration)a;
-                    CentralizedResolver.incMig();
-                    ConfigurationManager.relocateVM(Main.getCurrentConfig(), migration.getVirtualMachine().getName(), migration.getDestination().getName());
+                    //CentralizedResolver.incMig();
+                    //ConfigurationManager.relocateVM(Main.getCurrentConfig(), migration.getVirtualMachine().getName(), migration.getDestination().getName());
                 } else{
 //                    Logger.log("UNRECOGNIZED ACTION WHEN APPLYING THE RECONFIGURATION PLAN");
 			}

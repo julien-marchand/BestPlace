@@ -59,8 +59,9 @@ public class MockDurationEvaluator implements DurationEvaluator {
      * @param su    the cost of a suspend
      * @param start the cost of a startup
      * @param shut  the cost of a shutdown
+     * @param i 
      */
-    public MockDurationEvaluator(int m, int st, int r, int lres, int rres, int su, int start, int shut) {
+    public MockDurationEvaluator(int m, int st, int r, int lres, int rres, int su, int start, int shut, int i) {
         costs = new int[8];
         costs[IDX_MIGRATE] = m;
         costs[IDX_STOP] = st;

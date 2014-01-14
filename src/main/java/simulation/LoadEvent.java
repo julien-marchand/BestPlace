@@ -1,6 +1,6 @@
 package simulation;
 
-import configuration.ConfigurationManager;
+//import configuration.ConfigurationManager;
 import configuration.XVM;
 //import org.simgrid.msg.Msg;
 
@@ -37,8 +37,8 @@ public class LoadEvent implements InjectorEvent {
     }
 
     public void play(){
-        Msg.info("Event " + getId() + ": VM " + getVm().getName() + "load becomes " + getCPULoad());
-        ConfigurationManager.updateVM(this.getVm(), this.getCPULoad());
+        //Msg.info("Event " + getId() + ": VM " + getVm().getName() + "load becomes " + getCPULoad());
+        //ConfigurationManager.updateVM(this.getVm(), this.getCPULoad());
     }
 
 }

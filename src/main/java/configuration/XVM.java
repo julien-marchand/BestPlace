@@ -23,11 +23,8 @@ public class XVM extends VMClasses{
         this. dpIntensity = dpIntensity ;
         this.ramsize= ramsize;
         this.daemon = new Daemon(this, 100);
-        try {
-            daemon.start();
-        } catch (HostNotFoundException e) {
-            e.printStackTrace();
-        }
+        daemon.start();
+
         this.setLoad(currentLoad);
 
     }
@@ -43,7 +40,12 @@ public class XVM extends VMClasses{
         currentLoad = load ;
     }
 
-    public Daemon getDaemon(){
+    private void setBound(int load) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Daemon getDaemon(){
         return this.daemon;
     }
     public int getLoad(){
@@ -59,4 +61,9 @@ public class XVM extends VMClasses{
                                         //The dummy cpu action is not bounded.
         //Msg.info("End of migration of VM " + this.getName() + " to node " + host.getName());
     }
+
+	public double getName() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

@@ -19,6 +19,13 @@ public class VMClasses{
     // Class variables
     ///////////////////////////////////////////////////////////////////////////
 	
+	public VMClasses(Host host, String name, int nbCores, int ramsize,
+			int netBW, String diskPath, int diskSize, int i, int dpIntensity) {
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 	private final static String CLASS_FILE = "config" + File.separator + "vm_classes.txt";
 	
 	/**
@@ -146,5 +153,11 @@ public class VMClasses{
 		public String toString(){
 			return name + ":" + nbOfCPUs + ":" + memSize;
 		}
+	}
+
+
+	public void migrate(Host host) {
+		// TODO Auto-generated method stub
+		
 	}
 }
