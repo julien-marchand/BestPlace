@@ -21,12 +21,11 @@ package gipad.plan;
 
 
 import java.util.Iterator;
-import java.util.Set;
 
 import gipad.configuration.configuration.Configuration;
 import gipad.configuration.*;
 import gipad.execution.*;
-import entropy.plan.action.Action;
+import gipad.plan.action.*;
 
 
 /**

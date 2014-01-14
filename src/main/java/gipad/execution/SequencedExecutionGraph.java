@@ -26,8 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.discovery.DiscoveryModel.model.Node;
-import entropy.plan.action.Action;
-
+import gipad.plan.action.*;
 /**
  * A graph to represent dependencies between the
  * actions to perform on a graph
