@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 import entropy.configuration.DefaultNode;
 
 /**
- * Unit tests for {@link ExplodedSet}
+ * Unit tests for {@link ExplodedList}
  *
  * @author Fabien Hermenier
  */

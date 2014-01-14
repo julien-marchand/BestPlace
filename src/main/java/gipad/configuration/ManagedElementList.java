@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author Fabien Hermenier
  */
-public interface ManagedElementList<E extends ManagedElement> extends List<E> {
+public interface ManagedElementList<E> extends List<E> {
 
     /**
      * Get the element associated with an identifier.
@@ -52,7 +52,7 @@ public interface ManagedElementList<E extends ManagedElement> extends List<E> {
      * @param e the element
      * @return {@code true} if the element is in the set. {@code false} otherwise
      */
-    boolean contains(E e);
+    boolean containsElement(E e);
 
     /**
      * Check whether all the elements are in the set or not.
@@ -98,7 +98,7 @@ public interface ManagedElementList<E extends ManagedElement> extends List<E> {
      * @param e the element to remove
      * @return {@code true} if the element is removed. {@code false} otherwise
      */
-    boolean remove(E e);
+    boolean removeElement(E e);
 
     /**
      * Remove all the element of the set.
