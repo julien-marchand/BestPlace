@@ -4,9 +4,7 @@ import gipad.configuration.*;
 
 import java.util.Collections;
 import java.util.Comparator;
-
-import org.discovery.DiscoveryModel.model.Node;
-
+import org.discovery.DiscoveryModel.model.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -59,7 +57,7 @@ public class XSimpleConfiguration extends SimpleConfiguration{
 	public Node getNodeByName(String name){
 		Node tmpNode=null;
 		for (Node n: this.getAllNodes()){
-			if (n.getName().equals(name)){
+			if (n.name().equals(name)){
 				tmpNode=n;
 				break ;
 			}
@@ -69,7 +67,7 @@ public class XSimpleConfiguration extends SimpleConfiguration{
 
     public VirtualMachine getVMByName(String name) {
         for(VirtualMachine vm: this.getAllVirtualMachines()){
-            if(vm.getName().equals(name))
+            if(vm.name().equals(name))
                 return vm;
         }
         return null;
