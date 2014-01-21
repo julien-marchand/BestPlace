@@ -25,6 +25,7 @@ import java.util.Set;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
+import solver.Solver;
 import solver.variables.IntVar;
 import solver.variables.SetVar;
 import entropy.configuration.Configuration;
@@ -329,6 +330,8 @@ public interface ReconfigurationProblem {
      */
     SetVar getSetModel(Node n);
 
+    Solver getSolver();
+    
     SatisfyDemandingSliceHeights getSatisfyDSlicesHeightConstraint();
 
     /**
