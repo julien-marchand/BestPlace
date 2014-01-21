@@ -24,12 +24,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import choco.Choco;
-import choco.kernel.solver.constraints.SConstraint;
-import choco.kernel.solver.constraints.integer.IntExp;
-import choco.kernel.solver.search.ISolutionPool;
-import choco.kernel.solver.search.SolutionPoolFactory;
-import choco.kernel.solver.variables.integer.IntDomainVar;
 import entropy.configuration.Configuration;
 import entropy.configuration.Configurations;
 import entropy.configuration.ManagedElementSet;

@@ -18,8 +18,7 @@
  */
 package entropy.plan.choco.actionModel;
 
-import choco.cp.solver.constraints.reified.ReifiedFactory;
-import choco.kernel.solver.variables.integer.IntDomainVar;
+import solver.variables.IntVar;
 import entropy.configuration.Configuration;
 import entropy.configuration.VirtualMachine;
 import entropy.plan.action.Resume;
@@ -39,7 +38,7 @@ public class ResumeActionModel extends VirtualMachineActionModel {
     /**
      * The moment the action ends.
      */
-    private IntDomainVar finish;
+    private IntVar finish;
 
     /**
      * Make a new resume action model.
@@ -69,7 +68,7 @@ public class ResumeActionModel extends VirtualMachineActionModel {
 
         int curLocation = model.getNode(model.getSourceConfiguration().getLocation(getVirtualMachine()));
 
-        IntDomainVar stay = model.createBooleanVar("rt(" + getVirtualMachine().getName() + ")");
+        IntVar stay = model.createBooleanVar("rt(" + getVirtualMachine().getName() + ")");
         model.post(ReifiedFactory.builder(stay, model.eq(curLocation, dSlice.hoster()), model));
         model.post(model.ifOnlyIf(stay, model.eq(duration, localValue)));
         model.post(model.leq(finish, model.getEnd()));
@@ -85,7 +84,7 @@ public class ResumeActionModel extends VirtualMachineActionModel {
      * @return the moment the action ends
      */
     @Override
-    public final IntDomainVar end() {
+    public final IntVar end() {
         return finish;
     }
 
@@ -95,7 +94,7 @@ public class ResumeActionModel extends VirtualMachineActionModel {
      * @return the moment the demanding slice starts.
      */
     @Override
-    public final IntDomainVar start() {
+    public final IntVar start() {
         return dSlice.start();
     }
 

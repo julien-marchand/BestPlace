@@ -19,12 +19,7 @@
 
 package entropy.plan.choco;
 
-import choco.cp.solver.search.integer.branching.AssignVar;
-import choco.cp.solver.search.integer.valselector.MinVal;
-import choco.cp.solver.search.integer.varselector.StaticVarOrder;
-import choco.cp.solver.search.set.StaticSetVarOrder;
-import choco.kernel.solver.variables.integer.IntDomainVar;
-import choco.kernel.solver.variables.set.SetVar;
+import solver.variables.SetVar;
 
 /**
  * A dummy placement heuristic.

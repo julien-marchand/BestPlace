@@ -22,11 +22,7 @@ package entropy.plan.choco;
 import java.util.List;
 import java.util.Set;
 
-import choco.Choco;
-import choco.kernel.solver.Solver;
-import choco.kernel.solver.constraints.SConstraint;
-import choco.kernel.solver.variables.integer.IntDomainVar;
-import choco.kernel.solver.variables.set.SetVar;
+import solver.variables.SetVar;
 import entropy.configuration.Configuration;
 import entropy.configuration.ManagedElementSet;
 import entropy.configuration.Node;

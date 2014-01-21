@@ -18,7 +18,7 @@
  */
 package entropy.plan.choco.actionModel;
 
-import choco.kernel.solver.variables.integer.IntDomainVar;
+import solver.variables.IntVar;
 import entropy.configuration.Configuration;
 import entropy.configuration.Node;
 import entropy.plan.action.Startup;
@@ -61,7 +61,7 @@ public class BootNodeActionModel extends NodeActionModel {
      * @return <code>getConsumingSlice().start()</code>
      */
     @Override
-    public IntDomainVar start() {
+    public IntVar start() {
         return cSlice.start();
     }
 
@@ -71,7 +71,7 @@ public class BootNodeActionModel extends NodeActionModel {
      * @return <code>getConsumingSlice().end()</code>
      */
     @Override
-    public IntDomainVar end() {
+    public IntVar end() {
         return cSlice.end();
     }
 

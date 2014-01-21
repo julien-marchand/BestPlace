@@ -18,12 +18,9 @@
  */
 package entropy.plan.choco.actionModel;
 
-import choco.cp.solver.constraints.integer.TimesXYZ;
 import choco.cp.solver.constraints.reified.FastIFFEq;
 import choco.cp.solver.constraints.reified.FastImpliesEq;
-import choco.cp.solver.constraints.reified.ReifiedFactory;
 import choco.cp.solver.variables.integer.BoolVarNot;
-import choco.kernel.solver.variables.integer.IntDomainVar;
 import entropy.configuration.Configuration;
 import entropy.configuration.VirtualMachine;
 import entropy.plan.action.Migration;
@@ -47,7 +44,7 @@ public class MigratableActionModel extends VirtualMachineActionModel {
     /**
      * The global cost of the action.
      */
-    private IntDomainVar cost;
+    private IntVar cost;
 
     /**
      * Make a new action.
@@ -204,7 +201,7 @@ public class MigratableActionModel extends VirtualMachineActionModel {
      * @return <code>getConsumingSlice().end()</code>
      */
     @Override
-    public final IntDomainVar end() {
+    public final IntVar end() {
         return this.getConsumingSlice().end();
     }
 
@@ -215,7 +212,7 @@ public class MigratableActionModel extends VirtualMachineActionModel {
      * @return <code>getDemandingSlice().start()</code>
      */
     @Override
-    public final IntDomainVar start() {
+    public final IntVar start() {
         return this.getDemandingSlice().start();
     }
 
@@ -250,7 +247,7 @@ public class MigratableActionModel extends VirtualMachineActionModel {
     }
 
     @Override
-    public IntDomainVar getGlobalCost() {
+    public IntVar getGlobalCost() {
         return this.cost;
     }
 }
