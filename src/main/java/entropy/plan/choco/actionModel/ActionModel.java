@@ -18,6 +18,7 @@
  */
 package entropy.plan.choco.actionModel;
 
+import solver.variables.IntVar;
 import entropy.configuration.Configuration;
 import entropy.plan.action.Action;
 import entropy.plan.choco.ReconfigurationProblem;
@@ -34,7 +35,7 @@ public abstract class ActionModel {
     /**
      * The duration of the action.
      */
-    protected IntDomainVar duration;
+    protected IntVar duration;
 
     protected ConsumingSlice cSlice = null;
 
@@ -46,14 +47,14 @@ public abstract class ActionModel {
      *
      * @return the moment the action starts
      */
-    public abstract IntDomainVar start();
+    public abstract IntVar start();
 
     /**
      * Get the end moment of the action.
      *
      * @return the moment the action ends
      */
-    public abstract IntDomainVar end();
+    public abstract IntVar end();
 
     /**
      * Get the action for the plan defined during the solving process.
@@ -77,7 +78,7 @@ public abstract class ActionModel {
      *
      * @return the moment the action ends.
      */
-    public IntDomainVar getGlobalCost() {
+    public IntVar getGlobalCost() {
         return end();
     }
 
@@ -86,7 +87,7 @@ public abstract class ActionModel {
      *
      * @return a variable
      */
-    public IntDomainVar getDuration() {
+    public IntVar getDuration() {
         return duration;
     }
 

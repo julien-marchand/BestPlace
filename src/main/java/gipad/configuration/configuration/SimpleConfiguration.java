@@ -19,14 +19,14 @@
 
 package gipad.configuration.configuration;
 
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
 import gipad.configuration.ManagedElementList;
 import gipad.configuration.SimpleManagedElementList;
-import gipad.configuration.configuration.Configuration;
+import gipad.placementconstraint.PlacementConstraint;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
+
+import org.discovery.DiscoveryModel.model.Node;
+import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 
 /**
@@ -64,6 +64,7 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 
     private TIntObjectHashMap<ManagedElementList<VirtualMachine>>[] hosted;
 
+    private ManagedElementList<PlacementConstraint> placeConstList;
     /**
      * Build an empty configuration.
      */
@@ -198,6 +199,13 @@ public class SimpleConfiguration implements Configuration, Cloneable {
         switchState(n, ONLINES);
 
     }
+
+	@Override
+	public void addOnline(ManagedElementList<Node> nodes) {
+		for(Node node:nodes){
+			 addOnline(node);
+		}
+	}
 
     /**
      * Check whether a node is hosting a virtual machine or not.
@@ -414,4 +422,9 @@ public class SimpleConfiguration implements Configuration, Cloneable {
         buf.append("\n");
         return buf.toString();
     }
+
+	@Override
+	public ManagedElementList<PlacementConstraint> getPlacementConstraints() {
+		return placeConstList;
+	}
 }

@@ -1,6 +1,6 @@
 package gipad.plan;
 
-import entropy.plan.PlanException;
+import gipad.plan.PlanException;
 import gipad.configuration.ManagedElementList;
 import gipad.configuration.configuration.Configuration;
 import gipad.vjob.VJob;
@@ -16,6 +16,7 @@ public interface Plan {
      * @param q the vjobs
      * @return a plan if it exists.
      * @throws PlanException if an error occurred while planing the action to reach the state of the nodes and the virtual machines
+	 * @throws gipad.plan.PlanException 
      */
 	public SequencedReconfigurationPlan compute(Configuration src, 
 			ManagedElementList<VirtualMachine> q) throws PlanException;

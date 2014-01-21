@@ -1,6 +1,8 @@
 package gipad.configuration.configuration;
 
 import gipad.configuration.ManagedElementList;
+import gipad.placementconstraint.PlacementConstraint;
+
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
@@ -67,6 +69,8 @@ public interface Configuration {
      * @param node the node to add
      */
     void addOnline(Node node);
+
+	void addOnline(ManagedElementList<Node> nodes);
 
     /**
      * Set a node offline. If the node is already in the configuration but in an another state, it is updated.
@@ -167,6 +171,8 @@ public interface Configuration {
      */
     Node getLocation(VirtualMachine vm);
 
+    ManagedElementList<PlacementConstraint> getPlacementConstraints();
+    
     /**
      * Test if a node is online.
      *

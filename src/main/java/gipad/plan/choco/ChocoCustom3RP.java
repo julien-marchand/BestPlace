@@ -8,12 +8,6 @@ import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 import solver.constraints.Constraint;
 
-import entropy.configuration.Configurations;
-import entropy.configuration.ManagedElementSet;
-import entropy.configuration.SimpleManagedElementSet;
-import entropy.plan.SolutionStatistics;
-import entropy.plan.SolvingStatistics;
-import entropy.plan.choco.ReconfigurationProblem;
 import gipad.placementconstraint.*;
 import gipad.configuration.CostFunction;
 import gipad.configuration.ManagedElementList;
@@ -140,6 +134,9 @@ public class ChocoCustom3RP implements Plan{
 	        } else {
 	            vms = src.getAllVirtualMachines();
 	        }
+	        
+	        model = new DefaultReconfigurationProblem(src, vms, this.costFunc);
+	        
 	        
 		return null;
 	}

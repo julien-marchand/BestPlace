@@ -20,10 +20,12 @@
 package gipad.placementconstraint;
 
 import entropy.configuration.Configuration;
+import entropy.configuration.DefaultManagedElementSet;
+import entropy.configuration.ManagedElementSet;
+import entropy.configuration.Node;
 import entropy.configuration.VirtualMachine;
 import entropy.plan.choco.ReconfigurationProblem;
-import gipad.configuration.ManagedElementList;
-
+import entropy.plan.choco.actionModel.slice.Slice;
 
 /**
  * A constraint to assign a set of virtual machines to a single node.
@@ -35,14 +37,14 @@ public class Gather implements PlacementConstraint {
     /**
      * The involved VMs.
      */
-    private ManagedElementList<VirtualMachine> vms;
+    private VJobSet<VirtualMachine> vms;
 
     /**
      * Make a new constraint.
      *
      * @param vms A non-empty set of virtual machines
      */
-    public Gather(ManagedElementList<VirtualMachine> vms) {
+    public Gather(VJobSet<VirtualMachine> vms) {
         this.vms = vms;
     }
 
@@ -52,7 +54,16 @@ public class Gather implements PlacementConstraint {
      * @return a set of VMs. Should not be empty
      */
     @Override
-    public ManagedElementList<VirtualMachine> getAllVirtualMachines() {
+    public ExplodedSet<VirtualMachine> getAllVirtualMachines() {
+        return this.vms.flatten();
+    }
+
+    /**
+     * Get the set of virtual machines involved in the constraint.
+     *
+     * @return a set of VMs, should not be empty
+     */
+    public VJobSet<VirtualMachine> getVirtualMachines() {
         return this.vms;
     }
 
@@ -141,23 +152,5 @@ public class Gather implements PlacementConstraint {
 
         }
         return new ExplodedSet<VirtualMachine>();
-    }
-
-    @Override
-    public void inject(ReconfigurationProblem core) {
-	// TODO Auto-generated method stub
-	
-    }
-
-    @Override
-    public boolean isSatisfied(Configuration cfg) {
-	// TODO Auto-generated method stub
-	return false;
-    }
-
-    @Override
-    public ManagedElementList<VirtualMachine> getMisPlaced(Configuration cfg) {
-	// TODO Auto-generated method stub
-	return null;
     }
 }

@@ -110,8 +110,9 @@ public class PlacementOptimizer extends AbstractScheduler {
 	}
 	
 	Configuration extractConfiguration(Collection<XHost> xhosts){
-
-        ArrayList<Node> nodes=new ArrayList<Node>();
+		Configuration extractedConf = new SimpleConfiguration();
+		
+        ManagedElementList<Node> nodes = new SimpleManagedElementList<Node>();
         Node  node = null;
 
         // Add nodes
@@ -130,7 +131,6 @@ public class PlacementOptimizer extends AbstractScheduler {
 
                     new Memory(tmpH.getMemSize() * Units.MEGA())
             );
-
 
             ArrayList<NetworkInterface> nets = new ArrayList<NetworkInterface>();
             nets.add(new NetworkInterface("eth0", tmpH.getNetBW() * Units.MEGA()));
@@ -164,9 +164,10 @@ public class PlacementOptimizer extends AbstractScheduler {
             }
             nodes.add(node);
         }
-
+//        extractedConf.addOnline(nodes);
+        extractedConf.addOnline(nodes);
         //return nodes;
-        return new XSimpleConfiguration();
+        return extractedConf;
     }
 
 }

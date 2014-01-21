@@ -18,9 +18,8 @@
  */
 package entropy.plan.choco.actionModel;
 
-import choco.cp.solver.variables.integer.IntDomainVarAddCste;
-import choco.kernel.solver.ContradictionException;
-import choco.kernel.solver.variables.integer.IntDomainVar;
+import solver.exception.ContradictionException;
+import solver.variables.IntVar;
 import entropy.configuration.Configuration;
 import entropy.configuration.VirtualMachine;
 import entropy.plan.Plan;
@@ -42,7 +41,7 @@ public class RunActionModel extends VirtualMachineActionModel {
     /**
      * The moment the action ends.
      */
-    private IntDomainVar finish;
+    private IntVar finish;
 
     /**
      * Make a new run action.
@@ -96,7 +95,7 @@ public class RunActionModel extends VirtualMachineActionModel {
     }
 
     @Override
-    public final IntDomainVar start() {
+    public final IntVar start() {
         return dSlice.start();
     }
 
@@ -107,7 +106,7 @@ public class RunActionModel extends VirtualMachineActionModel {
      * @return a moment between the beginning and the end of the slice
      */
     @Override
-    public final IntDomainVar end() {
+    public final IntVar end() {
         return finish;//dSlice.end();
     }
 
@@ -123,7 +122,7 @@ public class RunActionModel extends VirtualMachineActionModel {
     }
 
     @Override
-    public IntDomainVar getGlobalCost() {
+    public IntVar getGlobalCost() {
         return finish;//dSlice.end();
     }
 }

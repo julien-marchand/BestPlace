@@ -65,6 +65,8 @@ import entropy.plan.choco.constraint.pack.SatisfyDemandingSlicesHeightsFastBP;
 import entropy.plan.choco.constraint.sliceScheduling.SlicesPlanner;
 import entropy.plan.durationEvaluator.DurationEvaluationException;
 import entropy.plan.durationEvaluator.DurationEvaluator;
+import gipad.configuration.CostFunction;
+import gipad.configuration.ManagedElementList;
 
 /**
  * A CSP to model a reconfiguration plan composed of time bounded actions.
@@ -327,7 +329,14 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
         new SlicesPlanner().add(this);
     }
 
-    /**
+    public DefaultReconfigurationProblem(
+			gipad.configuration.configuration.Configuration src,
+			ManagedElementList<org.discovery.DiscoveryModel.model.VirtualMachine> vms2,
+			CostFunction costFunc) {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
      * Make a set model. On set per node, that indicates the VMs it will run
      */
     private void makeSetModel() {
