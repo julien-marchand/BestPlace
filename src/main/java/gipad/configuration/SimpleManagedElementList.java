@@ -20,6 +20,8 @@
 package gipad.configuration;
 
 
+import entropy.configuration.ManagedElementSet;
+import entropy.configuration.Node;
 import gnu.trove.map.hash.TIntObjectHashMap;
 
 import java.util.ArrayList;
@@ -37,7 +39,11 @@ import java.util.Iterator;
  */
 public class SimpleManagedElementList<E> extends ArrayList<E> implements ManagedElementList<E>, Cloneable {
 
-    private TIntObjectHashMap<E> map;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private TIntObjectHashMap<E> map;
 
     /**
      * Make a singleton.
@@ -215,4 +221,10 @@ public class SimpleManagedElementList<E> extends ArrayList<E> implements Managed
 	// TODO Auto-generated method stub
 	return null;
     }
+
+	@Override
+	public ManagedElementSet<Node> flatten() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

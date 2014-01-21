@@ -4,7 +4,7 @@ package gipad.configuration;
 
 import org.simgrid.msg.*;
 import org.simgrid.msg.Process;
-import simulation.SimulatorManager;
+import gipad.configuration.SimulatorManager;
 
 public class Daemon extends Process {
 	private Task currentTask;

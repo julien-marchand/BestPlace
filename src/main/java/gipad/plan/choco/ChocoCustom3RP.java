@@ -8,11 +8,16 @@ import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 import solver.constraints.Constraint;
 
+import entropy.configuration.Configurations;
+import entropy.configuration.ManagedElementSet;
+import entropy.configuration.SimpleManagedElementSet;
 import entropy.plan.SolutionStatistics;
 import entropy.plan.SolvingStatistics;
 import entropy.plan.choco.ReconfigurationProblem;
+import gipad.placementconstraint.*;
 import gipad.configuration.CostFunction;
 import gipad.configuration.ManagedElementList;
+import gipad.configuration.SimpleManagedElementList;
 import gipad.configuration.configuration.Configuration;
 import gipad.plan.*;
 import gipad.vjob.VJob;
@@ -20,8 +25,6 @@ import gipad.vjob.VJob;
 
 
 public class ChocoCustom3RP implements Plan{
-	
-//	private Constraint[] costConstraints;
 	
 	private CostFunction costFunc;
 
@@ -40,7 +43,7 @@ public class ChocoCustom3RP implements Plan{
      */
     private int timeout;
 
-    private List<VJob> queue;
+    private ManagedElementList<VirtualMachine> queue;
     
     ///////////Constructeur//////////////
     
@@ -114,7 +117,30 @@ public class ChocoCustom3RP implements Plan{
 
 	
 	public SequencedReconfigurationPlan compute(Configuration src, ManagedElementList<VirtualMachine> q) throws PlanException {
-		// TODO Auto-generated method stub
+
+		 	queue = q;
+
+	        model = null;
+
+	        ManagedElementList<VirtualMachine> vms = null;
+	        if (repair) {
+	            //Look for the VMs to consider
+	        	//We don't have any placement constraint for the moment
+	            vms = new SimpleManagedElementList<VirtualMachine>();
+	            for (VirtualMachine v : queue) {
+	                for (PlacementConstraint c : src.getPlacementConstraints()) {
+	                    if (!c.isSatisfied(src)) {
+	                        vms.addAll(c.getMisPlaced(src));
+	                    }
+	                }
+	            }
+	            //Hardcore way for the packing. TODO: externalize
+	            //System.err.println("pack issue:" + src.getRunnings(src.getUnacceptableNodes()));
+	            vms.addAll(src.getRunnings(Configurations.futureOverloadedNodes(src)));
+	        } else {
+	            vms = src.getAllVirtualMachines();
+	        }
+	        
 		return null;
 	}
 

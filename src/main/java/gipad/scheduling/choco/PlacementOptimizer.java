@@ -14,6 +14,8 @@ import gipad.configuration.configuration.*;
 import gipad.execution.SequencedExecutionGraph;
 import gipad.plan.choco.*;
 import gipad.scheduling.AbstractScheduler;
+import gipad.vjob.SimpleVJob;
+import gipad.vjob.VJob;
 import gipad.plan.*;
 
 /**Scheduling module
@@ -39,6 +41,7 @@ public class PlacementOptimizer extends AbstractScheduler {
 		ComputingState res = ComputingState.SUCCESS;
 
 		ManagedElementList<VirtualMachine> queue = initialConfiguration.getRunnings();
+		
 		timeToComputeVMRP = System.currentTimeMillis();
 
 		try {
@@ -157,7 +160,7 @@ public class PlacementOptimizer extends AbstractScheduler {
                 // TODO 2./ Jonathan should encaspulates networkSpecification into HardwareSpecification (net should appear at
                 // the same level than CPU/mem/...
                 node.addVm(new VirtualMachine(tmpVM.getName(),  new VirtualMachineStates.Running(), vmHardwareSpecification));
-
+                
             }
             nodes.add(node);
         }

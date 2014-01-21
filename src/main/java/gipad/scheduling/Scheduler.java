@@ -1,6 +1,6 @@
 package gipad.scheduling;
 
-import configuration.XHost;
+import gipad.configuration.XHost;
 
 import java.util.Collection;
 
