@@ -28,45 +28,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import entropy.configuration.Configuration;
-import entropy.configuration.Configurations;
-import entropy.configuration.ManagedElementSet;
-import entropy.configuration.Node;
-import entropy.configuration.SimpleManagedElementSet;
-import entropy.configuration.VirtualMachine;
-import entropy.plan.DefaultTimedReconfigurationPlan;
-import entropy.plan.MultipleResultingStateException;
-import entropy.plan.NoAvailableTransitionException;
-import entropy.plan.NonViableSourceConfigurationException;
-import entropy.plan.Plan;
-import entropy.plan.PlanException;
-import entropy.plan.SolutionStatistics;
-import entropy.plan.SolvingStatistics;
-import entropy.plan.TimedReconfigurationPlan;
-import entropy.plan.UnknownResultingStateException;
-import entropy.plan.action.Action;
-import entropy.plan.choco.actionModel.ActionModels;
-import entropy.plan.choco.actionModel.BootNodeActionModel;
-import entropy.plan.choco.actionModel.MigratableActionModel;
-import entropy.plan.choco.actionModel.NodeActionModel;
-import entropy.plan.choco.actionModel.ResumeActionModel;
-import entropy.plan.choco.actionModel.RunActionModel;
-import entropy.plan.choco.actionModel.ShutdownNodeActionModel;
-import entropy.plan.choco.actionModel.StayOfflineNodeActionModel;
-import entropy.plan.choco.actionModel.StopActionModel;
-import entropy.plan.choco.actionModel.SuspendActionModel;
-import entropy.plan.choco.actionModel.VirtualMachineActionModel;
-import entropy.plan.choco.actionModel.slice.ConsumingSlice;
-import entropy.plan.choco.actionModel.slice.DemandingSlice;
-import entropy.plan.choco.actionModel.slice.Slice;
-import entropy.plan.choco.actionModel.slice.Slices;
-import entropy.plan.choco.constraint.pack.SatisfyDemandingSliceHeights;
-import entropy.plan.choco.constraint.pack.SatisfyDemandingSlicesHeightsFastBP;
-import entropy.plan.choco.constraint.sliceScheduling.SlicesPlanner;
-import entropy.plan.durationEvaluator.DurationEvaluationException;
-import entropy.plan.durationEvaluator.DurationEvaluator;
-import gipad.configuration.CostFunction;
-import gipad.configuration.ManagedElementList;
+
+import gipad.configuration.*;
+import gipad.configuration.configuration.*;
+import gipad.plan.*;
+import gnu.trove.map.hash.TIntIntHashMap;
+
+import org.discovery.DiscoveryModel.model.Node;
+import org.discovery.DiscoveryModel.model.VirtualMachine;
+
+import solver.Solver;
 
 /**
  * A CSP to model a reconfiguration plan composed of time bounded actions.
@@ -76,9 +47,9 @@ import gipad.configuration.ManagedElementList;
  *
  * @author Fabien Hermenier
  */
-public final class DefaultReconfigurationProblem extends CPSolver implements ReconfigurationProblem {
+public final class DefaultReconfigurationProblem implements ReconfigurationProblem {
 
-    private ManagedElementSet<VirtualMachine> manageable;
+    private ManagedElementList<VirtualMachine> manageable;
 
     /**
      * The maximum number of group of nodes.
@@ -113,32 +84,32 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
     /**
      * The future running VMs.
      */
-    private ManagedElementSet<VirtualMachine> runnings;
+    private ManagedElementList<VirtualMachine> runnings;
 
     /**
      * The future waiting VMs.
      */
-    private ManagedElementSet<VirtualMachine> waitings;
+    private ManagedElementList<VirtualMachine> waitings;
 
     /**
      * The future sleeping VMs.
      */
-    private ManagedElementSet<VirtualMachine> sleepings;
+    private ManagedElementList<VirtualMachine> sleepings;
 
     /**
      * The future terminated VMs.
      */
-    private ManagedElementSet<VirtualMachine> terminated;
+    private ManagedElementList<VirtualMachine> terminated;
 
     /**
      * The future online nodes.
      */
-    private ManagedElementSet<Node> onlines;
+    private ManagedElementList<Node> onlines;
 
     /**
      * The future offline nodes.
      */
-    private ManagedElementSet<Node> offlines;
+    private ManagedElementList<Node> offlines;
 
     /**
      * All the nodes managed by the model.
@@ -171,9 +142,9 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
 
     private TIntIntHashMap revVMs;
     /**
-     * The duration evaluator.
+     * The Cost Function
      */
-    private DurationEvaluator durationEval;
+    private CostFunction costFunc;
 
     /**
      * The group variable associated to each virtual machine.
@@ -183,12 +154,12 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
     /**
      * The group variable associated to each group of VMs.
      */
-    private Map<ManagedElementSet<VirtualMachine>, IntDomainVar> vmsGrp;
+    private Map<ManagedElementList<VirtualMachine>, IntDomainVar> vmsGrp;
 
     /**
      * The value associated to each group of nodes.
      */
-    private Map<ManagedElementSet<Node>, Integer> nodesGrp;
+    private Map<ManagedElementList<Node>, Integer> nodesGrp;
 
     /**
      * The groups associated to each node.
@@ -198,7 +169,7 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
     /**
      * The group of nodes associated to each identifier. To synchronize with nodesGrp.
      */
-    private List<ManagedElementSet<Node>> revNodesGrp;
+    private List<ManagedElementList<Node>> revNodesGrp;
 
     /**
      * The next value to use when creating a nodeGrp.
@@ -220,31 +191,7 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
 
     private int[] grpId; //The group ID of each node
 
-    /**
-     * Build a reconfiguration problem. All the VMs are candidate
-     * for management
-     *
-     * @param src   the source configuration
-     * @param run   the virtual machines to run
-     * @param wait  the virtual machines that will stay waiting
-     * @param sleep the virtual machines to turn into the sleeping state
-     * @param stop  the virtual machines to stop
-     * @param on    the nodes to turn on
-     * @param off   the nodes to turn off
-     * @param eval  the duration evaluator
-     * @throws PlanException if an error occurs
-     */
-    public DefaultReconfigurationProblem(Configuration src,
-                                         ManagedElementSet<VirtualMachine> run,
-                                         ManagedElementSet<VirtualMachine> wait,
-                                         ManagedElementSet<VirtualMachine> sleep,
-                                         ManagedElementSet<VirtualMachine> stop,
-                                         ManagedElementSet<Node> on,
-                                         ManagedElementSet<Node> off,
-                                         DurationEvaluator eval) throws PlanException {
-        this(src, run, wait, sleep, stop, src.getAllVirtualMachines(), on, off, eval);
 
-    }
 
     /**
      * Make a new model.
@@ -261,14 +208,14 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
      * @throws entropy.plan.PlanException if an error occurred while building the model
      */
     public DefaultReconfigurationProblem(Configuration src,
-                                         ManagedElementSet<VirtualMachine> run,
-                                         ManagedElementSet<VirtualMachine> wait,
-                                         ManagedElementSet<VirtualMachine> sleep,
-                                         ManagedElementSet<VirtualMachine> stop,
-                                         ManagedElementSet<VirtualMachine> manageable,
-                                         ManagedElementSet<Node> on,
-                                         ManagedElementSet<Node> off,
-                                         DurationEvaluator eval) throws PlanException {
+                                         ManagedElementList<VirtualMachine> run,
+                                         ManagedElementList<VirtualMachine> wait,
+                                         ManagedElementList<VirtualMachine> sleep,
+                                         ManagedElementList<VirtualMachine> stop,
+                                         ManagedElementList<VirtualMachine> manageable,
+                                         ManagedElementList<Node> on,
+                                         ManagedElementList<Node> off,
+                                         CostFunction costFunc) throws PlanException {
         this.source = src;
         this.manageable = manageable;
         runnings = run;
@@ -277,7 +224,7 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
         terminated = stop;
         onlines = on;
         offlines = off;
-        this.durationEval = eval;
+        this.costFunc = costFunc;
 
         this.checkDisjointSet();
         if (Configurations.currentlyOverloadedNodes(this.source).size() > 0) {
@@ -293,7 +240,7 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
         for (int i = 0; i < vms.length; i++) {
             revVMs.put(vms[i].hashCode(), i);
         }
-        ManagedElementSet<Node> ns = source.getAllNodes();
+        ManagedElementList<Node> ns = source.getAllNodes();
         this.nodes = ns.toArray(new Node[ns.size()]);
         this.grpId = new int[ns.size()];
         this.revNodes = new TIntIntHashMap(ns.size());
@@ -311,13 +258,13 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
         for (int i = 0; i < vms.length; i++) {
             this.vmGrp.add(i, null);
         }
-        this.vmsGrp = new HashMap<ManagedElementSet<VirtualMachine>, IntDomainVar>();
+        this.vmsGrp = new HashMap<ManagedElementList<VirtualMachine>, IntDomainVar>();
         this.nodeGrps = new ArrayList<List<Integer>>(this.nodes.length);
         for (int i = 0; i < this.nodes.length; i++) {
             this.nodeGrps.add(i, new LinkedList<Integer>());
         }
-        this.nodesGrp = new HashMap<ManagedElementSet<Node>, Integer>();
-        this.revNodesGrp = new ArrayList<ManagedElementSet<Node>>(MAX_NB_GRP);
+        this.nodesGrp = new HashMap<ManagedElementList<Node>, Integer>();
+        this.revNodesGrp = new ArrayList<ManagedElementList<Node>>(MAX_NB_GRP);
 
         packing = new SatisfyDemandingSlicesHeightsFastBP();//new SatisfyDemandingSlicesHeightsSimpleBP();
         packing.add(this);
@@ -330,10 +277,24 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
     }
 
     public DefaultReconfigurationProblem(
-			gipad.configuration.configuration.Configuration src,
-			ManagedElementList<org.discovery.DiscoveryModel.model.VirtualMachine> vms2,
-			CostFunction costFunc) {
-		// TODO Auto-generated constructor stub
+			Configuration src,
+			ManagedElementList<VirtualMachine> vms,
+			CostFunction costFunc) throws PlanException  {
+
+    	 this.source = src;
+         this.manageable = vms;
+         runnings = src.getRunnings();
+         waitings = src.getWaitings();
+         sleepings = src.getSleepings();
+         terminated = new SimpleManagedElementList<VirtualMachine>();
+         onlines = src.getOnlines();
+         offlines = src.getOfflines();
+         this.costFunc = costFunc;
+         
+         this.checkDisjointSet();
+         if (Configurations.currentlyOverloadedNodes(this.source).size() > 0) {
+             throw new NonViableSourceConfigurationException(source, Configurations.currentlyOverloadedNodes(source).get(0));
+         }
 	}
 
 	/**
@@ -370,7 +331,7 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
         this.cpuCapacities = new IntDomainVar[nodes.length];
         this.memCapacities = new IntDomainVar[nodes.length];
 
-        ManagedElementSet<Node> involvedNodes = new SimpleManagedElementSet<Node>();
+        ManagedElementList<Node> involvedNodes = new SimpleManagedElementList<Node>();
         for (Node n : getFutureOfflines()) {
             NodeActionModel action = getAssociatedAction(n);
             if (action != null) {
@@ -390,9 +351,9 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
     /**
      * Check all the nodes belong to only on set.
      *
-     * @throws entropy.plan.UnknownResultingStateException
+     * @throws gipad.plan.UnknownResultingStateException
      *          if the state of an element is not defined
-     * @throws entropy.plan.MultipleResultingStateException
+     * @throws gipad.plan.MultipleResultingStateException
      *          if an element has two state
      */
     private void checkDisjointSet() throws UnknownResultingStateException, MultipleResultingStateException {
@@ -441,32 +402,32 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
     }
 
     @Override
-    public ManagedElementSet<VirtualMachine> getFutureRunnings() {
+    public ManagedElementList<VirtualMachine> getFutureRunnings() {
         return this.runnings;
     }
 
     @Override
-    public ManagedElementSet<VirtualMachine> getFutureWaitings() {
+    public ManagedElementList<VirtualMachine> getFutureWaitings() {
         return this.waitings;
     }
 
     @Override
-    public ManagedElementSet<VirtualMachine> getFutureSleepings() {
+    public ManagedElementList<VirtualMachine> getFutureSleepings() {
         return this.sleepings;
     }
 
     @Override
-    public ManagedElementSet<VirtualMachine> getFutureTerminated() {
+    public ManagedElementList<VirtualMachine> getFutureTerminated() {
         return this.terminated;
     }
 
     @Override
-    public ManagedElementSet<Node> getFutureOnlines() {
+    public ManagedElementList<Node> getFutureOnlines() {
         return this.onlines;
     }
 
     @Override
-    public ManagedElementSet<Node> getFutureOfflines() {
+    public ManagedElementList<Node> getFutureOfflines() {
         return this.offlines;
     }
 
@@ -678,7 +639,7 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
     }
 
     @Override
-    public IntDomainVar getVMGroup(ManagedElementSet<VirtualMachine> vms) {
+    public IntDomainVar getVMGroup(ManagedElementList<VirtualMachine> vms) {
         IntDomainVar v = this.vmsGrp.get(vms);
         if (v != null) {
             return v;
@@ -693,7 +654,7 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
     }
 
     @Override
-    public IntDomainVar makeGroup(ManagedElementSet<VirtualMachine> vms, List<ManagedElementSet<Node>> nodes) {
+    public IntDomainVar makeGroup(ManagedElementList<VirtualMachine> vms, List<ManagedElementList<Node>> nodes) {
         int[] values = new int[nodes.size()];
         for (int i = 0; i < values.length; i++) {
             values[i] = getGroup(nodes.get(i));
@@ -710,12 +671,12 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
     }
 
     @Override
-    public Set<ManagedElementSet<VirtualMachine>> getVMGroups() {
+    public Set<ManagedElementList<VirtualMachine>> getVMGroups() {
         return this.vmsGrp.keySet();
     }
 
     @Override
-    public int getGroup(ManagedElementSet<Node> nodes) {
+    public int getGroup(ManagedElementList<Node> nodes) {
         if (this.nodesGrp.get(nodes) != null) {
             return this.nodesGrp.get(nodes);
         } else {
@@ -741,7 +702,7 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
     }
 
     @Override
-    public Set<ManagedElementSet<Node>> getNodesGroups() {
+    public Set<ManagedElementList<Node>> getNodesGroups() {
         return this.nodesGrp.keySet();
     }
 
@@ -756,7 +717,7 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
     }
 
     @Override
-    public ManagedElementSet<Node> getNodeGroup(int idx) {
+    public ManagedElementList<Node> getNodeGroup(int idx) {
         return this.revNodesGrp.get(idx);
     }
 
@@ -776,7 +737,7 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
     }
 
     @Override
-    public List<VirtualMachineActionModel> getAssociatedActions(ManagedElementSet<VirtualMachine> vms) {
+    public List<VirtualMachineActionModel> getAssociatedActions(ManagedElementList<VirtualMachine> vms) {
         List<VirtualMachineActionModel> l = new LinkedList<VirtualMachineActionModel>();
         for (VirtualMachine vm : vms) {
             VirtualMachineActionModel a = getAssociatedAction(vm);
@@ -956,4 +917,10 @@ public final class DefaultReconfigurationProblem extends CPSolver implements Rec
             return sol1.getTimeCount() - sol2.getTimeCount();
         }
     };
+
+	@Override
+	public Solver getSolver() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

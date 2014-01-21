@@ -26,18 +26,7 @@ import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 import solver.Solver;
-import solver.variables.IntVar;
-import solver.variables.SetVar;
-import entropy.configuration.Configuration;
-import entropy.plan.SolutionStatistics;
-import entropy.plan.SolvingStatistics;
-import entropy.plan.TimedReconfigurationPlan;
-import entropy.plan.choco.actionModel.NodeActionModel;
-import entropy.plan.choco.actionModel.VirtualMachineActionModel;
-import entropy.plan.choco.actionModel.slice.ConsumingSlice;
-import entropy.plan.choco.actionModel.slice.DemandingSlice;
-import entropy.plan.choco.constraint.pack.SatisfyDemandingSliceHeights;
-import entropy.plan.durationEvaluator.DurationEvaluator;
+import gipad.configuration.configuration.*;
 import gipad.configuration.ManagedElementList;
 
 /**
