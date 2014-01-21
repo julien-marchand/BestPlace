@@ -2,6 +2,8 @@ package gipad.scheduling;
 
 import java.io.File;
 
+import configuration.SimulatorProperties;
+
 
 
 
