@@ -15,7 +15,6 @@ import org.discovery.DiscoveryModel.model.*;
  */
 public class XSimpleConfiguration extends SimpleConfiguration{
 
-
 	/**
 	 * check whether a pm is viable or not (currently only for the CPU dimension)
 	 * @param pm Node, the pm to test

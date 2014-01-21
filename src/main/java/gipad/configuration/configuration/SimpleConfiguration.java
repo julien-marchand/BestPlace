@@ -199,6 +199,13 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 
     }
 
+	@Override
+	public void addOnline(ManagedElementList<Node> nodes) {
+		for(Node node:nodes){
+			 addOnline(node);
+		}
+	}
+
     /**
      * Check whether a node is hosting a virtual machine or not.
      *

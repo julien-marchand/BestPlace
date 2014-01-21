@@ -1,5 +1,7 @@
 package gipad.configuration.configuration;
 
+import java.util.ArrayList;
+
 import gipad.configuration.ManagedElementList;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
@@ -67,6 +69,8 @@ public interface Configuration {
      * @param node the node to add
      */
     void addOnline(Node node);
+
+	void addOnline(ManagedElementList<Node> nodes);
 
     /**
      * Set a node offline. If the node is already in the configuration but in an another state, it is updated.
