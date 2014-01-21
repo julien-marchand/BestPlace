@@ -1,8 +1,8 @@
 package gipad.configuration.configuration;
 
-import java.util.ArrayList;
-
 import gipad.configuration.ManagedElementList;
+import gipad.placementconstraint.PlacementConstraint;
+
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
@@ -171,6 +171,8 @@ public interface Configuration {
      */
     Node getLocation(VirtualMachine vm);
 
+    ManagedElementList<PlacementConstraint> getPlacementConstraints();
+    
     /**
      * Test if a node is online.
      *
