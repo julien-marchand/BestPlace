@@ -1,9 +1,12 @@
 
 package gipad.plan.choco;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.discovery.DiscoveryModel.model.VirtualMachine;
+
+import solver.constraints.Constraint;
 
 import entropy.plan.SolutionStatistics;
 import entropy.plan.SolvingStatistics;
@@ -18,7 +21,7 @@ import gipad.vjob.VJob;
 
 public class ChocoCustom3RP implements Plan{
 	
-	private Constraint[] costConstraints;
+//	private Constraint[] costConstraints;
 	
 	private CostFunction costFunc;
 
@@ -39,14 +42,18 @@ public class ChocoCustom3RP implements Plan{
 
     private List<VJob> queue;
     
+    ///////////Constructeur//////////////
+    
 	public ChocoCustom3RP(CostFunction costFunc) {
 		this.costFunc = costFunc;
 	}
 
+	
+	//////////Getter && Setter///////////
+	
 	public void setRepairMode(boolean b) {
 		this.repair = b;
 	}
-
 
     /**
      * Get the timelimit to solve the problem.
@@ -66,27 +73,42 @@ public class ChocoCustom3RP implements Plan{
 		this.timeout = entropyPlanTimeout;
 	}
 	
+	/**
+	 * Get cost function
+	 * @return CostFunction
+	 */
 	public CostFunction getCostFunction(){
 		return this.costFunc;
 	}
 	
     /**
-     * Get statistics about the computed solutions.
-     * Solutions are sorted in an ascending duration.
-     *
-     * @return a list of statistics that may be empty
+     * Get the model.
+     * Can be null if Compute has not been run yet
+     * @return the model to express constraints.
      */
-    public  List<SolutionStatistics> getSolutionsStatistics(){
-    	return null;
+    public ReconfigurationProblem getModel() {
+        return this.model;
+    }
+	
+    /**
+     * Get some Stats about the model
+     * @return
+     */
+    public List<SolutionStatistics> getSolutionsStatistics() {
+        if (model == null) {
+            return new ArrayList<SolutionStatistics>();
+        }
+        return this.model.getSolutionsStatistics();
     }
 
     /**
-     * Get statistics about the solving process.
-     *
-     * @return some statistics
+     * @return some statistics about the solving process
      */
-    public SolvingStatistics getSolvingStatistics(){
-    	return null;
+    public SolvingStatistics getSolvingStatistics() {
+        if (model == null) {
+            return SolvingStatistics.getStatisticsForNotSolvingProcess();
+        }
+        return model.getSolvingStatistics();
     }
 	
 

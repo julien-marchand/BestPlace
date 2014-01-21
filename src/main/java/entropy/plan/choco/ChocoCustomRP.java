@@ -297,8 +297,7 @@ public class ChocoCustomRP extends CustomizablePlannerModule {
             totalDuration.setInf(min);
             totalDuration.setSup(sup);
         } catch (Exception e) {
-            Plan.logger.warn(e.getMessage(), e);
-        }
+            Plan.logger.warn(e.getMessage(), e);        }
         Plan.logger.debug(totalDuration.pretty());
         Plan.logger.debug(model.getEnd().pretty());
     }
@@ -360,7 +359,7 @@ public class ChocoCustomRP extends CustomizablePlannerModule {
      *
      * @return a list of vjobs, may be empty
      */
-    public List<VJob> getQueue() {
+   public List<VJob> getQueue() {
         return queue;
     }
 
