@@ -22,7 +22,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="libs/discovery-model.jar"/>
 	<classpathentry kind="src" output="target/classes" path="target/generated-sources/antlr3">
 		<attributes>
 			<attribute name="optional" value="true"/>
@@ -39,5 +38,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/discovery-model.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
