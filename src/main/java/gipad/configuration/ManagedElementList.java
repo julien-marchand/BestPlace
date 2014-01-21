@@ -21,9 +21,6 @@ package gipad.configuration;
 
 import java.util.List;
 
-import entropy.configuration.ManagedElementSet;
-import entropy.configuration.Node;
-
 /**
  * Specify a list of managed elements without duplicated elements.
  * The position of the element has to be maintained.
@@ -147,8 +144,4 @@ public interface ManagedElementList<E> extends List<E> {
      */
     @Override
 	int size();
-
-    String prettyOut();
-
-    ManagedElementSet<Node> flatten();
 }

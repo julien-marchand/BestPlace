@@ -18,14 +18,13 @@
  */
 package gipad.placementconstraint;
 
-import org.discovery.DiscoveryModel.model.Node;
-
 import entropy.configuration.Configuration;
+import entropy.configuration.DefaultManagedElementSet;
+import entropy.configuration.ManagedElementSet;
+import entropy.configuration.Node;
 import entropy.configuration.VirtualMachine;
 import entropy.plan.choco.ReconfigurationProblem;
-import gipad.configuration.ManagedElementList;
-import gipad.configuration.SimpleManagedElementList;
-import gipad.vjob.VJob;
+import entropy.plan.choco.actionModel.slice.Slice;
 
 /**
  * A constraint to enforce a set of virtual machines to avoid
@@ -38,12 +37,12 @@ public class Ban implements PlacementConstraint {
     /**
      * The set of nodes to exlude.
      */
-    private ManagedElementList<Node> nodes;
+    private VJobSet<Node> nodes;
 
     /**
      * The set of VMs involved in the constraint.
      */
-    private ManagedElementList<VirtualMachine> vms;
+    private VJobSet<VirtualMachine> vms;
 
     /**
      * Make a new constraint.
@@ -51,7 +50,7 @@ public class Ban implements PlacementConstraint {
      * @param vms   the VMs to assign
      * @param nodes the nodes to exclude
      */
-    public Ban(ManagedElementList<VirtualMachine> vms, ManagedElementList<Node> nodes) {
+    public Ban(VJobSet<VirtualMachine> vms, VJobSet<Node> nodes) {
         this.nodes = nodes;
         this.vms = vms;
     }
@@ -62,8 +61,8 @@ public class Ban implements PlacementConstraint {
      * @return a set of nodes
      */
     @Override
-    public ManagedElementList<Node> getNodes() {
-        return this.nodes;
+	public ExplodedSet<Node> getNodes() {
+        return this.nodes.flatten();
     }
 
     /**
@@ -71,7 +70,7 @@ public class Ban implements PlacementConstraint {
      *
      * @return a set of VMs. Should not be empty
      */
-    public ManagedElementList<VirtualMachine> getVirtualMachines() {
+    public VJobSet<VirtualMachine> getVirtualMachines() {
         return this.vms;
     }
 
@@ -81,8 +80,8 @@ public class Ban implements PlacementConstraint {
      * @return a set of VMs. Should not be empty
      */
     @Override
-    public ManagedElementList<VirtualMachine> getAllVirtualMachines() {
-        return this.vms;
+    public ExplodedSet<VirtualMachine> getAllVirtualMachines() {
+        return this.vms.flatten();
     }
 
     @Override
@@ -109,9 +108,9 @@ public class Ban implements PlacementConstraint {
     public String toString() {
         StringBuilder buffer = new StringBuilder();
 
-        buffer.append("ban(").append(vms.prettyOut());
+        buffer.append("ban(").append(vms.pretty());
         buffer.append(", ");
-        buffer.append(nodes.prettyOut());
+        buffer.append(nodes.pretty());
         buffer.append(")");
         return buffer.toString();
     }
@@ -154,7 +153,7 @@ public class Ban implements PlacementConstraint {
                     if (t != null) {
                         for (int x = 0; x < nodesIdx.length; x++) {
                             try {
-                                t.hoster().removeValue(nodesIdx[x],null);
+                                t.hoster().remVal(nodesIdx[x]);
                             } catch (Exception e) {
                                 VJob.logger.error(e.getMessage(), e);
                             }
@@ -173,7 +172,7 @@ public class Ban implements PlacementConstraint {
      */
     @Override
     public boolean isSatisfied(Configuration cfg) {
-        ManagedElementList<Node> ns = getNodes().flatten();
+        ManagedElementSet<Node> ns = getNodes().flatten();
         for (VirtualMachine vm : getAllVirtualMachines()) {
             if (cfg.isRunning(vm) && ns.contains(cfg.getLocation(vm))) {
                 return false;
@@ -183,31 +182,13 @@ public class Ban implements PlacementConstraint {
     }
 
     @Override
-    public ManagedElementList<VirtualMachine> getMisPlaced(Configuration cfg) {
-	ManagedElementList<VirtualMachine> bad = new SimpleManagedElementList<VirtualMachine>();
+    public ExplodedSet<VirtualMachine> getMisPlaced(Configuration cfg) {
+        ExplodedSet<VirtualMachine> bad = new ExplodedSet<VirtualMachine>();
         for (VirtualMachine vm : getAllVirtualMachines()) {
             if (cfg.isRunning(vm) && getNodes().contains(cfg.getLocation(vm))) {
                 bad.add(vm);
             }
         }
         return bad;
-    }
-
-    @Override
-    public void inject(ReconfigurationProblem core) {
-	// TODO Auto-generated method stub
-	
-    }
-
-    @Override
-    public boolean isSatisfied(Configuration cfg) {
-	// TODO Auto-generated method stub
-	return false;
-    }
-
-    @Override
-    public ManagedElementList<VirtualMachine> getMisPlaced(Configuration cfg) {
-	// TODO Auto-generated method stub
-	return null;
     }
 }

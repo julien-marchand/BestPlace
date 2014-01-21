@@ -18,8 +18,8 @@
  */
 package entropy.plan.choco.actionModel;
 
-import choco.kernel.solver.ContradictionException;
-import choco.kernel.solver.variables.integer.IntDomainVar;
+import solver.exception.ContradictionException;
+import solver.variables.IntVar;
 import entropy.configuration.Configuration;
 import entropy.configuration.Node;
 import entropy.plan.Plan;
@@ -34,11 +34,11 @@ import entropy.plan.choco.actionModel.slice.DemandingSlice;
  */
 public class ShutdownNodeActionModel extends NodeActionModel {
 
-    private IntDomainVar end;
+    private IntVar end;
 
     private Configuration src;
 
-    private IntDomainVar cost;
+    private IntVar cost;
 
     /**
      * Make a new action.
@@ -72,7 +72,7 @@ public class ShutdownNodeActionModel extends NodeActionModel {
      * @return <code>getDemandingSlice().start()</code>
      */
     @Override
-    public IntDomainVar start() {
+    public IntVar start() {
         return dSlice.start();
     }
 
@@ -82,7 +82,7 @@ public class ShutdownNodeActionModel extends NodeActionModel {
      * @return <code>getDemandingSlice().end()</code>
      */
     @Override
-    public IntDomainVar end() {
+    public IntVar end() {
         return end;
     }
 

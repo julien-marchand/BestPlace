@@ -23,10 +23,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import choco.cp.solver.search.integer.branching.AssignVar;
-import choco.cp.solver.search.integer.valselector.MinVal;
-import choco.cp.solver.search.integer.varselector.StaticVarOrder;
-import choco.kernel.solver.variables.integer.IntDomainVar;
 import entropy.configuration.Configuration;
 import entropy.configuration.Configurations;
 import entropy.configuration.ManagedElementSet;

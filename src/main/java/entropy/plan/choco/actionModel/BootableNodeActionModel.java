@@ -18,8 +18,8 @@
  */
 package entropy.plan.choco.actionModel;
 
-import choco.kernel.solver.variables.integer.IntDomainVar;
-import choco.kernel.solver.variables.set.SetVar;
+import solver.variables.IntVar;
+import solver.variables.SetVar;
 import entropy.configuration.Configuration;
 import entropy.configuration.Node;
 import entropy.plan.Plan;
@@ -38,7 +38,7 @@ import entropy.plan.choco.actionModel.slice.ConsumingSlice;
  */
 public class BootableNodeActionModel extends NodeActionModel {
 
-    private IntDomainVar cost;
+    private IntVar cost;
 
     /**
      * Make a new action.
@@ -75,7 +75,7 @@ public class BootableNodeActionModel extends NodeActionModel {
      * @return <code>getConsumingSlice().start()</code>
      */
     @Override
-    public final IntDomainVar start() {
+    public final IntVar start() {
         return cSlice.start();
     }
 
@@ -85,7 +85,7 @@ public class BootableNodeActionModel extends NodeActionModel {
      * @return <code>getConsumingSlice().end()</code>
      */
     @Override
-    public final IntDomainVar end() {
+    public final IntVar end() {
         return cSlice.end();
     }
 
@@ -114,7 +114,7 @@ public class BootableNodeActionModel extends NodeActionModel {
     }
 
     @Override
-	public IntDomainVar getDuration() {
+	public IntVar getDuration() {
         return cost;
     }
 }

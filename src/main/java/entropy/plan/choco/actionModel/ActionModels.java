@@ -22,7 +22,7 @@ package entropy.plan.choco.actionModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import choco.kernel.solver.variables.integer.IntDomainVar;
+import solver.variables.IntVar;
 import entropy.plan.choco.actionModel.slice.ConsumingSlice;
 import entropy.plan.choco.actionModel.slice.DemandingSlice;
 import entropy.plan.choco.actionModel.slice.Slice;
@@ -97,8 +97,8 @@ public final class ActionModels {
      * @param actions the array of actions
      * @return an array of start moments, in the same order that the actions
      */
-    public static IntDomainVar[] extractStarts(ActionModel[] actions) {
-        IntDomainVar[] vs = new IntDomainVar[actions.length];
+    public static IntVar[] extractStarts(ActionModel[] actions) {
+    	IntVar[] vs = new IntVar[actions.length];
         for (int i = 0; i < actions.length; i++) {
             vs[i] = actions[i].start();
         }
@@ -111,8 +111,8 @@ public final class ActionModels {
      * @param actions the array of actions
      * @return an array of end moments, in the same order that the actions
      */
-    public static IntDomainVar[] extractEnds(ActionModel[] actions) {
-        IntDomainVar[] vs = new IntDomainVar[actions.length];
+    public static IntVar[] extractEnds(ActionModel[] actions) {
+    	IntVar[] vs = new IntVar[actions.length];
         for (int i = 0; i < actions.length; i++) {
             vs[i] = actions[i].end();
         }
@@ -125,8 +125,8 @@ public final class ActionModels {
      * @param actions the array of actions
      * @return an array of durations, in the same order that the actions
      */
-    public static IntDomainVar[] extractDurations(ActionModel[] actions) {
-        IntDomainVar[] vs = new IntDomainVar[actions.length];
+    public static IntVar[] extractDurations(ActionModel[] actions) {
+    	IntVar[] vs = new IntVar[actions.length];
         for (int i = 0; i < actions.length; i++) {
             vs[i] = actions[i].getDuration();
         }
@@ -139,7 +139,7 @@ public final class ActionModels {
      * @param actions the list of actions
      * @return an array of durations, in the same order that the actions
      */
-    public static IntDomainVar[] extractDurations(List<ActionModel> actions) {
+    public static IntVar[] extractDurations(List<ActionModel> actions) {
         return extractDurations(actions.toArray(new ActionModel[actions.size()]));
     }
 
@@ -149,8 +149,8 @@ public final class ActionModels {
      * @param actions the array of actions
      * @return an array of costs, in the same order that the actions
      */
-    public static IntDomainVar[] extractCosts(ActionModel[] actions) {
-        IntDomainVar[] vs = new IntDomainVar[actions.length];
+    public static IntVar[] extractCosts(ActionModel[] actions) {
+    	IntVar[] vs = new IntVar[actions.length];
         for (int i = 0; i < actions.length; i++) {
             vs[i] = actions[i].getGlobalCost();
         }
@@ -163,7 +163,7 @@ public final class ActionModels {
      * @param actions the list of actions
      * @return an array of costs, in the same order that the actions
      */
-    public static IntDomainVar[] extractCosts(List<ActionModel> actions) {
+    public static IntVar[] extractCosts(List<ActionModel> actions) {
         return extractCosts(actions.toArray(new ActionModel[actions.size()]));
     }
 

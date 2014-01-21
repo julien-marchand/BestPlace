@@ -209,10 +209,4 @@ public class SimpleManagedElementList<E> extends ArrayList<E> implements Managed
         }
         return false;
     }
-
-    @Override
-    public String prettyOut() {
-	// TODO Auto-generated method stub
-	return null;
-    }
 }

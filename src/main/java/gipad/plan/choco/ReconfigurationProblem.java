@@ -25,6 +25,7 @@ import java.util.Set;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
+import solver.Solver;
 import solver.variables.IntVar;
 import solver.variables.SetVar;
 import entropy.configuration.Configuration;
@@ -329,34 +330,8 @@ public interface ReconfigurationProblem {
      */
     SetVar getSetModel(Node n);
 
-    /**
-     * Make an implies constraint.
-     *
-     * @param c1 the first constraint
-     * @param c2 the second constraint
-     * @return the builded constraint
-     */
-    SConstraint<IntDomainVar> implies(SConstraint<IntDomainVar> c1, SConstraint<IntDomainVar> c2);
-
-    /**
-     * Make an implies constraint.
-     *
-     * @param b1 the first constraint as boolean
-     * @param c2 the second constraint
-     * @return the builded constraint
-     */
-    SConstraint<IntDomainVar> implies(IntDomainVar b1, SConstraint<IntDomainVar> c2);
-
-
-    /**
-     * Make an ifOnlyIf constraint.
-     *
-     * @param b1 the first constraint
-     * @param c2 the second constraint
-     * @return the builded constraint
-     */
-    SConstraint ifOnlyIf(IntDomainVar b1, SConstraint c2);
-
+    Solver getSolver();
+    
     SatisfyDemandingSliceHeights getSatisfyDSlicesHeightConstraint();
 
     /**

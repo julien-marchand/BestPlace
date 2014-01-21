@@ -24,12 +24,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import choco.Choco;
-import choco.kernel.solver.constraints.SConstraint;
-import choco.kernel.solver.constraints.integer.IntExp;
-import choco.kernel.solver.search.ISolutionPool;
-import choco.kernel.solver.search.SolutionPoolFactory;
-import choco.kernel.solver.variables.integer.IntDomainVar;
 import entropy.configuration.Configuration;
 import entropy.configuration.Configurations;
 import entropy.configuration.ManagedElementSet;
@@ -297,7 +291,8 @@ public class ChocoCustomRP extends CustomizablePlannerModule {
             totalDuration.setInf(min);
             totalDuration.setSup(sup);
         } catch (Exception e) {
-            Plan.logger.warn(e.getMessage(), e);        }
+            Plan.logger.warn(e.getMessage(), e);
+        }
         Plan.logger.debug(totalDuration.pretty());
         Plan.logger.debug(model.getEnd().pretty());
     }
@@ -359,7 +354,7 @@ public class ChocoCustomRP extends CustomizablePlannerModule {
      *
      * @return a list of vjobs, may be empty
      */
-   public List<VJob> getQueue() {
+    public List<VJob> getQueue() {
         return queue;
     }
 
