@@ -13,6 +13,12 @@ import gipad.plan.choco.*;
 import gipad.scheduling.AbstractScheduler;
 import gipad.plan.*;
 
+/**Scheduling module
+ * is using a gipad.plan.choco.ChocoCustom3RP to compute a new configuration based on the initialOne
+ * This planner is returning a SequentedReconfigurationPlan which is used in applyReconfigurationPlan()
+ * @author Pocman
+ *
+ */
 public class Choco3RP extends AbstractScheduler {
 
 	private ChocoCustom3RP planner;
@@ -29,8 +35,7 @@ public class Choco3RP extends AbstractScheduler {
 	public ComputingState computeReconfigurationPlan() {
 		ComputingState res = ComputingState.VMRP_SUCCESS;
 
-		ManagedElementList<VirtualMachine> queue = initialConfiguration
-				.getRunnings();
+		ManagedElementList<VirtualMachine> queue = initialConfiguration.getRunnings();
 		timeToComputeVMRP = System.currentTimeMillis();
 
 		try {
