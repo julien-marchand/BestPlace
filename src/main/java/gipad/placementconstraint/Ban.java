@@ -18,13 +18,15 @@
  */
 package gipad.placementconstraint;
 
-import entropy.configuration.Configuration;
-import entropy.configuration.DefaultManagedElementSet;
-import entropy.configuration.ManagedElementSet;
-import entropy.configuration.Node;
-import entropy.configuration.VirtualMachine;
-import entropy.plan.choco.ReconfigurationProblem;
-import entropy.plan.choco.actionModel.slice.Slice;
+import org.discovery.DiscoveryModel.model.Node;
+import org.discovery.DiscoveryModel.model.VirtualMachine;
+
+import gipad.configuration.ManagedElementList;
+import gipad.configuration.SimpleManagedElementList;
+import gipad.configuration.configuration.Configuration;
+import gipad.plan.choco.ReconfigurationProblem;
+
+
 
 /**
  * A constraint to enforce a set of virtual machines to avoid
@@ -37,12 +39,12 @@ public class Ban implements PlacementConstraint {
     /**
      * The set of nodes to exlude.
      */
-    private VJobSet<Node> nodes;
+    private ManagedElementList<Node> nodes;
 
     /**
      * The set of VMs involved in the constraint.
      */
-    private VJobSet<VirtualMachine> vms;
+    private ManagedElementList<VirtualMachine> vms;
 
     /**
      * Make a new constraint.
@@ -50,7 +52,7 @@ public class Ban implements PlacementConstraint {
      * @param vms   the VMs to assign
      * @param nodes the nodes to exclude
      */
-    public Ban(VJobSet<VirtualMachine> vms, VJobSet<Node> nodes) {
+    public Ban(ManagedElementList<VirtualMachine> vms, ManagedElementList<Node> nodes) {
         this.nodes = nodes;
         this.vms = vms;
     }
@@ -61,7 +63,7 @@ public class Ban implements PlacementConstraint {
      * @return a set of nodes
      */
     @Override
-	public ExplodedSet<Node> getNodes() {
+	public ManagedElementList<Node> getNodes() {
         return this.nodes.flatten();
     }
 
@@ -70,7 +72,7 @@ public class Ban implements PlacementConstraint {
      *
      * @return a set of VMs. Should not be empty
      */
-    public VJobSet<VirtualMachine> getVirtualMachines() {
+    public ManagedElementList<VirtualMachine> getVirtualMachines() {
         return this.vms;
     }
 
@@ -80,8 +82,8 @@ public class Ban implements PlacementConstraint {
      * @return a set of VMs. Should not be empty
      */
     @Override
-    public ExplodedSet<VirtualMachine> getAllVirtualMachines() {
-        return this.vms.flatten();
+    public ManagedElementList<VirtualMachine> getAllVirtualMachines() {
+        return (ManagedElementList<VirtualMachine>) this.vms.flatten();
     }
 
     @Override
@@ -108,9 +110,9 @@ public class Ban implements PlacementConstraint {
     public String toString() {
         StringBuilder buffer = new StringBuilder();
 
-        buffer.append("ban(").append(vms.pretty());
+        buffer.append("ban(").append(vms.prettyOut());
         buffer.append(", ");
-        buffer.append(nodes.pretty());
+        buffer.append(nodes.prettyOut());
         buffer.append(")");
         return buffer.toString();
     }
@@ -126,8 +128,8 @@ public class Ban implements PlacementConstraint {
     public void inject(ReconfigurationProblem core) {
 
         //Get only the future running VMS
-        ManagedElementSet<VirtualMachine> runnings = new DefaultManagedElementSet<VirtualMachine>();
-        ManagedElementSet<VirtualMachine> ignored = new DefaultManagedElementSet<VirtualMachine>();
+        ManagedElementList<VirtualMachine> runnings = new SimpleManagedElementList<VirtualMachine>();
+        ManagedElementList<VirtualMachine> ignored = new SimpleManagedElementList<VirtualMachine>();
         for (VirtualMachine vm : getAllVirtualMachines()) {
             if (core.getFutureRunnings().contains(vm)) {
                 runnings.add(vm);
@@ -136,10 +138,10 @@ public class Ban implements PlacementConstraint {
             }
         }
         if (runnings.size() == 0) {
-            VJob.logger.debug(this + " is entailed. No VMs are running");
+            //FIXME debug log VJob.logger.debug(this + " is entailed. No VMs are running");
         } else {
             if (ignored.size() > 0) {
-                VJob.logger.debug(this + " ignores non-running VMs: " + ignored);
+        	//FIXME debug log VJob.logger.debug(this + " ignores non-running VMs: " + ignored);
             }
             //Exclude all the nodes from the assign vars
             if (runnings.size() > 0) {
@@ -155,7 +157,7 @@ public class Ban implements PlacementConstraint {
                             try {
                                 t.hoster().remVal(nodesIdx[x]);
                             } catch (Exception e) {
-                                VJob.logger.error(e.getMessage(), e);
+                        	//FIXME debug log VJob.logger.error(e.getMessage(), e);
                             }
                         }
                     }
@@ -172,7 +174,7 @@ public class Ban implements PlacementConstraint {
      */
     @Override
     public boolean isSatisfied(Configuration cfg) {
-        ManagedElementSet<Node> ns = getNodes().flatten();
+        ManagedElementList<Node> ns = (ManagedElementList<Node>) getNodes().flatten();
         for (VirtualMachine vm : getAllVirtualMachines()) {
             if (cfg.isRunning(vm) && ns.contains(cfg.getLocation(vm))) {
                 return false;
@@ -182,8 +184,8 @@ public class Ban implements PlacementConstraint {
     }
 
     @Override
-    public ExplodedSet<VirtualMachine> getMisPlaced(Configuration cfg) {
-        ExplodedSet<VirtualMachine> bad = new ExplodedSet<VirtualMachine>();
+    public ManagedElementList<VirtualMachine> getMisPlaced(Configuration cfg) {
+	ManagedElementList<VirtualMachine> bad = new SimpleManagedElementList<VirtualMachine>();
         for (VirtualMachine vm : getAllVirtualMachines()) {
             if (cfg.isRunning(vm) && getNodes().contains(cfg.getLocation(vm))) {
                 bad.add(vm);
