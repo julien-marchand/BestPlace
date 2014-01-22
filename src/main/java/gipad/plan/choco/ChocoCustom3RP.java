@@ -18,6 +18,7 @@ import gipad.configuration.ManagedElementList;
 import gipad.configuration.SimpleManagedElementList;
 import gipad.configuration.configuration.Configuration;
 import gipad.configuration.configuration.Configurations;
+import gipad.exception.PlanException;
 import gipad.plan.*;
 import gipad.plan.action.Action;
 

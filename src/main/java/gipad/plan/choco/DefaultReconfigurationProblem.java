@@ -29,17 +29,20 @@ import java.util.Map;
 import java.util.Set;
 
 
+
 import gipad.configuration.*;
 import gipad.configuration.configuration.*;
 import gipad.plan.*;
 import gipad.plan.action.*;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gipad.plan.action.Action;
+import gipad.exception.NonViableSourceConfigurationException;
 
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 import solver.Solver;
+import solver.variables.IntVar;
 
 /**
  * A CSP to model a reconfiguration plan composed of time bounded actions.
@@ -61,12 +64,12 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     /**
      * The moment the reconfiguration starts. Equals to 0.
      */
-    private IntDomainVar start;
+    private IntVar start;
 
     /**
      * The moment the reconfiguration ends. Variable.
      */
-    private IntDomainVar end;
+    private IntVar end;
 
     /**
      * All the virtual machines' action to perform that implies regular actions.
@@ -128,12 +131,12 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     /**
      * Cpu usage indexed by the index of the node.
      */
-    private IntDomainVar[] cpuCapacities;
+//    private IntVar[] cpuCapacities;
 
     /**
      * Mem usage indexed by the index of the node.
      */
-    private IntDomainVar[] memCapacities;
+    private IntVar[] memCapacities;
 
     /**
      * All the virtual machines managed by the model.
@@ -356,9 +359,9 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     /**
      * Check all the nodes belong to only one set.
      *
-     * @throws gipad.plan.UnknownResultingStateException
+     * @throws gipad.exception.UnknownResultingStateException
      *          if the state of an element is not defined
-     * @throws gipad.plan.MultipleResultingStateException
+     * @throws gipad.exception.MultipleResultingStateException
      *          if an element has two state
      */
     private void checkDisjointSet() throws UnknownResultingStateException, MultipleResultingStateException {
