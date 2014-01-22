@@ -46,7 +46,7 @@ public class CumulativeMultiDimTest {
         int[] endsUB = new int[]{4, 4, 4, 4, 4,     1,2,3,4};
         int[] durations = new int[]{1, 1, 1, 1, 1,  1,1,1,1};
         int[][] heights = new int[][]{ {2,2,1}, {2,2,2}, {1,1,3}, {1,1,4}, {2,2,5},    {5,5,0},{5,5,0},{5,5,0},{5,5,0}};
-        int[][] successors = new int[][]{ {}, {}, {}, {}, {},     {},{},{},{}};
+        int[][] successors = new int[startsLB.length][0];//{ {}, {}, {}, {}, {},     {},{},{},{}};
         int[] capacities = new int[]{10,10,2};
         int[] resourceType = new int[]{CUMULATIVE,CUMULATIVE,COLORED};
         int nbTasks = startsLB.length;
@@ -56,6 +56,8 @@ public class CumulativeMultiDimTest {
         int[] interestingResources  = new int[]{0};
         int nbInterestingTimePoints = interestingTimePoints.length;
         int nbInterestingResources = interestingResources.length;
+        
+        
         intToIntVar(solver, nbTasks, nbResources, nbInterestingTimePoints, nbInterestingResources,  startsLB, endsUB,  durations,heights,  interestingTimePoints, capacities,interestingResources);
         
         
@@ -86,11 +88,11 @@ public class CumulativeMultiDimTest {
 	System.out.println(solver);
         int horizon = 4;
         for (int i = 0; i < nbResources; i++) {
-		System.out.println("Type " + resourceType[i]);
-		System.out.println("Capacité " + capacities[i]);
+		System.out.println("Res Type " + resourceType[i]);
+		System.out.println("Capacity " + capacities[i]);
 		int[] cumul = new int[horizon + 1];
 		for (int j = 0; j < nbTasks; j++) {
-			System.out.print("Task n°" + j + " " + vTasks[j].getStart().getValue() + " " +  vTasks[j].getEnd().getValue() + " " + vHeights[j][i].getValue() + "     ");
+			System.out.print("Task n°" + j + " start : " + vTasks[j].getStart().getValue() + " end : " +  vTasks[j].getEnd().getValue() +"    ");
 			for (int k = 0; k < horizon + 1; k++) {
 				if (k < vTasks[j].getStart().getValue() || k >= vTasks[j].getEnd().getValue()) {
 					System.out.print("_");
@@ -101,7 +103,7 @@ public class CumulativeMultiDimTest {
 			}
 			System.out.println();
 		}
-		System.out.print("                   ");
+		System.out.print("                              ");
 		for (int k = 0; k < horizon + 1; k++) {
 			System.out.print(cumul[k]);
 		}
