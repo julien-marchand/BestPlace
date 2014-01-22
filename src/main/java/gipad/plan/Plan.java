@@ -3,8 +3,6 @@ package gipad.plan;
 import gipad.plan.PlanException;
 import gipad.configuration.ManagedElementList;
 import gipad.configuration.configuration.Configuration;
-import gipad.vjob.VJob;
-
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 public interface Plan {
