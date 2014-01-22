@@ -18,25 +18,21 @@
  */
 
 package gipad.placementconstraint;
+import org.discovery.DiscoveryModel.model.Node;
+import org.discovery.DiscoveryModel.model.VirtualMachine;
+
+import solver.exception.ContradictionException;
+import solver.variables.IntVar;
+import solver.variables.SetVar;
+import solver.variables.VF;
+import gipad.configuration.ManagedElementList;
+import gipad.configuration.SimpleManagedElementList;
+import gipad.configuration.configuration.Configuration;
+import gipad.plan.choco.ReconfigurationProblem;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import choco.cp.solver.constraints.set.MemberXY;
-import choco.kernel.solver.ContradictionException;
-import choco.kernel.solver.variables.integer.IntDomainVar;
-import choco.kernel.solver.variables.set.SetVar;
-import entropy.configuration.Configuration;
-import entropy.configuration.ManagedElementSet;
-import entropy.configuration.Node;
-import entropy.configuration.VirtualMachine;
-import entropy.plan.Plan;
-import entropy.plan.choco.ReconfigurationProblem;
-import entropy.plan.choco.actionModel.ActionModels;
-import entropy.plan.choco.actionModel.slice.DemandingSlice;
-import entropy.plan.choco.actionModel.slice.Slice;
-import entropy.plan.choco.actionModel.slice.Slices;
 
 /**
  * A placement constraint to ensure the given set of VMs will not be hosted
@@ -46,9 +42,9 @@ import entropy.plan.choco.actionModel.slice.Slices;
  */
 public class Lonely implements PlacementConstraint {
 
-    private VJobSet<VirtualMachine> vms;
+    private ManagedElementList<VirtualMachine> vms;
 
-    public Lonely(VJobSet<VirtualMachine> vms) {
+    public Lonely(ManagedElementList<VirtualMachine> vms) {
         this.vms = vms;
     }
 
@@ -56,29 +52,29 @@ public class Lonely implements PlacementConstraint {
     public void inject(ReconfigurationProblem core) {
 
         //Remove non future-running VMs
-        ManagedElementSet<VirtualMachine> goods = vms.getElements().clone();
+	ManagedElementList<VirtualMachine> goods = vms.clone();
         goods.retainAll(core.getFutureRunnings());
 
         //Two set variables. One denotes the nodes hosting the VMs, the other, the nodes hosting the other VMs.
-        SetVar myNodes = core.createEnumSetVar("nodes4(" + vms + ")", 0, core.getNodes().length - 1);
-        SetVar otherNodes = core.createEnumSetVar("nodes!4(" + vms + ")", 0, core.getNodes().length - 1);
+        SetVar myNodes = VF.set("nodes4(" + vms + ")", 0, core.getNodes().length - 1, core.getSolver());//core.createEnumSetVar("nodes4(" + vms + ")", 0, core.getNodes().length - 1);
+        SetVar otherNodes = VF.set("nodes!4(" + vms + ")", 0, core.getNodes().length - 1, core.getSolver());// core.createEnumSetVar("nodes!4(" + vms + ")", 0, core.getNodes().length - 1);
 
-        ManagedElementSet<VirtualMachine> otherVMs = core.getFutureRunnings().clone();
+        ManagedElementList<VirtualMachine> otherVMs = core.getFutureRunnings().clone();
         otherVMs.removeAll(goods);
 
 
         //Link the assignment variables with the set
         //TODO: propose a MemberXY() constraints that takes an array of integer variables to improve performance
         List<DemandingSlice> myDSlices = ActionModels.extractDemandingSlices(core.getAssociatedActions(goods));
-        IntDomainVar[] myAssigns = Slices.extractHosters(myDSlices.toArray(new Slice[myDSlices.size()]));
+        IntVar[] myAssigns = Slices.extractHosters(myDSlices.toArray(new Slice[myDSlices.size()]));
 
         List<DemandingSlice> otherDSlices = ActionModels.extractDemandingSlices(core.getAssociatedActions(otherVMs));
-        IntDomainVar[] otherAssigns = Slices.extractHosters(otherDSlices.toArray(new Slice[otherDSlices.size()]));
+        IntVar[] otherAssigns = Slices.extractHosters(otherDSlices.toArray(new Slice[otherDSlices.size()]));
 
-        for (IntDomainVar v : otherAssigns) {
-            if (v.isInstantiated()) {
+        for (IntVar v : otherAssigns) {
+            if (v.instantiated()) {
                 try {
-                    otherNodes.addToKernel(v.getVal(), null, false);
+                    otherNodes.addToKernel(v.getValue(), null);
                 } catch (ContradictionException e) {
                     Plan.logger.error(e.getMessage());
                 }
@@ -87,12 +83,12 @@ public class Lonely implements PlacementConstraint {
             }
         }
 
-        for (IntDomainVar v : myAssigns) {
-            if (v.isInstantiated()) {
+        for (IntVar v : myAssigns) {
+            if (v.instantiated()) {
                 try {
-                    myNodes.addToKernel(v.getVal(), null, false);
+                    myNodes.addToKernel(v.getValue(), null);
                 } catch (ContradictionException e) {
-                    Plan.logger.error(e.getMessage());
+                    //FIXME debug log Plan.logger.error(e.getMessage());
                 }
             } else {
                 core.post(new MemberXY(myNodes, v));
@@ -121,13 +117,13 @@ public class Lonely implements PlacementConstraint {
     }
 
     @Override
-    public ExplodedSet<VirtualMachine> getAllVirtualMachines() {
-        return vms.flatten();
+    public ManagedElementList<VirtualMachine> getAllVirtualMachines() {
+        return (ManagedElementList<VirtualMachine>) vms;
     }
 
     @Override
-    public ExplodedSet<Node> getNodes() {
-        return new ExplodedSet<Node>();
+    public ManagedElementList<Node> getNodes() {
+        return new SimpleManagedElementList<Node>();
     }
 
     /**
@@ -138,8 +134,8 @@ public class Lonely implements PlacementConstraint {
      * @return a set of virtual machines that may be empty
      */
     @Override
-    public ExplodedSet<VirtualMachine> getMisPlaced(Configuration cfg) {
-        ExplodedSet<VirtualMachine> bad = new ExplodedSet<VirtualMachine>();
+    public ManagedElementList<VirtualMachine> getMisPlaced(Configuration cfg) {
+	ManagedElementList<VirtualMachine> bad = new SimpleManagedElementList<VirtualMachine>();
         Set<Node> s1 = new HashSet<Node>();
         for (VirtualMachine vm : vms) {
             if (cfg.isRunning(vm)) {

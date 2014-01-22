@@ -17,12 +17,11 @@
  *      along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gipad.plan;
+package gipad.exception;
 
 
-import entropy.configuration.ManagedElementSet;
-import entropy.configuration.Node;
-import entropy.configuration.VirtualMachine;
+import gipad.configuration.ManagedElementList;
+import org.discovery.DiscoveryModel.model.*;
 
 /**
  * An exception to signal a virtual machine or a node is in several resulting state simultaneously.
@@ -32,6 +31,11 @@ import entropy.configuration.VirtualMachine;
 public class MultipleResultingStateException extends PlanException {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3523783120515347117L;
+
+	/**
      * An exception to show a virtual machine belong to several states.
      *
      * @param vm         the virtual machines
@@ -41,11 +45,11 @@ public class MultipleResultingStateException extends PlanException {
      * @param terminated the virtual machines in the state terminated
      */
     public MultipleResultingStateException(VirtualMachine vm,
-                                           ManagedElementSet<VirtualMachine> runnings,
-                                           ManagedElementSet<VirtualMachine> sleepings,
-                                           ManagedElementSet<VirtualMachine> waitings,
-                                           ManagedElementSet<VirtualMachine> terminated) {
-        super(vm.getName() + " can not be in several states: " +
+                                           ManagedElementList<VirtualMachine> runnings,
+                                           ManagedElementList<VirtualMachine> sleepings,
+                                           ManagedElementList<VirtualMachine> waitings,
+                                           ManagedElementList<VirtualMachine> terminated) {
+        super(vm.name() + " can not be in several states: " +
                 " runnings= " + runnings.contains(vm) +
                 ", sleepings= " + sleepings.contains(vm) +
                 ", waitings= " + waitings.contains(vm) +
@@ -60,9 +64,9 @@ public class MultipleResultingStateException extends PlanException {
      * @param offlines the nodes in the state offline
      */
     public MultipleResultingStateException(Node n,
-                                           ManagedElementSet<Node> onlines,
-                                           ManagedElementSet<Node> offlines) {
-        super(n.getName() + " can not be in severals states: " +
+                                           ManagedElementList<Node> onlines,
+                                           ManagedElementList<Node> offlines) {
+        super(n.name() + " can not be in severals states: " +
                 "onlines= " + onlines.contains(n) +
                 ", offlines= " + offlines.contains(n)
         );

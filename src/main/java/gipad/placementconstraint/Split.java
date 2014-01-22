@@ -19,14 +19,16 @@
 
 package gipad.placementconstraint;
 
+import gipad.configuration.ManagedElementList;
+import gipad.configuration.SimpleManagedElementList;
+import gipad.configuration.configuration.Configuration;
+
 import java.util.HashSet;
 import java.util.Set;
 
-import entropy.configuration.Configuration;
-import entropy.configuration.DefaultManagedElementSet;
-import entropy.configuration.ManagedElementSet;
-import entropy.configuration.Node;
-import entropy.configuration.VirtualMachine;
+import org.discovery.DiscoveryModel.model.Node;
+import org.discovery.DiscoveryModel.model.VirtualMachine;
+
 
 /**
  * A constraint to enforce that two vmset can not share nodes.
@@ -43,12 +45,12 @@ public abstract class Split implements PlacementConstraint {
     /**
      * The first vmset.
      */
-    private VJobSet<VirtualMachine> set1;
+    private ManagedElementList<VirtualMachine> set1;
 
     /**
      * The second vmset.
      */
-    private VJobSet<VirtualMachine> set2;
+    private ManagedElementList<VirtualMachine> set2;
 
     /**
      * Make a new constraint.
@@ -56,7 +58,7 @@ public abstract class Split implements PlacementConstraint {
      * @param vmset1 the first set of virtual machines
      * @param vmset2 the second set of virtual machines
      */
-    public Split(VJobSet<VirtualMachine> vmset1, VJobSet<VirtualMachine> vmset2) {
+    public Split(ManagedElementList<VirtualMachine> vmset1, ManagedElementList<VirtualMachine> vmset2) {
         this.set1 = vmset1;
         this.set2 = vmset2;
     }
@@ -66,8 +68,8 @@ public abstract class Split implements PlacementConstraint {
      *
      * @return a set of VMs. Should not be empty
      */
-    public final ManagedElementSet<VirtualMachine> getFirstSet() {
-        return this.set1.flatten();
+    public final ManagedElementList<VirtualMachine> getFirstSet() {
+        return (ManagedElementList<VirtualMachine>) this.set1;
     }
 
     /**
@@ -75,14 +77,14 @@ public abstract class Split implements PlacementConstraint {
      *
      * @return a set of VMs. Should not be empty
      */
-    public final ManagedElementSet<VirtualMachine> getSecondSet() {
-        return this.set2.flatten();
+    public final ManagedElementList<VirtualMachine> getSecondSet() {
+        return (ManagedElementList<VirtualMachine>) this.set2;
     }
 
     @Override
     public String toString() {
-        return new StringBuilder("split(").append(set1.pretty())
-                .append(", ").append(set2.pretty())
+        return new StringBuilder("split(").append(set1.prettyOut())
+                .append(", ").append(set2.prettyOut())
                 .append(")").toString();
     }
 
@@ -116,7 +118,7 @@ public abstract class Split implements PlacementConstraint {
         Set<Node> firstNodes = new HashSet<Node>();
         Set<Node> secondNodes = new HashSet<Node>();
         if (getFirstSet().size() == 0 || getSecondSet().size() == 0) {
-            VJob.logger.error(this.toString() + ": Some sets of virtual machines are empty");
+            //FIXME debug log  VJob.logger.error(this.toString() + ": Some sets of virtual machines are empty");
             return false;
         }
 
@@ -133,19 +135,19 @@ public abstract class Split implements PlacementConstraint {
 
         for (Node n : firstNodes) {
             if (secondNodes.contains(n)) {
-                ManagedElementSet<Node> ns = new DefaultManagedElementSet<Node>();
+        	ManagedElementList<Node> ns = new SimpleManagedElementList<Node>();
                 ns.addAll(firstNodes);
                 ns.retainAll(secondNodes);
-                VJob.logger.error(this.toString() + ": Nodes host VMs of the two groups: " + ns);
+                //FIXME debug log VJob.logger.error(this.toString() + ": Nodes host VMs of the two groups: " + ns);
                 return false;
             }
         }
         for (Node n : secondNodes) {
             if (firstNodes.contains(n)) {
-                ManagedElementSet<Node> ns = new DefaultManagedElementSet<Node>();
+        	ManagedElementList<Node> ns = new SimpleManagedElementList<Node>();
                 ns.addAll(secondNodes);
                 ns.retainAll(firstNodes);
-                VJob.logger.error(this.toString() + ": Nodes host VMs of the two groups: " + ns);
+              //FIXME debug log VJob.logger.error(this.toString() + ": Nodes host VMs of the two groups: " + ns);
                 return false;
             }
         }
@@ -153,19 +155,19 @@ public abstract class Split implements PlacementConstraint {
     }
 
     @Override
-    public ExplodedSet<VirtualMachine> getAllVirtualMachines() {
-        ExplodedSet<VirtualMachine> all = new ExplodedSet<VirtualMachine>(getFirstSet());
+    public ManagedElementList<VirtualMachine> getAllVirtualMachines() {
+	ManagedElementList<VirtualMachine> all = new SimpleManagedElementList<VirtualMachine>(getFirstSet());
         all.addAll(getSecondSet());
         return all;
     }
 
     @Override
-    public ExplodedSet<Node> getNodes() {
-        return new ExplodedSet<Node>();
+    public ManagedElementList<Node> getNodes() {
+        return new SimpleManagedElementList<Node>();
     }
 
     @Override
-    public ExplodedSet<VirtualMachine> getMisPlaced(Configuration cfg) {
+    public ManagedElementList<VirtualMachine> getMisPlaced(Configuration cfg) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

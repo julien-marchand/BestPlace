@@ -16,34 +16,32 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
  */
+package gipad.plan.costFunction;
 
-package gipad.plan;
+import java.util.Arrays;
 
-import entropy.configuration.Node;
-import entropy.configuration.VirtualMachine;
 
 /**
- * An exception that define an incoherent resulting state for a virtual machine or a node.
+ * An exception to signal an error while evaluate the duration of an action.
  *
  * @author Fabien Hermenier
  */
-public class UnknownResultingStateException extends PlanException {
+public class CostFunctionException extends Exception {
 
     /**
-     * An exception to show a virtual machine does not belong to any possible resulting state.
-     *
-     * @param vm the virtual machine
+     * Default SerialVersionUID.
      */
-    public UnknownResultingStateException(VirtualMachine vm) {
-        super("State of virtual machine '" + vm.getName() + "' is not defined");
-    }
+    private static final long serialVersionUID = 1L;
 
     /**
-     * An exception to show a node does not belong to any possible resulting state.
+     * Make a new exception that preserve the stack trace.
      *
-     * @param n the node
+     * @param expr the expression where evaluation fail
+     * @param t    the original stack trace
+     * @param opts the parameters used to evaluate the expression
      */
-    public UnknownResultingStateException(Node n) {
-        super("State of node '" + n.getName() + "' is not defined");
+    public CostFunctionException(String expr, Throwable t, Object... opts) {
+        super("Unable to evaluation the expression '" + expr + "' with parameters: " + Arrays.toString(opts), t);
     }
+
 }

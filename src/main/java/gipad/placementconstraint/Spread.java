@@ -23,11 +23,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import entropy.configuration.Configuration;
-import entropy.configuration.DefaultManagedElementSet;
-import entropy.configuration.ManagedElementSet;
-import entropy.configuration.Node;
-import entropy.configuration.VirtualMachine;
+
+
+
+
+
+import org.discovery.DiscoveryModel.model.Node;
+import org.discovery.DiscoveryModel.model.VirtualMachine;
+
+import gipad.configuration.ManagedElementList;
+import gipad.configuration.SimpleManagedElementList;
+import gipad.configuration.configuration.Configuration;
 
 /**
  * A constraint to ensure a set of VMs will be hosted on different nodes.
@@ -39,14 +45,14 @@ public abstract class Spread implements PlacementConstraint {
     /**
      * The VMs involved in the constraint.
      */
-    protected VJobSet<VirtualMachine> vms;
+    protected ManagedElementList<VirtualMachine> vms;
 
     /**
      * Make a new constraint.
      *
      * @param vms the involved virtual machines
      */
-    public Spread(VJobSet<VirtualMachine> vms) {
+    public Spread(ManagedElementList<VirtualMachine> vms) {
         this.vms = vms;
     }
 
@@ -56,8 +62,8 @@ public abstract class Spread implements PlacementConstraint {
      * @return a set of virtual machines. Should not be empty
      */
     @Override
-    public ExplodedSet<VirtualMachine> getAllVirtualMachines() {
-        return this.vms.flatten();
+    public ManagedElementList<VirtualMachine> getAllVirtualMachines() {
+        return (ManagedElementList<VirtualMachine>) this.vms;
     }
 
     /**
@@ -65,13 +71,13 @@ public abstract class Spread implements PlacementConstraint {
      *
      * @return a set of virtual machine. Should not be empty
      */
-    public VJobSet<VirtualMachine> getVirtualMachines() {
+    public ManagedElementList<VirtualMachine> getVirtualMachines() {
         return this.vms;
     }
 
     @Override
-    public ExplodedSet<Node> getNodes() {
-        return new ExplodedSet<Node>();
+    public ManagedElementList<Node> getNodes() {
+        return new SimpleManagedElementList<Node>();
     }
 
     @Override
@@ -114,23 +120,23 @@ public abstract class Spread implements PlacementConstraint {
     }
 
     @Override
-    public ExplodedSet<VirtualMachine> getMisPlaced(Configuration cfg) {
-        Map<Node, ManagedElementSet<VirtualMachine>> spots = new HashMap<Node, ManagedElementSet<VirtualMachine>>();
-        ExplodedSet<VirtualMachine> bad = new ExplodedSet<VirtualMachine>();
+    public ManagedElementList<VirtualMachine> getMisPlaced(Configuration cfg) {
+        Map<Node, ManagedElementList<VirtualMachine>> spots = new HashMap<Node, ManagedElementList<VirtualMachine>>();
+        ManagedElementList<VirtualMachine> bad = new SimpleManagedElementList<VirtualMachine>();
         for (VirtualMachine vm : getAllVirtualMachines()) {
             Node h = cfg.getLocation(vm);
             if (cfg.isRunning(vm)) {
                 if (!spots.containsKey(h)) {
-                    spots.put(h, new DefaultManagedElementSet<VirtualMachine>());
+                    spots.put(h, new SimpleManagedElementList<VirtualMachine>());
                 }
                 spots.get(h).add(vm);
             }
 
         }
-        for (Map.Entry<Node, ManagedElementSet<VirtualMachine>> e : spots.entrySet()) {
+        for (Map.Entry<Node, ManagedElementList<VirtualMachine>> e : spots.entrySet()) {
             if (e.getValue().size() > 1) {
                 bad.addAll(e.getValue());
-                VJob.logger.debug(e.getValue() + " are hosted on the same node: '" + e.getKey().getName() + "'");
+               //FIXME debug log VJob.logger.debug(e.getValue() + " are hosted on the same node: '" + e.getKey().getName() + "'");
             }
         }
         return bad;

@@ -19,13 +19,14 @@
 
 package gipad.placementconstraint;
 
-import entropy.configuration.Configuration;
-import entropy.configuration.DefaultManagedElementSet;
-import entropy.configuration.ManagedElementSet;
-import entropy.configuration.Node;
-import entropy.configuration.VirtualMachine;
-import entropy.plan.choco.ReconfigurationProblem;
-import entropy.plan.choco.actionModel.slice.Slice;
+import org.discovery.DiscoveryModel.model.Node;
+import org.discovery.DiscoveryModel.model.VirtualMachine;
+
+import gipad.configuration.ManagedElementList;
+import gipad.configuration.SimpleManagedElementList;
+import gipad.configuration.configuration.Configuration;
+import gipad.plan.choco.ReconfigurationProblem;
+
 
 /**
  * A constraint to assign a set of virtual machines to a single node.
@@ -37,14 +38,14 @@ public class Gather implements PlacementConstraint {
     /**
      * The involved VMs.
      */
-    private VJobSet<VirtualMachine> vms;
+    private ManagedElementList<VirtualMachine> vms;
 
     /**
      * Make a new constraint.
      *
      * @param vms A non-empty set of virtual machines
      */
-    public Gather(VJobSet<VirtualMachine> vms) {
+    public Gather(ManagedElementList<VirtualMachine> vms) {
         this.vms = vms;
     }
 
@@ -54,8 +55,8 @@ public class Gather implements PlacementConstraint {
      * @return a set of VMs. Should not be empty
      */
     @Override
-    public ExplodedSet<VirtualMachine> getAllVirtualMachines() {
-        return this.vms.flatten();
+    public ManagedElementList<VirtualMachine> getAllVirtualMachines() {
+        return (ManagedElementList<VirtualMachine>) this.vms;
     }
 
     /**
@@ -63,19 +64,19 @@ public class Gather implements PlacementConstraint {
      *
      * @return a set of VMs, should not be empty
      */
-    public VJobSet<VirtualMachine> getVirtualMachines() {
+    public ManagedElementList<VirtualMachine> getVirtualMachines() {
         return this.vms;
     }
 
     @Override
-    public ExplodedSet<Node> getNodes() {
-        return new ExplodedSet<Node>();
+    public ManagedElementList<Node> getNodes() {
+        return new SimpleManagedElementList<Node>();
     }
 
     @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder();
-        buffer.append("gather(").append(vms.pretty()).append(")");
+        buffer.append("gather(").append(vms.prettyOut()).append(")");
         return buffer.toString();
     }
 
@@ -100,9 +101,9 @@ public class Gather implements PlacementConstraint {
     public void inject(ReconfigurationProblem core) {
 
         //Get only the future running VMs
-        ManagedElementSet<VirtualMachine> runnings = new DefaultManagedElementSet<VirtualMachine>(getAllVirtualMachines());
+        ManagedElementList<VirtualMachine> runnings = new SimpleManagedElementList<VirtualMachine>(getAllVirtualMachines());
         runnings.retainAll(core.getFutureRunnings());
-        VJob.logger.debug(this + " only consider " + runnings);
+        //FIXME debug log VJob.logger.debug(this + " only consider " + runnings);
 
         for (int i = 0; i < runnings.size(); i++) {
             for (int j = 0; j < i; j++) {
@@ -122,7 +123,7 @@ public class Gather implements PlacementConstraint {
     @Override
     public boolean isSatisfied(Configuration cfg) {
         if (getAllVirtualMachines().size() == 0) {
-            VJob.logger.debug("No virtual machines was specified");
+          //FIXME debug log VJob.logger.debug("No virtual machines was specified");
             return true;
         }
         Node usedNode = null;
@@ -146,11 +147,11 @@ public class Gather implements PlacementConstraint {
      * to be hosted on is not guarantee to be known at 100%.
      */
     @Override
-    public ExplodedSet<VirtualMachine> getMisPlaced(Configuration cfg) {
+    public ManagedElementList<VirtualMachine> getMisPlaced(Configuration cfg) {
         if (!isSatisfied(cfg)) {
             return getAllVirtualMachines();
 
         }
-        return new ExplodedSet<VirtualMachine>();
+        return new SimpleManagedElementList<VirtualMachine>();
     }
 }
