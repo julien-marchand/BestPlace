@@ -146,9 +146,9 @@ public final class Configurations {
             	networkCapa += network.maxBandwidth();
             }
             for (VirtualMachine vm : cfg.getRunnings(n)) {
-                sumCpuCapa -= vm.getCPUDemand();
+                sumCpuCapa -= vm.hardwareSpecification().cpus().get(0);
                 memCapa -= vm.getMemoryDemand();
-                networkCapa -= vm.hardwareSpecification();
+                networkCapa -= vm;
                 vm.
                 if (cpuCapa < 0 || memCapa < 0) {
                     nodes.add(n);

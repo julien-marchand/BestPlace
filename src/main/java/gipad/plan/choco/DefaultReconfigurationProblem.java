@@ -33,6 +33,7 @@ import gipad.configuration.*;
 import gipad.configuration.configuration.*;
 import gipad.plan.*;
 import gnu.trove.map.hash.TIntIntHashMap;
+import gipad.plan.action.Action;
 
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
@@ -349,7 +350,7 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     }
 
     /**
-     * Check all the nodes belong to only on set.
+     * Check all the nodes belong to only one set.
      *
      * @throws gipad.plan.UnknownResultingStateException
      *          if the state of an element is not defined
