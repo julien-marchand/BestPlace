@@ -245,4 +245,48 @@ public interface Configuration {
      */
     boolean contains(VirtualMachine vm);
 
+    /**
+     * Indicate the bandwidth between two {@link Node} (static view limited only by the node hardware not the network)
+     * @param n1 a {@link Node}
+     * @param n2 a {@link Node}
+     * @return the bandwidth between two node
+     */
+    int getBandwidth(Node n1, Node n2);
+    
+    /**
+     * Indicate the bandwidth between two {@link VirtualMachine} (static view limited only by the node hardware not the network)
+     * @param vm1 a {@link VirtualMachine}
+     * @param vm2 a {@link VirtualMachine}
+     * @return
+     */
+    int getBandwidth(VirtualMachine vm1, VirtualMachine vm2);
+    
+
+    /**
+     * 
+     * @param vm
+     * @return
+     */
+    ActionConsomtion getConsomtion(VirtualMachine vm);
+    
+    /**
+     * 
+     * @param vm
+     * @return
+     */
+    ActionConsomtion getLeavingConsomtion(VirtualMachine vm);
+    
+    /**
+     * 
+     * @param vm
+     * @return
+     */
+    ActionConsomtion getIncomingConsomtion(VirtualMachine vm);
+    
+    /**
+     * 
+     * @param vm
+     * @return
+     */
+    ActionConsomtion getDemandingConsomtion(VirtualMachine vm);
 }
