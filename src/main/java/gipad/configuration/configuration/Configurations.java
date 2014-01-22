@@ -19,9 +19,17 @@
 
 package gipad.configuration.configuration;
 
+import gipad.configuration.ManagedElementList;
+import gipad.configuration.SimpleManagedElementList;
+
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+
+import org.discovery.DiscoveryModel.model.Cpu;
+import org.discovery.DiscoveryModel.model.NetworkInterface;
+import org.discovery.DiscoveryModel.model.Node;
+import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 /**
  * Common tools related to Configuration
@@ -55,8 +63,8 @@ public final class Configurations {
      * @param wrt the hosting type to consider
      * @return subset of node that may be empty
      */
-    public static ManagedElementSet<Node> usedNodes(Configuration cfg, EnumSet<State> wrt) {
-        ManagedElementSet<Node> ns = new SimpleManagedElementSet<Node>();
+    public static ManagedElementList<Node> usedNodes(Configuration cfg, EnumSet<State> wrt) {
+        ManagedElementList<Node> ns = new SimpleManagedElementList<Node>();
 
         if (wrt.contains(State.Runnings)) {
             for (VirtualMachine vm : cfg.getRunnings()) {
@@ -79,8 +87,8 @@ public final class Configurations {
      * @param wrt the hosting type to consider
      * @return a subset of node that may be empty
      */
-    public static ManagedElementSet<Node> unusedNodes(Configuration cfg, State wrt) {
-        ManagedElementSet<Node> ns = new SimpleManagedElementSet<Node>();
+    public static ManagedElementList<Node> unusedNodes(Configuration cfg, State wrt) {
+        ManagedElementList<Node> ns = new SimpleManagedElementList<Node>();
         for (Node n : cfg.getOnlines()) {
             if (wrt == State.Runnings && cfg.getRunnings(n).size() == 0) {
                 ns.add(n);
@@ -100,10 +108,10 @@ public final class Configurations {
      *
      * @return a subset of nodes, may be empty.
      */
-    public static ManagedElementSet<Node> currentlyOverloadedNodes(Configuration cfg) {
-        ManagedElementSet<Node> nodes = new SimpleManagedElementSet<Node>();
+    public static ManagedElementList<Node> currentlyOverloadedNodes(Configuration cfg) {
+        ManagedElementList<Node> nodes = new SimpleManagedElementList<Node>();
         for (Node n : cfg.getOnlines()) {
-            int cpuCapa = n.getCPUCapacity();
+            int cpuCapa = n.hardwareSpecification().;
             int memCapa = n.getMemoryCapacity();
             for (VirtualMachine vm : cfg.getRunnings(n)) {
                 cpuCapa -= vm.getCPUConsumption();
@@ -125,14 +133,23 @@ public final class Configurations {
      * @return a subset of nodes, may be empty.
      */
 
-    public static ManagedElementSet<Node> futureOverloadedNodes(Configuration cfg) {
-        ManagedElementSet<Node> nodes = new SimpleManagedElementSet<Node>();
+    public static ManagedElementList<Node> futureOverloadedNodes(Configuration cfg) {
+        ManagedElementList<Node> nodes = new SimpleManagedElementList<Node>();
         for (Node n : cfg.getOnlines()) {
-            int cpuCapa = n.getCPUCapacity();
-            int memCapa = n.getMemoryCapacity();
+            int sumCpuCapa = 0;
+            for(Cpu cpu : n.hardwareSpecification().cpus()){
+            	sumCpuCapa += cpu.getCpuCapacity();
+            }
+            double memCapa = n.hardwareSpecification().memory().capacity();
+            int networkCapa = 0;
+            for(NetworkInterface network : n.networkSpecification().networkInterfaces()){
+            	networkCapa += network.maxBandwidth();
+            }
             for (VirtualMachine vm : cfg.getRunnings(n)) {
-                cpuCapa -= vm.getCPUDemand();
+                sumCpuCapa -= vm.getCPUDemand();
                 memCapa -= vm.getMemoryDemand();
+                networkCapa -= vm.hardwareSpecification();
+                vm.
                 if (cpuCapa < 0 || memCapa < 0) {
                     nodes.add(n);
                     break;
@@ -191,16 +208,16 @@ public final class Configurations {
      * @param nodes the subset of nodes
      * @return a new configuration is the operation succeed, {@code null} otherwise
      */
-    public static Configuration subConfiguration(Configuration cfg, ManagedElementSet<VirtualMachine> vms, ManagedElementSet<Node> nodes) throws ConfigurationsException {
+    public static Configuration subConfiguration(Configuration cfg, ManagedElementList<VirtualMachine> vms, ManagedElementList<Node> nodes) throws ConfigurationsException {
         Configuration sub = new SimpleConfiguration();
-        ManagedElementSet<VirtualMachine> cpy = vms.clone();
+        ManagedElementList<VirtualMachine> cpy = vms.clone();
         for (Node n : nodes) {
             if (cfg.isOffline(n)) {
                 sub.addOffline(n);
             } else if (cfg.isOnline(n)) {
                 sub.addOnline(n);
-                ManagedElementSet<VirtualMachine> runs = cfg.getRunnings(n);
-                ManagedElementSet<VirtualMachine> sleeps = cfg.getSleepings(n);
+                ManagedElementList<VirtualMachine> runs = cfg.getRunnings(n);
+                ManagedElementList<VirtualMachine> sleeps = cfg.getSleepings(n);
                 if (!cpy.containsAll(runs)) {
                     throw new ConfigurationsException(cfg, "VMs on node " + n.getName() + "(" + runs + ") does not only contains VMs in " + cpy);
                 }
