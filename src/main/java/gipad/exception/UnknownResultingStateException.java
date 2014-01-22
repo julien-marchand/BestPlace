@@ -19,9 +19,7 @@
 
 package gipad.exception;
 
-import entropy.configuration.Node;
-import entropy.configuration.VirtualMachine;
-
+import org.discovery.DiscoveryModel.model.*;
 /**
  * An exception that define an incoherent resulting state for a virtual machine or a node.
  *
@@ -30,12 +28,17 @@ import entropy.configuration.VirtualMachine;
 public class UnknownResultingStateException extends PlanException {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1408742572675607445L;
+
+	/**
      * An exception to show a virtual machine does not belong to any possible resulting state.
      *
      * @param vm the virtual machine
      */
     public UnknownResultingStateException(VirtualMachine vm) {
-        super("State of virtual machine '" + vm.getName() + "' is not defined");
+        super("State of virtual machine '" + vm.name() + "' is not defined");
     }
 
     /**
@@ -44,6 +47,6 @@ public class UnknownResultingStateException extends PlanException {
      * @param n the node
      */
     public UnknownResultingStateException(Node n) {
-        super("State of node '" + n.getName() + "' is not defined");
+        super("State of node '" + n.name() + "' is not defined");
     }
 }

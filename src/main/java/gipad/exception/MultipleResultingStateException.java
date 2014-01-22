@@ -31,6 +31,11 @@ import org.discovery.DiscoveryModel.model.*;
 public class MultipleResultingStateException extends PlanException {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3523783120515347117L;
+
+	/**
      * An exception to show a virtual machine belong to several states.
      *
      * @param vm         the virtual machines
