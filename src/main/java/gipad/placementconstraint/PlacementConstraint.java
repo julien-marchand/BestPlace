@@ -18,11 +18,13 @@
  */
 package gipad.placementconstraint;
 
-import entropy.configuration.Configuration;
-import entropy.configuration.Node;
-import entropy.configuration.VirtualMachine;
-import entropy.plan.choco.ReconfigurationProblem;
+
+import org.discovery.DiscoveryModel.model.Node;
+import org.discovery.DiscoveryModel.model.VirtualMachine;
+
 import gipad.configuration.ManagedElementList;
+import gipad.configuration.configuration.Configuration;
+import gipad.plan.choco.ReconfigurationProblem;
 
 /**
  * An interface to specify some constraints related to the planification of the action.

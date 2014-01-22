@@ -20,7 +20,8 @@ import gipad.vjob.VJob;
 
 public class ChocoCustom3RP implements Plan{
 	
-	private CostFunction costFunc;
+
+    private CostFunction costFunc;
 
     /**
      * The model.
@@ -40,17 +41,17 @@ public class ChocoCustom3RP implements Plan{
     private ManagedElementList<VirtualMachine> queue;
     
     ///////////Constructeur//////////////
-    
-	public ChocoCustom3RP(CostFunction costFunc) {
-		this.costFunc = costFunc;
-	}
+    public ChocoCustom3RP(CostFunction costFunc) {
+	this.costFunc = costFunc;
+    }
 
+
+    //////////Getter && Setter///////////
 	
-	//////////Getter && Setter///////////
-	
-	public void setRepairMode(boolean b) {
-		this.repair = b;
-	}
+
+    public void setRepairMode(boolean b) {
+	this.repair = b;
+    }
 
     /**
      * Get the timelimit to solve the problem.
@@ -66,17 +67,18 @@ public class ChocoCustom3RP implements Plan{
      *
      * @param seconds the time in second
      */
-	public void setTimeLimit(int entropyPlanTimeout) {
-		this.timeout = entropyPlanTimeout;
-	}
+    public void setTimeLimit(int entropyPlanTimeout) {
+	this.timeout = entropyPlanTimeout;
+    }
 	
-	/**
+    	/**
 	 * Get cost function
 	 * @return CostFunction
 	 */
-	public CostFunction getCostFunction(){
-		return this.costFunc;
-	}
+
+    public CostFunction getCostFunction(){
+	return this.costFunc;
+    }
 	
     /**
      * Get the model.
@@ -87,11 +89,11 @@ public class ChocoCustom3RP implements Plan{
         return this.model;
     }
 	
-    /**
+    /** TODO
      * Get some Stats about the model
      * @return
      */
-    public List<SolutionStatistics> getSolutionsStatistics() {
+    /*public List<SolutionStatistics> getSolutionsStatistics() {
         if (model == null) {
             return new ArrayList<SolutionStatistics>();
         }
@@ -100,19 +102,19 @@ public class ChocoCustom3RP implements Plan{
 
     /**
      * @return some statistics about the solving process
-     */
+     *//*
     public SolvingStatistics getSolvingStatistics() {
         if (model == null) {
             return SolvingStatistics.getStatisticsForNotSolvingProcess();
         }
         return model.getSolvingStatistics();
-    }
+    }*/
 	
 
 	
 	public SequencedReconfigurationPlan compute(Configuration src, ManagedElementList<VirtualMachine> q) throws PlanException {
 
-		 	queue = q;
+		queue = q;
 
 	        model = null;
 
