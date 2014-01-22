@@ -64,7 +64,7 @@ public class Ban implements PlacementConstraint {
      */
     @Override
 	public ManagedElementList<Node> getNodes() {
-        return this.nodes.flatten();
+        return (ManagedElementList<Node>) this.nodes;
     }
 
     /**
@@ -83,7 +83,7 @@ public class Ban implements PlacementConstraint {
      */
     @Override
     public ManagedElementList<VirtualMachine> getAllVirtualMachines() {
-        return (ManagedElementList<VirtualMachine>) this.vms.flatten();
+        return (ManagedElementList<VirtualMachine>) this.vms;
     }
 
     @Override
@@ -174,7 +174,7 @@ public class Ban implements PlacementConstraint {
      */
     @Override
     public boolean isSatisfied(Configuration cfg) {
-        ManagedElementList<Node> ns = (ManagedElementList<Node>) getNodes().flatten();
+        ManagedElementList<Node> ns = (ManagedElementList<Node>) getNodes();
         for (VirtualMachine vm : getAllVirtualMachines()) {
             if (cfg.isRunning(vm) && ns.contains(cfg.getLocation(vm))) {
                 return false;

@@ -56,7 +56,7 @@ public class Gather implements PlacementConstraint {
      */
     @Override
     public ManagedElementList<VirtualMachine> getAllVirtualMachines() {
-        return (ManagedElementList<VirtualMachine>) this.vms.flatten();
+        return (ManagedElementList<VirtualMachine>) this.vms;
     }
 
     /**

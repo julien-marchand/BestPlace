@@ -3,9 +3,13 @@ package gipad.configuration;
 
 
 import org.simgrid.msg.*;
-import org.simgrid.msg.Process;
+
 import gipad.configuration.SimulatorManager;
 
+/**Ne compilera pas sur windows : simgrid - Sabrine
+ * 
+ *
+ */
 public class Daemon extends Process {
 	private Task currentTask;
     private int load;

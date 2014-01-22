@@ -284,7 +284,7 @@ public interface ReconfigurationProblem {
      *
      * @return a DurationEvaluator
      */
-    DurationEvaluator getDurationEvaluator();
+    //FIXME later DurationEvaluator getDurationEvaluator();
 
     /**
      * Get all the actions associated to a list of virtual machines.
@@ -326,12 +326,12 @@ public interface ReconfigurationProblem {
      *
      * @return a list of statistics that may me empty.
      */
-    List<SolutionStatistics> getSolutionsStatistics();
+    //FIXME later List<SolutionStatistics> getSolutionsStatistics();
 
     /**
      * Get statistics about the solving process
      *
      * @return some statistics
      */
-    SolvingStatistics getSolvingStatistics();
+  //FIXME later SolvingStatistics getSolvingStatistics();
 }
