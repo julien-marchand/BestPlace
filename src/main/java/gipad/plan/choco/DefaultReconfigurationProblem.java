@@ -32,8 +32,6 @@ import java.util.Set;
 
 
 
-
-
 import entropy.plan.durationEvaluator.DurationEvaluationException;
 import gipad.configuration.*;
 import gipad.configuration.configuration.*;
@@ -42,21 +40,21 @@ import gipad.plan.action.*;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gipad.plan.action.Action;
 import gipad.exception.NonViableSourceConfigurationException;
-import gipad.exception.PlanException;
 
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
-import solver.Solver;
-import solver.variables.IntVar;
+import solver.*;
+import solver.variables.*;
 import solver.variables.SetVar;
 import solver.variables.VF;
 
 /**
- * A CSP to model a reconfiguration plan composed of time bounded actions.
- * In this model, regarding to the current configuration and the sample destination configuration,
- * the model create the different actions that aims to perform the transition to the destination configuration. In addition,
- * several actions acting on the placement of the virtual machines can be added.
+ * A CSP to model a reconfiguration plan composed of time bounded actions. In
+ * this model, regarding to the current configuration and the sample destination
+ * configuration, the model create the different actions that aims to perform
+ * the transition to the destination configuration. In addition, several actions
+ * acting on the placement of the virtual machines can be added.
  *
  * @author Fabien Hermenier
  */
@@ -180,7 +178,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     private List<List<Integer>> nodeGrps;
 
     /**
-     * The group of nodes associated to each identifier. To synchronize with nodesGrp.
+	 * The group of nodes associated to each identifier. To synchronize with
+	 * nodesGrp.
      */
     private List<ManagedElementList<Node>> revNodesGrp;
 
@@ -204,31 +203,41 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 
     private int[] grpId; //The group ID of each node
 
-
-
     /**
      * Make a new model.
      *
-     * @param src        The source configuration. It must be viable.
-     * @param run        The set of virtual machines that must be running at the end of the process
-     * @param wait       The set of virtual machines that must be waiting at the end of the process
-     * @param sleep      The set of virtual machines that must be sleeping at the end of the process
-     * @param stop       The set of virtual machines that must be terminated at the end of the process
-     * @param manageable the set of virtual machines to consider as manageable in the problem
-     * @param on         The set of nodes that must be online at the end of the process
-     * @param off        The set of nodes that must be offline at the end of the process
-     * @param eval       the evaluator to estimate the duration of an action.
-     * @throws entropy.plan.PlanException if an error occurred while building the model
+	 * @param src
+	 *            The source configuration. It must be viable.
+	 * @param run
+	 *            The set of virtual machines that must be running at the end of
+	 *            the process
+	 * @param wait
+	 *            The set of virtual machines that must be waiting at the end of
+	 *            the process
+	 * @param sleep
+	 *            The set of virtual machines that must be sleeping at the end
+	 *            of the process
+	 * @param stop
+	 *            The set of virtual machines that must be terminated at the end
+	 *            of the process
+	 * @param manageable
+	 *            the set of virtual machines to consider as manageable in the
+	 *            problem
+	 * @param on
+	 *            The set of nodes that must be online at the end of the process
+	 * @param off
+	 *            The set of nodes that must be offline at the end of the
+	 *            process
+	 * @param eval
+	 *            the evaluator to estimate the duration of an action.
+	 * @throws entropy.plan.PlanException
+	 *             if an error occurred while building the model
      */
-    public DefaultReconfigurationProblem(Configuration src,
-                                         ManagedElementList<VirtualMachine> run,
-                                         ManagedElementList<VirtualMachine> wait,
-                                         ManagedElementList<VirtualMachine> sleep,
-                                         ManagedElementList<VirtualMachine> stop,
-                                         ManagedElementList<VirtualMachine> manageable,
-                                         ManagedElementList<Node> on,
-                                         ManagedElementList<Node> off,
-                                         CostFunction costFunc) throws PlanException {
+	public DefaultReconfigurationProblem(Configuration src, ManagedElementList<VirtualMachine> run,
+			ManagedElementList<VirtualMachine> wait, ManagedElementList<VirtualMachine> sleep,
+			ManagedElementList<VirtualMachine> stop, ManagedElementList<VirtualMachine> manageable,
+			ManagedElementList<Node> on, ManagedElementList<Node> off, CostFunction costFunc)
+			throws PlanException {
         this.source = src;
         this.manageable = manageable;
         runnings = run;
@@ -241,14 +250,16 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 
         this.checkDisjointSet();
         if (Configurations.currentlyOverloadedNodes(this.source).size() > 0) {
-            throw new NonViableSourceConfigurationException(source, Configurations.currentlyOverloadedNodes(source).get(0));
+			throw new NonViableSourceConfigurationException(source, Configurations
+					.currentlyOverloadedNodes(source).get(0));
         }
 
         start = VF.fixed(0,this.getSolver());//this.makeConstantIntVar(0);
         end = createBoundIntVar("end", 0, MAX_TIME);
         post(geq(end, start));
 
-        this.vms = source.getAllVirtualMachines().toArray(new VirtualMachine[source.getAllVirtualMachines().size()]);
+		this.vms = source.getAllVirtualMachines().toArray(
+				new VirtualMachine[source.getAllVirtualMachines().size()]);
         this.revVMs = new TIntIntHashMap(vms.length);
         for (int i = 0; i < vms.length; i++) {
             revVMs.put(vms[i].hashCode(), i);
@@ -261,13 +272,16 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
             revNodes.put(nodes[i].hashCode(), i);
         }
         try {
-            this.makeBasicActions(); //creation des actions possible pour chaque VM
-            //En fonction de l'état actuel de la VM et de l'action qui est demandé à la VM
+			this.makeBasicActions(); // creation des actions possible pour
+										// chaque VM
+			// En fonction de l'état actuel de la VM et de l'action qui est
+			// demandé à la VM
         } catch (DurationEvaluationException e) {
             throw new PlanException(e.getMessage(), e);
         }
         this.makeResourcesCapacities(); 
-        //creation de toutes les variables qui représentent les sommes de comsommations sur chaque noeud
+		// creation de toutes les variables qui représentent les sommes de
+		// comsommations sur chaque noeud
 
         this.vmGrp = new ArrayList<IntVar>(this.vms.length);
         for (int i = 0; i < vms.length; i++) {
@@ -281,27 +295,30 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
         this.nodesGrp = new HashMap<ManagedElementList<Node>, Integer>();
         this.revNodesGrp = new ArrayList<ManagedElementList<Node>>(MAX_NB_GRP);
 
-        packing = new SatisfyDemandingSlicesHeightsFastBP();//new SatisfyDemandingSlicesHeightsSimpleBP();
+		packing = new SatisfyDemandingSlicesHeightsFastBP();// new
+															// SatisfyDemandingSlicesHeightsSimpleBP();
         //notre cumulative colorée ici
         packing.add(this);
 
         //TODO: Uncomment for capacity
-        /*if (!this.demandingSlices.isEmpty()) {
-            this.makeSetModel();
-        } */
+		/*
+		 * if (!this.demandingSlices.isEmpty()) { this.makeSetModel(); }
+		 */
         new SlicesPlanner().add(this);
     }
 
-    public DefaultReconfigurationProblem(
-			Configuration src,
-			ManagedElementList<VirtualMachine> vms,
+	public DefaultReconfigurationProblem(Configuration src, ManagedElementList<VirtualMachine> vms,
 			CostFunction costFunc) throws PlanException  {
 
     	 this.source = src;
          this.manageable = vms;
          runnings = src.getRunnings();
-         waitings = new SimpleManagedElementList<VirtualMachine>(); //no vm shall be waiting
-         sleepings = new SimpleManagedElementList<VirtualMachine>(); //no vm shall be sleeping
+		waitings = new SimpleManagedElementList<VirtualMachine>(); // no vm
+																	// shall be
+																	// waiting
+		sleepings = new SimpleManagedElementList<VirtualMachine>(); // no vm
+																	// shall be
+																	// sleeping
          terminated = new SimpleManagedElementList<VirtualMachine>(); 
          onlines = src.getOnlines();
          offlines = new SimpleManagedElementList<Node>();
@@ -309,7 +326,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
          
          this.checkDisjointSet();
          if (Configurations.currentlyOverloadedNodes(this.source).size() > 0) {
-             throw new NonViableSourceConfigurationException(source, Configurations.currentlyOverloadedNodes(source).get(0));
+			throw new NonViableSourceConfigurationException(source, Configurations
+					.currentlyOverloadedNodes(source).get(0));
          }
 	}
 
@@ -322,7 +340,6 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
             //A set variable for each future online nodes
             this.sets = new SetVar[nodes.length];
 
-
             for (int i = 0; i < sets.length; i++) {
                 Node n = nodes[i];
                 SetVar s = createEnumSetVar("host(" + n.name() + ")", 0, demandingSlices.size() - 1);
@@ -330,6 +347,7 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
             }
 
             //Make the channeling with the assignment variable of all the d-slices
+
             IntVar[] assigns = Slices.extractHosters(demandingSlices.toArray(new Slice[demandingSlices.size()]));
             post(new InverseSetInt(assigns, sets));
         }
@@ -344,8 +362,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
      * Set the resources capacity of the nodes.
      */
     private void makeResourcesCapacities() {
-        this.cpuCapacities = new IntVar[nodes.length];
-        this.memCapacities = new IntVar[nodes.length];
+		this.cpuCapacities = new IntVar[nodes.length];
+		this.memCapacities = new IntVar[nodes.length];
 
         ManagedElementList<Node> involvedNodes = new SimpleManagedElementList<Node>();
         for (Node n : getFutureOfflines()) {
@@ -372,7 +390,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
      * @throws gipad.exception.MultipleResultingStateException
      *          if an element has two state
      */
-    private void checkDisjointSet() throws UnknownResultingStateException, MultipleResultingStateException {
+	private void checkDisjointSet() throws UnknownResultingStateException,
+			MultipleResultingStateException {
         for (Node n : getSourceConfiguration().getAllNodes()) {
             boolean inOnlines = this.getFutureOnlines().contains(n);
             boolean inOfflines = this.getFutureOfflines().contains(n);
@@ -385,19 +404,15 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 
         for (VirtualMachine vm : getSourceConfiguration().getAllVirtualMachines()) {
             int nbIn = this.getFutureRunnings().contains(vm) ? 1 : 0;
-            if (this.getFutureWaitings().contains(vm)
-                    || this.getFutureSleepings().contains(vm)
+			if (this.getFutureWaitings().contains(vm) || this.getFutureSleepings().contains(vm)
                     || this.getFutureTerminated().contains(vm)) {
                 nbIn++;
             }
             if (nbIn == 0) {
                 throw new UnknownResultingStateException(vm);
             } else if (nbIn > 1) {
-                throw new MultipleResultingStateException(vm,
-                        getFutureRunnings(),
-                        getFutureSleepings(),
-                        getFutureWaitings(),
-                        getFutureTerminated());
+				throw new MultipleResultingStateException(vm, getFutureRunnings(), getFutureSleepings(),
+						getFutureWaitings(), getFutureTerminated());
             }
         }
     }
@@ -492,8 +507,10 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     }
 
     /**
-     * Create all the basic action that manipulate the state of the virtual machine and the nodes.
-     * creation de l'arraylist qui contient l'ensemble des actions possibles pour chaque VM
+	 * Create all the basic action that manipulate the state of the virtual
+	 * machine and the nodes. creation de l'arraylist qui contient l'ensemble
+	 * des actions possibles pour chaque VM
+	 * 
      * @throws entropy.plan.NoAvailableTransitionException
      *          if the VM can not be running regarding to its current state
      */
@@ -516,7 +533,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
                 currentLocation[getVirtualMachine(vm)] = getNode(source.getLocation(vm));
                 a = new MigratableActionModel(this, vm, durationEval.evaluateMigration(vm), dyn);
             } else if (this.source.isSleeping(vm)) {
-                a = new ResumeActionModel(this, vm, durationEval.evaluateLocalResume(vm), durationEval.evaluateRemoteResume(vm));
+				a = new ResumeActionModel(this, vm, durationEval.evaluateLocalResume(vm),
+						durationEval.evaluateRemoteResume(vm));
                 currentLocation[getVirtualMachine(vm)] = getNode(source.getLocation(vm));
             } else if (this.source.isWaiting(vm)) {
                 currentLocation[getVirtualMachine(vm)] = -1;
@@ -543,7 +561,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
             VirtualMachine vm = sleepings.get(i);
 //        for (VirtualMachine vm : getFutureSleepings()) {
             if (this.source.isRunning(vm)) {
-                VirtualMachineActionModel a = new SuspendActionModel(this, vm, durationEval.evaluateLocalSuspend(vm));
+				VirtualMachineActionModel a = new SuspendActionModel(this, vm,
+						durationEval.evaluateLocalSuspend(vm));
                 vmActions.set(getVirtualMachine(vm), a);
             } else if (this.source.isWaiting(vm)) {
                 throw new NoAvailableTransitionException(vm, "waiting", "sleeping");
@@ -555,7 +574,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
             VirtualMachine vm = terminated.get(i);
             //for (VirtualMachine vm : getFutureTerminated()) {
             if (this.source.isRunning(vm)) {
-                VirtualMachineActionModel a = new StopActionModel(this, vm, durationEval.evaluateStop(vm));
+				VirtualMachineActionModel a = new StopActionModel(this, vm,
+						durationEval.evaluateStop(vm));
                 vmActions.set(getVirtualMachine(vm), a);
             } else if (this.source.isSleeping(vm)) {
                 throw new NoAvailableTransitionException(vm, "sleeping", "terminated");
@@ -579,16 +599,17 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
         }
         for (Node n : getFutureOfflines()) {
             if (getSourceConfiguration().getOnlines().contains(n)) {
-                ShutdownNodeActionModel a = new ShutdownNodeActionModel(this, n, durationEval.evaluateShutdown(n));
+				ShutdownNodeActionModel a = new ShutdownNodeActionModel(this, n,
+						durationEval.evaluateShutdown(n));
                 nodesActions.set(getNode(a.getNode()), a);
             } else {
                 StayOfflineNodeActionModel a = new StayOfflineNodeActionModel(this, n);
-                /*ShutdownNodeActionModel a = new ShutdownNodeActionModel(this, n, durationEval.evaluateShutdown(n));
-                try {
-                    a.start().setVal(0);
-                } catch (Exception e) {
-                    Plan.logger.error(e.getMessage(), e);
-                } */
+				/*
+				 * ShutdownNodeActionModel a = new ShutdownNodeActionModel(this,
+				 * n, durationEval.evaluateShutdown(n)); try {
+				 * a.start().setVal(0); } catch (Exception e) {
+				 * Plan.logger.error(e.getMessage(), e); }
+				 */
                 //a.start().setLowB(0);
                 //a.start().setUppB(0);
                 nodesActions.set(getNode(a.getNode()), a);
@@ -605,7 +626,6 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
         this.consumingSlices.addAll(ActionModels.extractConsumingSlices(getVirtualMachineActions()));
         this.consumingSlices.addAll(ActionModels.extractConsumingSlices(getNodeMachineActions()));
     }
-
 
     @Override
     public List<VirtualMachineActionModel> getVirtualMachineActions() {
@@ -706,10 +726,10 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
                 List<Integer> l = this.nodeGrps.get(getNode(n));
                 l.add(v);
 
-                /*if (grpId[getNode(n)] != 0) {
-                    Plan.logger.error("Node group has changed");
-                    return -1;
-                } */
+				/*
+				 * if (grpId[getNode(n)] != 0) {
+				 * Plan.logger.error("Node group has changed"); return -1; }
+				 */
                 grpId[getNode(n)] = v;
             }
             //Set the group of the nodes
@@ -770,7 +790,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 
     @Override
     public SetVar[] getSetModels() {
-        return new SetVar[0];  //To change body of implemented methods use File | Settings | File Templates.
+		return new SetVar[0]; // To change body of implemented methods use File
+								// | Settings | File Templates.
     }
 
     @Override
@@ -842,7 +863,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     public TimedReconfigurationPlan extractSolution() {
         //TODO: check if solution is found
         //Configuration dst = extractConfiguration();
-        DefaultTimedReconfigurationPlan plan = new DefaultTimedReconfigurationPlan(getSourceConfiguration());
+		DefaultTimedReconfigurationPlan plan = new DefaultTimedReconfigurationPlan(
+				getSourceConfiguration());
         for (NodeActionModel action : getNodeMachineActions()) {
             if (action instanceof BootNodeActionModel) {
                 Action a = action.getDefinedAction(this);
@@ -874,13 +896,15 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
                     if (!plan.add(action.getDefinedAction(this))) {
                         Plan.logger.warn("Action " + a + " is not added into the plan");
                     }
-                }/* else {
-                    Plan.logger.debug("No resulting action for " + action);
-                }  */
+				}/*
+				 * else { Plan.logger.debug("No resulting action for " +
+				 * action); }
+				 */
             }
         }
         if (plan.getDuration() != end.getVal()) {
-            Plan.logger.error("Theoretical duration (" + getEnd().getVal() + ") and plan duration " + plan.getDuration() + " mismatch");
+			Plan.logger.error("Theoretical duration (" + getEnd().getVal() + ") and plan duration "
+					+ plan.getDuration() + " mismatch");
             return null;
         }
         return plan;
@@ -893,15 +917,10 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
             IMeasures m = s.getMeasures();
             SolutionStatistics st;
             if (m.getObjectiveValue() != null) {
-                st = new SolutionStatistics(m.getNodeCount(),
-                        m.getBackTrackCount(),
-                        m.getTimeCount(),
-                        this.isEncounteredLimit(),
-                        m.getObjectiveValue().intValue());
+				st = new SolutionStatistics(m.getNodeCount(), m.getBackTrackCount(), m.getTimeCount(),
+						this.isEncounteredLimit(), m.getObjectiveValue().intValue());
             } else {
-                st = new SolutionStatistics(m.getNodeCount(),
-                        m.getBackTrackCount(),
-                        m.getTimeCount(),
+				st = new SolutionStatistics(m.getNodeCount(), m.getBackTrackCount(), m.getTimeCount(),
                         this.isEncounteredLimit());
             }
             stats.add(st);
@@ -912,10 +931,7 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 
     /*FIXME @Override
      public SolvingStatistics getSolvingStatistics() {
-        return new SolvingStatistics(
-                this.getNodeCount(),
-                this.getBackTrackCount(),
-                this.getTimeCount(),
+		return new SolvingStatistics(this.getNodeCount(), this.getBackTrackCount(), this.getTimeCount(),
                 this.isEncounteredLimit());
     }*/
 
