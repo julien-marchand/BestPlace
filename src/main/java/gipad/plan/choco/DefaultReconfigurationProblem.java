@@ -39,7 +39,12 @@ import gipad.plan.*;
 import gipad.plan.action.*;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gipad.plan.action.Action;
+<<<<<<< HEAD
+import gipad.plan.choco.actionmodel.NodeActionModel;
+import gipad.exception.*;
+=======
 import gipad.exception.NonViableSourceConfigurationException;
+>>>>>>> branch 'master' of https://github.com/julien-marchand/BestPlace.git
 
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
@@ -365,21 +370,21 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 		this.cpuCapacities = new IntVar[nodes.length];
 		this.memCapacities = new IntVar[nodes.length];
 
-        ManagedElementList<Node> involvedNodes = new SimpleManagedElementList<Node>();
-        for (Node n : getFutureOfflines()) {
-            NodeActionModel action = getAssociatedAction(n);
-            if (action != null) {
-                involvedNodes.add(n);
-            }
-        }
-        involvedNodes.addAll(getFutureOnlines());
-        for (Node n : involvedNodes) {
-            IntVar capaCPU = createBoundIntVar(n.name() + "#cpuCapacity", 0, n.getCPUCapacity());
-            IntVar capaMem = createBoundIntVar(n.name() + "#memCapacity", 0, n.getMemoryCapacity());
-            cpuCapacities[getNode(n)] = capaCPU;
-            memCapacities[getNode(n)] = capaMem;
-        }
-
+		ManagedElementList<Node> involvedNodes = new SimpleManagedElementList<Node>();
+		for (Node n : getFutureOfflines()) {
+			NodeActionModel action = getAssociatedAction(n);
+			if (action != null) {
+				involvedNodes.add(n);
+			}
+		}
+		involvedNodes.addAll(getFutureOnlines());
+		for (Node n : involvedNodes) {
+			IntVar capaCPU = VariableFactory.bounded(n.name() + "#cpuCapacity", 0, n.hardwareSpecification()., getSolver());
+			IntVar capaMem = createBoundIntVar(n.name() + "#memCapacity", 0,
+					n.getMemoryCapacity());
+			cpuCapacities[getNode(n)] = capaCPU;
+			memCapacities[getNode(n)] = capaMem;
+		}
     }
 
     /**
