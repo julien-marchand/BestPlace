@@ -125,7 +125,7 @@ public final class Configurations {
      * @return a subset of nodes, may be empty.
      */
 
-    public static ManagedElementSet<Node> futureOverloadedNodes(Configuration cfg) {
+    public static ManagedElementList<Node> futureOverloadedNodes(Configuration cfg) {
         ManagedElementSet<Node> nodes = new SimpleManagedElementSet<Node>();
         for (Node n : cfg.getOnlines()) {
             int cpuCapa = n.getCPUCapacity();
