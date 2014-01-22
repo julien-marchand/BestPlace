@@ -26,8 +26,13 @@ import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 import solver.Solver;
+import solver.variables.IntVar;
+import solver.variables.SetVar;
 import gipad.configuration.configuration.*;
 import gipad.configuration.ManagedElementList;
+import gipad.plan.SequencedReconfigurationPlan;
+import gipad.plan.action.NodeAction;
+import gipad.plan.action.VirtualMachineAction;
 
 /**
  * Specification of a reconfiguration problem.
@@ -166,7 +171,7 @@ public interface ReconfigurationProblem {
      *
      * @return a list of actions.
      */
-    List<VirtualMachineActionModel> getVirtualMachineActions();
+    List<VirtualMachineAction> getVirtualMachineActions();
 
     /**
      * Get the action associated to a virtual machine.
@@ -174,14 +179,14 @@ public interface ReconfigurationProblem {
      * @param vm the virtual machine
      * @return the action associated to the virtual machine.
      */
-    VirtualMachineActionModel getAssociatedAction(VirtualMachine vm);
+    VirtualMachineAction getAssociatedAction(VirtualMachine vm);
 
     /**
      * Get all the actions related to nodes.
      *
      * @return a list of actions.
      */
-    List<NodeActionModel> getNodeMachineActions();
+    List<NodeAction> getNodeMachineActions();
 
     /**
      * Get the action associated to a node.
@@ -189,7 +194,7 @@ public interface ReconfigurationProblem {
      * @param n the node
      * @return the associated action, may be null
      */
-    NodeActionModel getAssociatedAction(Node n);
+    NodeAction getAssociatedAction(Node n);
 
     /**
      * Get the free CPU capacity of a node.
@@ -282,26 +287,12 @@ public interface ReconfigurationProblem {
     DurationEvaluator getDurationEvaluator();
 
     /**
-     * Get  all the demanding slices in the model.
-     *
-     * @return a list of slice. May be empty
-     */
-    List<DemandingSlice> getDemandingSlices();
-
-    /**
-     * Get all the consuming slices in the model.
-     *
-     * @return a list of slice. May be empty
-     */
-    List<ConsumingSlice> getConsumingSlice();
-
-    /**
      * Get all the actions associated to a list of virtual machines.
      *
      * @param vms the virtual machines
      * @return a list of actions. The order is the same than the order of the VMs.
      */
-    List<VirtualMachineActionModel> getAssociatedActions(ManagedElementList<VirtualMachine> vms);
+    List<VirtualMachineAction> getAssociatedActions(ManagedElementList<VirtualMachine> vms);
 
     /**
      * Get the set model of the nodes.
@@ -321,7 +312,6 @@ public interface ReconfigurationProblem {
 
     Solver getSolver();
     
-    SatisfyDemandingSliceHeights getSatisfyDSlicesHeightConstraint();
 
     /**
      * Extract the resulting reconfiguration plan if the
@@ -329,7 +319,7 @@ public interface ReconfigurationProblem {
      *
      * @return a plan if the solving process succeeded or {@code null}
      */
-    TimedReconfigurationPlan extractSolution();
+    SequencedReconfigurationPlan extractSolution();
 
     /**
      * Get statistics about computed solutions.

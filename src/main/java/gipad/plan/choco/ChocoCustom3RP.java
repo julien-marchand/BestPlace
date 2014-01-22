@@ -2,19 +2,22 @@
 package gipad.plan.choco;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 import solver.constraints.Constraint;
-
+import solver.variables.IntVar;
 import gipad.placementconstraint.*;
 import gipad.configuration.CostFunction;
 import gipad.configuration.ManagedElementList;
 import gipad.configuration.SimpleManagedElementList;
 import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.Configurations;
 import gipad.plan.*;
-import gipad.vjob.VJob;
+import gipad.plan.action.Action;
 
 
 
@@ -113,23 +116,20 @@ public class ChocoCustom3RP implements Plan{
 
 	
 	public SequencedReconfigurationPlan compute(Configuration src, ManagedElementList<VirtualMachine> q) throws PlanException {
-
-		queue = q;
-
-	        model = null;
-
-	        ManagedElementList<VirtualMachine> vms = null;
-	        if (repair) {
-	            //Look for the VMs to consider
-	        	//We don't have any placement constraint for the moment
-	            vms = new SimpleManagedElementList<VirtualMachine>();
-	            for (VirtualMachine v : queue) {
-	                for (PlacementConstraint c : src.getPlacementConstraints()) {
-	                    if (!c.isSatisfied(src)) {
-	                        vms.addAll(c.getMisPlaced(src));
-	                    }
-	                }
+	    queue = q;
+	    model = null;
+	    ManagedElementList<VirtualMachine> vms = null;
+	    if (repair) {
+	        //Look for the VMs to consider
+	       	//We don't have any placement constraint for the moment
+		vms = new SimpleManagedElementList<VirtualMachine>();
+	        for (VirtualMachine v : queue) {
+	            for (PlacementConstraint c : src.getPlacementConstraints()) {
+	        	if (!c.isSatisfied(src)) {
+	        	    vms.addAll(c.getMisPlaced(src));
+	        	}
 	            }
+	        }
 	            //Hardcore way for the packing. TODO: externalize
 	            //System.err.println("pack issue:" + src.getRunnings(src.getUnacceptableNodes()));
 	            vms.addAll(src.getRunnings(Configurations.futureOverloadedNodes(src)));
@@ -139,6 +139,70 @@ public class ChocoCustom3RP implements Plan{
 	        
 	        model = new DefaultReconfigurationProblem(src, vms, this.costFunc);
 	        
+	        System.currentTimeMillis();
+	        Map<Class, Integer> occurences = new HashMap<Class, Integer>();
+	      
+	        //Inject placement constraints
+	        // A pretty print of the problem
+	         
+	        /**
+	         * globalCost is equals to the sum of each action costs.
+	         */
+	        IntVar globalCost = model.createBoundIntVar("globalCost", 0, Choco.MAX_UPPER_BOUND);
+	        List<Action> allActions = new ArrayList<Action>();
+	        allActions.addAll(model.getVirtualMachineActions());
+	        allActions.addAll(model.getNodeMachineActions());
+	        IntVar[] allCosts = ActionModels.extractCosts(allActions);
+	        List<IntVar> varCosts = new ArrayList<IntVar>();
+	        for (int i = 0; i < allCosts.length; i++) {
+	            IntVar c = allCosts[i];
+	            if (c.instantiated() && c.getValue() == 0) {
+	            } else {
+	                varCosts.add(c);
+	            }
+	        }
+	        IntVar[] costs = varCosts.toArray(new IntVar[varCosts.size()]);
+	        //model.post(model.eq(globalCost, /*model.sum(costs)*/explodedSum(model, costs, 200, true)));
+	       
+	          
+	        setTotalDurationBounds(globalCost, vms);
+	       
+	        updateUB();
+
+	        //TODO: Set the LB for the horizon && the end of each action
+	        //cs = model.leq(model.getEnd(), explodedSum(model, ActionModels.extractDurations(allActions), 200, true));
+	        //costConstraints.add(cs);
+	        //model.post(cs);
+
+	        if (getTimeLimit() > 0) {
+	            model.setTimeLimit(getTimeLimit() * 1000);
+	        }
+	        //Configure search : Heuristics + Objectiv
+	        model.launch();
+	        Boolean ret = model.isFeasible();
+	        if (ret == null) {
+	            throw new PlanException("Unable to check wether a solution exists or not");
+	        } else {
+	            if (Boolean.FALSE.equals(ret)) {
+	                throw new PlanException("No solution");
+	            } else {
+	                SequencedReconfigurationPlan plan = model.extractSolution();
+	                Configuration res = plan.getDestination();
+	                if (Configurations.futureOverloadedNodes(res).size() != 0) {
+	                    throw new PlanException("Resulting configuration is not viable: Overloaded nodes=" + Configurations.futureOverloadedNodes(res));
+	                }
+
+	                int cost = 0;
+	                for (Action a : plan) {
+	                    cost += a.getFinishMoment();
+	                }
+	                if (cost != globalCost.getValue()) {
+	                    throw new PlanException("Practical cost of the plan (" + cost + ") and objective (" + globalCost.getValue() + ") missmatch:\n" + plan);
+	                }
+	               //Verify all Placement constraints are satisfied
+	                return plan;
+	            }
+	        }
 	        
 		return null;
 	}
