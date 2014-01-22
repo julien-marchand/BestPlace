@@ -49,7 +49,7 @@ public interface ReconfigurationProblem {
     /**
      * The maximum duration of a plan.
      */
-//    Integer MAX_TIME = 10;
+	 Integer MAX_TIME = 10;
 
     /**
      * Get all the nodes in the model. Indexed by their identifier.

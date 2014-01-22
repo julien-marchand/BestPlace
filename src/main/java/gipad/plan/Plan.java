@@ -5,8 +5,12 @@ import gipad.configuration.configuration.Configuration;
 import gipad.exception.PlanException;
 
 import org.discovery.DiscoveryModel.model.VirtualMachine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public interface Plan {
+	
+	Logger logger = LoggerFactory.getLogger("Plan");
 	
 	  /**
      * Compute a new DefaultSequencedReconfigurationPlan that satisfy all the constraints applied to the model.
