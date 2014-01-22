@@ -30,6 +30,11 @@ import java.util.Set;
 
 
 
+
+
+
+
+import entropy.plan.durationEvaluator.DurationEvaluationException;
 import gipad.configuration.*;
 import gipad.configuration.configuration.*;
 import gipad.plan.*;
@@ -37,12 +42,15 @@ import gipad.plan.action.*;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gipad.plan.action.Action;
 import gipad.exception.NonViableSourceConfigurationException;
+import gipad.exception.PlanException;
 
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 import solver.Solver;
 import solver.variables.IntVar;
+import solver.variables.SetVar;
+import solver.variables.VF;
 
 /**
  * A CSP to model a reconfiguration plan composed of time bounded actions.
@@ -154,12 +162,12 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     /**
      * The group variable associated to each virtual machine.
      */
-    private List<IntDomainVar> vmGrp;
+    private List<IntVar> vmGrp;
 
     /**
      * The group variable associated to each group of VMs.
      */
-    private Map<ManagedElementList<VirtualMachine>, IntDomainVar> vmsGrp;
+    private Map<ManagedElementList<VirtualMachine>, IntVar> vmsGrp;
 
     /**
      * The value associated to each group of nodes.
@@ -236,7 +244,7 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
             throw new NonViableSourceConfigurationException(source, Configurations.currentlyOverloadedNodes(source).get(0));
         }
 
-        start = this.makeConstantIntVar(0);
+        start = VF.fixed(0,this.getSolver());//this.makeConstantIntVar(0);
         end = createBoundIntVar("end", 0, MAX_TIME);
         post(geq(end, start));
 
@@ -261,11 +269,11 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
         this.makeResourcesCapacities(); 
         //creation de toutes les variables qui représentent les sommes de comsommations sur chaque noeud
 
-        this.vmGrp = new ArrayList<IntDomainVar>(this.vms.length);
+        this.vmGrp = new ArrayList<IntVar>(this.vms.length);
         for (int i = 0; i < vms.length; i++) {
             this.vmGrp.add(i, null);
         }
-        this.vmsGrp = new HashMap<ManagedElementList<VirtualMachine>, IntDomainVar>();
+        this.vmsGrp = new HashMap<ManagedElementList<VirtualMachine>, IntVar>();
         this.nodeGrps = new ArrayList<List<Integer>>(this.nodes.length);
         for (int i = 0; i < this.nodes.length; i++) {
             this.nodeGrps.add(i, new LinkedList<Integer>());
@@ -317,12 +325,12 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 
             for (int i = 0; i < sets.length; i++) {
                 Node n = nodes[i];
-                SetVar s = createEnumSetVar("host(" + n.getName() + ")", 0, demandingSlices.size() - 1);
+                SetVar s = createEnumSetVar("host(" + n.name() + ")", 0, demandingSlices.size() - 1);
                 sets[i] = s;
             }
 
             //Make the channeling with the assignment variable of all the d-slices
-            IntDomainVar[] assigns = Slices.extractHosters(demandingSlices.toArray(new Slice[demandingSlices.size()]));
+            IntVar[] assigns = Slices.extractHosters(demandingSlices.toArray(new Slice[demandingSlices.size()]));
             post(new InverseSetInt(assigns, sets));
         }
     }
@@ -336,8 +344,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
      * Set the resources capacity of the nodes.
      */
     private void makeResourcesCapacities() {
-        this.cpuCapacities = new IntDomainVar[nodes.length];
-        this.memCapacities = new IntDomainVar[nodes.length];
+        this.cpuCapacities = new IntVar[nodes.length];
+        this.memCapacities = new IntVar[nodes.length];
 
         ManagedElementList<Node> involvedNodes = new SimpleManagedElementList<Node>();
         for (Node n : getFutureOfflines()) {
@@ -348,8 +356,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
         }
         involvedNodes.addAll(getFutureOnlines());
         for (Node n : involvedNodes) {
-            IntDomainVar capaCPU = createBoundIntVar(n.getName() + "#cpuCapacity", 0, n.getCPUCapacity());
-            IntDomainVar capaMem = createBoundIntVar(n.getName() + "#memCapacity", 0, n.getMemoryCapacity());
+            IntVar capaCPU = createBoundIntVar(n.name() + "#cpuCapacity", 0, n.getCPUCapacity());
+            IntVar capaMem = createBoundIntVar(n.name() + "#memCapacity", 0, n.getMemoryCapacity());
             cpuCapacities[getNode(n)] = capaCPU;
             memCapacities[getNode(n)] = capaMem;
         }
@@ -440,12 +448,12 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     }
 
     @Override
-    public IntDomainVar getStart() {
+    public IntVar getStart() {
         return this.start;
     }
 
     @Override
-    public IntDomainVar getEnd() {
+    public IntVar getEnd() {
         return this.end;
     }
 
@@ -637,18 +645,18 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     }
 
     @Override
-    public IntDomainVar getFreeCPU(Node n) {
+    public IntVar getFreeCPU(Node n) {
         return this.cpuCapacities[getNode(n)];
     }
 
     @Override
-    public IntDomainVar getFreeMem(Node n) {
+    public IntVar getFreeMem(Node n) {
         return this.memCapacities[getNode(n)];
     }
 
     @Override
-    public IntDomainVar getVMGroup(ManagedElementList<VirtualMachine> vms) {
-        IntDomainVar v = this.vmsGrp.get(vms);
+    public IntVar getVMGroup(ManagedElementList<VirtualMachine> vms) {
+        IntVar v = this.vmsGrp.get(vms);
         if (v != null) {
             return v;
         }
@@ -662,19 +670,19 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     }
 
     @Override
-    public IntDomainVar makeGroup(ManagedElementList<VirtualMachine> vms, List<ManagedElementList<Node>> nodes) {
+    public IntVar makeGroup(ManagedElementList<VirtualMachine> vms, List<ManagedElementList<Node>> nodes) {
         int[] values = new int[nodes.size()];
         for (int i = 0; i < values.length; i++) {
             values[i] = getGroup(nodes.get(i));
         }
-        IntDomainVar v = createEnumIntVar("vmset" + vms.toString(), /*0, MAX_NB_GRP*/values);
+        IntVar v = createEnumIntVar("vmset" + vms.toString(), /*0, MAX_NB_GRP*/values);
         this.vmsGrp.put(vms, v);
         //System.err.println(vmsGrp.size());
         return v;
     }
 
     @Override
-    public IntDomainVar getAssociatedGroup(VirtualMachine vm) {
+    public IntVar getAssociatedGroup(VirtualMachine vm) {
         return this.vmGrp.get(getVirtualMachine(vm));
     }
 
@@ -779,52 +787,52 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     }
 
     @Override
-    public SConstraint<IntDomainVar> implies(SConstraint<IntDomainVar> c1, SConstraint<IntDomainVar> c2) {
+    public SConstraint<IntVar> implies(SConstraint<IntVar> c1, SConstraint<IntVar> c2) {
         //implies: or(not(c1),c2)
 
-        IntDomainVar bC1 = createBooleanVar("bC1");
+        IntVar bC1 = createBooleanVar("bC1");
         post(ReifiedFactory.builder(bC1, c1, this));
 
-        IntDomainVar bC2 = createBooleanVar("bC2");
+        IntVar bC2 = createBooleanVar("bC2");
         post(ReifiedFactory.builder(bC2, c2, this));
 
         SConstraint cNotC1 = BooleanFactory.not(bC1);
-        IntDomainVar bNotC1 = createBooleanVar("!c1");
+        IntVar bNotC1 = createBooleanVar("!c1");
         post(ReifiedFactory.builder(bNotC1, cNotC1, this));
 
         return BooleanFactory.or(getEnvironment(), bNotC1, bC2);
     }
 
     @Override
-    public SConstraint<IntDomainVar> implies(IntDomainVar b1, SConstraint<IntDomainVar> c2) {
+    public SConstraint<IntVar> implies(IntVar b1, SConstraint<IntVar> c2) {
         //implies: or(not(c1),c2)
 
-        IntDomainVar bC2 = createBooleanVar("bC2");
+        IntVar bC2 = createBooleanVar("bC2");
         post(ReifiedFactory.builder(bC2, c2, this));
 
-        IntDomainVar notB1 = createBooleanVar("!b1");
+        IntVar notB1 = createBooleanVar("!b1");
         post(neq(b1, notB1));
 
         return BooleanFactory.or(getEnvironment(), notB1, bC2);
     }
 
     @Override
-    public SConstraint ifOnlyIf(IntDomainVar b1, SConstraint c2) {
+    public SConstraint ifOnlyIf(IntVar b1, SConstraint c2) {
 
         //and(or(b1, non b2), or(non b1, b2))
-        IntDomainVar notBC1 = createBooleanVar("!(" + b1.pretty() + ")");
+        IntVar notBC1 = createBooleanVar("!(" + b1.pretty() + ")");
         post(neq(b1, notBC1));
 
-        IntDomainVar bC2 = createBooleanVar("boolean(" + c2.pretty() + ")");
+        IntVar bC2 = createBooleanVar("boolean(" + c2.pretty() + ")");
         post(ReifiedFactory.builder(bC2, c2, this));
 
-        IntDomainVar notBC2 = createBooleanVar("!(" + c2.pretty() + ")");
+        IntVar notBC2 = createBooleanVar("!(" + c2.pretty() + ")");
         post(neq(notBC2, bC2));
 
-        IntDomainVar or1 = createBooleanVar("or1");
+        IntVar or1 = createBooleanVar("or1");
         post(ReifiedFactory.builder(or1, BooleanFactory.or(getEnvironment(), b1, notBC2), this));
 
-        IntDomainVar or2 = createBooleanVar("or2");
+        IntVar or2 = createBooleanVar("or2");
         post(ReifiedFactory.builder(or2, BooleanFactory.or(getEnvironment(), notBC1, bC2), this));
 
         return BooleanFactory.and(or1, or2);
@@ -902,14 +910,14 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
         return stats;
     }
 
-    @Override
-    public SolvingStatistics getSolvingStatistics() {
+    /*FIXME @Override
+     public SolvingStatistics getSolvingStatistics() {
         return new SolvingStatistics(
                 this.getNodeCount(),
                 this.getBackTrackCount(),
                 this.getTimeCount(),
                 this.isEncounteredLimit());
-    }
+    }*/
 
     private static Comparator SolutionStatisticsComparator = new Comparator<SolutionStatistics>() {
 

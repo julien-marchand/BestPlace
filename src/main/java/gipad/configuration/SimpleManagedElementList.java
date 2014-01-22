@@ -58,9 +58,9 @@ public class SimpleManagedElementList<E> extends ArrayList<E> implements Managed
         map = new TIntObjectHashMap<E>();
     }
 
-    public SimpleManagedElementList(
-	    ManagedElementList<VirtualMachine> allVirtualMachines) {
-	// TODO Auto-generated constructor stub
+    public SimpleManagedElementList(ManagedElementList<E> list) {
+	map = new TIntObjectHashMap<E>();
+	this.addAll(list);
     }
 
     @Override
@@ -215,5 +215,17 @@ public class SimpleManagedElementList<E> extends ArrayList<E> implements Managed
             return true;
         }
         return false;
+    }
+
+    @Override
+    public ManagedElementList<?> flatten() {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public String prettyOut() {
+	// TODO Auto-generated method stub
+	return null;
     }
 }
