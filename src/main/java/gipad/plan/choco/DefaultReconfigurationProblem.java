@@ -40,8 +40,8 @@ import gipad.exception.*;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
-import solver.Solver;
-import solver.variables.IntVar;
+import solver.*;
+import solver.variables.*;
 
 /**
  * A CSP to model a reconfiguration plan composed of time bounded actions. In
@@ -131,7 +131,7 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 	/**
 	 * Cpu usage indexed by the index of the node.
 	 */
-	// private IntVar[] cpuCapacities;
+	 private IntVar[] cpuCapacities;
 
 	/**
 	 * Mem usage indexed by the index of the node.
@@ -357,8 +357,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 	 * Set the resources capacity of the nodes.
 	 */
 	private void makeResourcesCapacities() {
-		this.cpuCapacities = new IntDomainVar[nodes.length];
-		this.memCapacities = new IntDomainVar[nodes.length];
+		this.cpuCapacities = new IntVar[nodes.length];
+		this.memCapacities = new IntVar[nodes.length];
 
 		ManagedElementList<Node> involvedNodes = new SimpleManagedElementList<Node>();
 		for (Node n : getFutureOfflines()) {
@@ -369,8 +369,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 		}
 		involvedNodes.addAll(getFutureOnlines());
 		for (Node n : involvedNodes) {
-			IntDomainVar capaCPU = createBoundIntVar(n.getName() + "#cpuCapacity", 0, n.getCPUCapacity());
-			IntDomainVar capaMem = createBoundIntVar(n.getName() + "#memCapacity", 0,
+			IntVar capaCPU = VariableFactory.bounded(n.name(), 0, nextNodeGroupVal, getSolver())( + "#cpuCapacity", 0, n.getCPUCapacity());
+			IntVar capaMem = createBoundIntVar(n.name() + "#memCapacity", 0,
 					n.getMemoryCapacity());
 			cpuCapacities[getNode(n)] = capaCPU;
 			memCapacities[getNode(n)] = capaMem;
