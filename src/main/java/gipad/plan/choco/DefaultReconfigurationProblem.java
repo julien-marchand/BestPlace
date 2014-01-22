@@ -34,7 +34,7 @@ import gipad.plan.*;
 import gipad.plan.action.*;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gipad.plan.action.Action;
-import gipad.exception.NonViableSourceConfigurationException;
+import gipad.plan.choco.actionmodel.NodeActionModel;
 import gipad.exception.*;
 
 import org.discovery.DiscoveryModel.model.Node;
@@ -369,7 +369,7 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 		}
 		involvedNodes.addAll(getFutureOnlines());
 		for (Node n : involvedNodes) {
-			IntVar capaCPU = VariableFactory.bounded(n.name(), 0, nextNodeGroupVal, getSolver())( + "#cpuCapacity", 0, n.getCPUCapacity());
+			IntVar capaCPU = VariableFactory.bounded(n.name() + "#cpuCapacity", 0, n.hardwareSpecification()., getSolver());
 			IntVar capaMem = createBoundIntVar(n.name() + "#memCapacity", 0,
 					n.getMemoryCapacity());
 			cpuCapacities[getNode(n)] = capaCPU;
