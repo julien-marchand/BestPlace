@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.discovery.DiscoveryModel.model.VirtualMachine;
+
 /**
  * Basic implementation of a ManagedElementList.
  * {@code add()},{@code addAll()}, {@code contains()}, , {@code get()}, , {@code set()} operations
@@ -54,6 +56,11 @@ public class SimpleManagedElementList<E> extends ArrayList<E> implements Managed
      */
     public SimpleManagedElementList() {
         map = new TIntObjectHashMap<E>();
+    }
+
+    public SimpleManagedElementList(
+	    ManagedElementList<VirtualMachine> allVirtualMachines) {
+	// TODO Auto-generated constructor stub
     }
 
     @Override

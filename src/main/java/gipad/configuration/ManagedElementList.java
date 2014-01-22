@@ -21,6 +21,9 @@ package gipad.configuration;
 
 import java.util.List;
 
+import org.discovery.DiscoveryModel.model.Node;
+import org.discovery.DiscoveryModel.model.VirtualMachine;
+
 /**
  * Specify a list of managed elements without duplicated elements.
  * The position of the element has to be maintained.
@@ -144,4 +147,8 @@ public interface ManagedElementList<E> extends List<E> {
      */
     @Override
 	int size();
+
+    ManagedElementList<?> flatten();
+
+    String prettyOut();
 }
