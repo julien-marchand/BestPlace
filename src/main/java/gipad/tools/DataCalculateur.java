@@ -1,19 +1,12 @@
 package gipad.tools;
 
 import org.discovery.DiscoveryModel.model.Cpu;
-import org.discovery.DiscoveryModel.model.HardwareSpecification;
+import org.discovery.DiscoveryModel.model.Node;
 
 public class DataCalculateur {
-
-	private HardwareSpecification spec;
-
-	public DataCalculateur(HardwareSpecification spec) {
-		this.spec = spec;
-	}
-
-	public int getSumCPu() {
+	public static int getSumCPu(Node n) {
 		int sum = 0;
-		for (Cpu cpu : spec.cpus()) {
+		for (Cpu cpu : n.hardwareSpecification().cpus()) {
 			sum += cpu.nbCores() * cpu.getCpuCapacity();
 		}
 		return sum;

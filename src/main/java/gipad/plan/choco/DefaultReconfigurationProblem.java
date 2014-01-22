@@ -28,31 +28,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
-
-
-
-import entropy.plan.durationEvaluator.DurationEvaluationException;
 import gipad.configuration.*;
 import gipad.configuration.configuration.*;
+import gipad.configuration.configuration.Configuration;
 import gipad.plan.*;
 import gipad.plan.action.*;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gipad.plan.action.Action;
-<<<<<<< HEAD
 import gipad.plan.choco.actionmodel.NodeActionModel;
 import gipad.exception.*;
-=======
-import gipad.exception.NonViableSourceConfigurationException;
->>>>>>> branch 'master' of https://github.com/julien-marchand/BestPlace.git
+import gipad.tools.*;
 
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 import solver.*;
 import solver.variables.*;
-import solver.variables.SetVar;
-import solver.variables.VF;
 
 /**
  * A CSP to model a reconfiguration plan composed of time bounded actions. In
@@ -134,6 +125,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 
     private TIntIntHashMap revNodes;
 
+    private Solver s;
+    
     /**
      * A set model for each node.
      */
@@ -142,12 +135,22 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     /**
      * Cpu usage indexed by the index of the node.
      */
-//    private IntVar[] cpuCapacities;
+    private IntVar[] cpuCapacities;
 
     /**
      * Mem usage indexed by the index of the node.
      */
     private IntVar[] memCapacities;
+    
+    /**
+     * Network input indexed by the index of the node.
+     */
+    private IntVar[] netInCapacities;
+    
+    /**
+     * Network output indexed by the index of the node.
+     */
+    private IntVar[] netOutCapacities;
 
     /**
      * All the virtual machines managed by the model.
@@ -369,6 +372,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     private void makeResourcesCapacities() {
 		this.cpuCapacities = new IntVar[nodes.length];
 		this.memCapacities = new IntVar[nodes.length];
+		this.netInCapacities = new IntVar[nodes.length];
+		this.netOutCapacities = new IntVar[nodes.length];
 
 		ManagedElementList<Node> involvedNodes = new SimpleManagedElementList<Node>();
 		for (Node n : getFutureOfflines()) {
@@ -379,11 +384,9 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 		}
 		involvedNodes.addAll(getFutureOnlines());
 		for (Node n : involvedNodes) {
-			IntVar capaCPU = VariableFactory.bounded(n.name() + "#cpuCapacity", 0, n.hardwareSpecification()., getSolver());
-			IntVar capaMem = createBoundIntVar(n.name() + "#memCapacity", 0,
-					n.getMemoryCapacity());
-			cpuCapacities[getNode(n)] = capaCPU;
-			memCapacities[getNode(n)] = capaMem;
+			cpuCapacities[getNode(n)] = VariableFactory.bounded(n.name()+"#cpuCapacity", 0, DC.getSumCPu(n), getSolver());
+			memCapacities[getNode(n)] = VariableFactory.bounded(n.name()+"#memCapacity", 0, (int)n.hardwareSpecification().memory().capacity(), getSolver());
+			netInCapacities[getNode(n)] = VariableFactory.bounded(n.name()+"#netInCapacity", 0, n.networkSpecification().networkInterfaces().get(0)., s);
 		}
     }
 
@@ -957,7 +960,6 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 
 	@Override
 	public Solver getSolver() {
-		// TODO Auto-generated method stub
-		return null;
+		return s;
 	}
 }
