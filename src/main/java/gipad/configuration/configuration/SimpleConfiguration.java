@@ -25,6 +25,9 @@ import gipad.placementconstraint.PlacementConstraint;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 
+import java.util.List;
+
+import org.discovery.DiscoveryModel.model.NetworkSpecification;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
@@ -197,7 +200,10 @@ public class SimpleConfiguration implements Configuration, Cloneable {
         }
         this.allNodes.add(n);
         switchState(n, ONLINES);
-
+        for (VirtualMachine vm : n.vms())
+        	setRunOn(vm, n);
+        // FIXME
+        // XXX
     }
 
 	@Override
@@ -426,5 +432,58 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 	@Override
 	public ManagedElementList<PlacementConstraint> getPlacementConstraints() {
 		return placeConstList;
+	}
+
+	@Override
+	public int getBandwidth(Node n1, Node n2) {
+		NetworkSpecification spec = n1.networkSpecification();
+		System.out.println(n1);
+		System.out.println(spec);
+		return 0;
+	}
+
+	@Override
+	public int getBandwidth(VirtualMachine vm1, VirtualMachine vm2) {
+		List<VirtualMachine> vms;
+		Node node, n1 = null, n2 = null;
+		for (int i = 0; i < allNodes.size() && (n1 == null || n2 ==null); i++) {
+			node = allNodes.get(i);
+			vms = node.vms();
+			for (int j = 0; j < vms.size() && (n1 == null || n2 ==null); j++) {
+				if (n1 == null & vms.get(j) == vm1) {
+					n1 = node; 
+				}
+				if (n2 == null & vms.get(j) == vm2) {
+					n2 = node; 
+				}
+			}
+		}
+		if (n1 == null || n2 == null)
+			throw new RuntimeException("Node not found");
+		return getBandwidth(n1, n2);
+	}
+
+	@Override
+	public ActionConsomtion getConsomtion(VirtualMachine vm) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ActionConsomtion getLeavingConsomtion(VirtualMachine vm) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ActionConsomtion getIncomingConsomtion(VirtualMachine vm) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ActionConsomtion getDemandingConsomtion(VirtualMachine vm) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
