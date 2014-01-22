@@ -19,6 +19,7 @@ public class TestSimpleConfiguration {
 	
 	{
 		for (int i = 0; i < 10; i++) {
+			
 			vms.add(new VirtualMachine("vm" + i, null, null));
 //			new NetworkSpecification(new ArrayList)
 		}
