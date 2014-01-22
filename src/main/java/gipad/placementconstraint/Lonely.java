@@ -21,6 +21,7 @@ package gipad.placementconstraint;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
+import solver.exception.ContradictionException;
 import solver.variables.IntVar;
 import solver.variables.SetVar;
 import solver.variables.VF;
@@ -117,7 +118,7 @@ public class Lonely implements PlacementConstraint {
 
     @Override
     public ManagedElementList<VirtualMachine> getAllVirtualMachines() {
-        return (ManagedElementList<VirtualMachine>) vms.flatten();
+        return (ManagedElementList<VirtualMachine>) vms;
     }
 
     @Override

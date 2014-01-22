@@ -69,7 +69,7 @@ public abstract class Split implements PlacementConstraint {
      * @return a set of VMs. Should not be empty
      */
     public final ManagedElementList<VirtualMachine> getFirstSet() {
-        return (ManagedElementList<VirtualMachine>) this.set1.flatten();
+        return (ManagedElementList<VirtualMachine>) this.set1;
     }
 
     /**
@@ -78,7 +78,7 @@ public abstract class Split implements PlacementConstraint {
      * @return a set of VMs. Should not be empty
      */
     public final ManagedElementList<VirtualMachine> getSecondSet() {
-        return (ManagedElementList<VirtualMachine>) this.set2.flatten();
+        return (ManagedElementList<VirtualMachine>) this.set2;
     }
 
     @Override
