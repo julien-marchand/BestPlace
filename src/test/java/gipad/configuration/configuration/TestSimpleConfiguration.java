@@ -22,6 +22,7 @@ public class TestSimpleConfiguration {
 			vms.add(new VirtualMachine("vm" + i, null, null));
 //			new NetworkSpecification(new ArrayList)
 			
+			
 		}
 		
 		nodes.add(new Node("node0", null, null, null, new ArrayList<VirtualMachine>() {
