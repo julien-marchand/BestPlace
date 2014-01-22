@@ -8,8 +8,11 @@ import java.util.Map;
 
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
+import solver.Solver;
 import solver.constraints.Constraint;
+import solver.search.loop.monitors.SearchMonitorFactory;
 import solver.variables.IntVar;
+import util.ESat;
 import gipad.placementconstraint.*;
 import gipad.configuration.CostFunction;
 import gipad.configuration.ManagedElementList;
@@ -165,9 +168,7 @@ public class ChocoCustom3RP implements Plan{
 	        //model.post(model.eq(globalCost, /*model.sum(costs)*/explodedSum(model, costs, 200, true)));
 	       
 	          
-	        setTotalDurationBounds(globalCost, vms);
-	       
-	        updateUB();
+	        //Setting total duration bounds of all the variables and updating the UB of the variables -- à la main 
 
 	        //TODO: Set the LB for the horizon && the end of each action
 	        //cs = model.leq(model.getEnd(), explodedSum(model, ActionModels.extractDurations(allActions), 200, true));
@@ -175,11 +176,11 @@ public class ChocoCustom3RP implements Plan{
 	        //model.post(cs);
 
 	        if (getTimeLimit() > 0) {
-	            model.setTimeLimit(getTimeLimit() * 1000);
+	            SearchMonitorFactory.limitTime(model.getSolver(), getTimeLimit() * 1000);
 	        }
 	        //Configure search : Heuristics + Objectiv
-	        model.launch();
-	        Boolean ret = model.isFeasible();
+	        model.getSolver().findSolution();//launch();
+	        Boolean ret = model.getSolver().isFeasible()==ESat.TRUE;
 	        if (ret == null) {
 	            throw new PlanException("Unable to check wether a solution exists or not");
 	        } else {
