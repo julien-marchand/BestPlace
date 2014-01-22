@@ -32,6 +32,7 @@ import java.util.Set;
 import gipad.configuration.*;
 import gipad.configuration.configuration.*;
 import gipad.plan.*;
+import gipad.plan.action.*;
 import gnu.trove.map.hash.TIntIntHashMap;
 
 import org.discovery.DiscoveryModel.model.Node;
@@ -248,11 +249,13 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
             revNodes.put(nodes[i].hashCode(), i);
         }
         try {
-            this.makeBasicActions();
+            this.makeBasicActions(); //creation des actions possible pour chaque VM
+            //En fonction de l'état actuel de la VM et de l'action qui est demandé à la VM
         } catch (DurationEvaluationException e) {
             throw new PlanException(e.getMessage(), e);
         }
-        this.makeResourcesCapacities();
+        this.makeResourcesCapacities(); 
+        //creation de toutes les variables qui représentent les sommes de comsommations sur chaque noeud
 
         this.vmGrp = new ArrayList<IntDomainVar>(this.vms.length);
         for (int i = 0; i < vms.length; i++) {
@@ -267,6 +270,7 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
         this.revNodesGrp = new ArrayList<ManagedElementList<Node>>(MAX_NB_GRP);
 
         packing = new SatisfyDemandingSlicesHeightsFastBP();//new SatisfyDemandingSlicesHeightsSimpleBP();
+        //notre cumulative colorée ici
         packing.add(this);
 
         //TODO: Uncomment for capacity
@@ -284,11 +288,11 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     	 this.source = src;
          this.manageable = vms;
          runnings = src.getRunnings();
-         waitings = src.getWaitings();
-         sleepings = src.getSleepings();
-         terminated = new SimpleManagedElementList<VirtualMachine>();
+         waitings = new SimpleManagedElementList<VirtualMachine>(); //no vm shall be waiting
+         sleepings = new SimpleManagedElementList<VirtualMachine>(); //no vm shall be sleeping
+         terminated = new SimpleManagedElementList<VirtualMachine>(); 
          onlines = src.getOnlines();
-         offlines = src.getOfflines();
+         offlines = new SimpleManagedElementList<Node>();
          this.costFunc = costFunc;
          
          this.checkDisjointSet();
@@ -477,7 +481,7 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 
     /**
      * Create all the basic action that manipulate the state of the virtual machine and the nodes.
-     *
+     * creation de l'arraylist qui contient l'ensemble des actions possibles pour chaque VM
      * @throws entropy.plan.NoAvailableTransitionException
      *          if the VM can not be running regarding to its current state
      */

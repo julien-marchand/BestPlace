@@ -1,4 +1,3 @@
-
 package gipad.plan.choco;
 
 import java.util.ArrayList;
@@ -14,8 +13,6 @@ import gipad.configuration.ManagedElementList;
 import gipad.configuration.SimpleManagedElementList;
 import gipad.configuration.configuration.Configuration;
 import gipad.plan.*;
-import gipad.vjob.VJob;
-
 
 
 public class ChocoCustom3RP implements Plan{
