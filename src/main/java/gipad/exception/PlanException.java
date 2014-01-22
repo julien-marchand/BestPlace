@@ -17,7 +17,7 @@
  *      along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gipad.plan;
+package gipad.exception;
 
 /**
  * An exception that occurred during the building of a

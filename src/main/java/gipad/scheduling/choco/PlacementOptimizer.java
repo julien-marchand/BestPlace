@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.discovery.DiscoveryModel.model.*;
 
+import gipad.exception.PlanException;
 import gipad.execution.*;
 import gipad.plan.action.*;
 

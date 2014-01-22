@@ -16,11 +16,11 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
  */
-package gipad.plan;
+package gipad.exception;
 
 
-import entropy.configuration.Configuration;
-import entropy.configuration.Node;
+import gipad.configuration.configuration.Configuration;
+import org.discovery.DiscoveryModel.model.*;
 
 /**
  * An exception to describe a non viable source configuration for a planning problem.
@@ -53,7 +53,7 @@ public class NonViableSourceConfigurationException extends PlanException {
      * @param n   an overloaded node.
      */
     public NonViableSourceConfigurationException(Configuration src, Node n) {
-        super("Source configuration is not viable: node '" + n.getName() + "' is overloaded");
+        super("Source configuration is not viable: node '" + n.name() + "' is overloaded");
         this.source = src;
         this.node = n;
     }

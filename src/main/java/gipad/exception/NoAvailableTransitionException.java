@@ -16,34 +16,32 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
  */
+package gipad.exception;
 
-package gipad.plan;
 
-import entropy.configuration.Node;
-import entropy.configuration.VirtualMachine;
+import org.discovery.DiscoveryModel.model.*;
 
 /**
- * An exception that define an incoherent resulting state for a virtual machine or a node.
+ * An exception dedicated to describe an incompatible
+ * transition between two states of a virtual machine.
  *
  * @author Fabien Hermenier
  */
-public class UnknownResultingStateException extends PlanException {
+public class NoAvailableTransitionException extends PlanException {
 
     /**
-     * An exception to show a virtual machine does not belong to any possible resulting state.
      *
-     * @param vm the virtual machine
      */
-    public UnknownResultingStateException(VirtualMachine vm) {
-        super("State of virtual machine '" + vm.getName() + "' is not defined");
-    }
+    private static final long serialVersionUID = 1L;
 
     /**
-     * An exception to show a node does not belong to any possible resulting state.
+     * Make a new exception.
      *
-     * @param n the node
+     * @param vm  the Virtual machine involved in the exception
+     * @param src the initial state
+     * @param dst the destination state
      */
-    public UnknownResultingStateException(Node n) {
-        super("State of node '" + n.getName() + "' is not defined");
+    public NoAvailableTransitionException(VirtualMachine vm, String src, String dst) {
+        super("No available transition for " + vm.name() + " between the state '" + src + "' and '" + dst + "'");
     }
 }
