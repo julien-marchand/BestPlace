@@ -35,24 +35,24 @@ import java.util.Set;
 import entropy.plan.durationEvaluator.DurationEvaluationException;
 import gipad.configuration.*;
 import gipad.configuration.configuration.*;
+import gipad.configuration.configuration.Configuration;
 import gipad.plan.*;
 import gipad.plan.action.*;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gipad.plan.action.Action;
-<<<<<<< HEAD
 import gipad.plan.choco.actionmodel.NodeActionModel;
+import gipad.plan.choco.actionmodel.slice.ConsumingSlice;
+import gipad.plan.choco.actionmodel.slice.DemandingSlice;
+import gipad.plan.choco.actionmodel.slice.IncomingSlice;
+import gipad.plan.choco.actionmodel.slice.LeavingSlice;
 import gipad.exception.*;
-=======
 import gipad.exception.NonViableSourceConfigurationException;
->>>>>>> branch 'master' of https://github.com/julien-marchand/BestPlace.git
 
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 import solver.*;
 import solver.variables.*;
-import solver.variables.SetVar;
-import solver.variables.VF;
 
 /**
  * A CSP to model a reconfiguration plan composed of time bounded actions. In
@@ -197,11 +197,23 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
      * All the consuming slices in the model.
      */
     private List<ConsumingSlice> consumingSlices;
-
+    
+    /**
+     * All IncomingSlices
+     */
+    private List<IncomingSlice> incomingSlices;
+    
+    /**
+     * All leavingSlice
+     */
+    
+    private List<LeavingSlice> leavingSlices;
+    
     /**
      * All the demanding slices in the model.
      */
     private List<DemandingSlice> demandingSlices;
+    
 
     //private SatisfyDemandingSlicesHeightsCustomBP packing;
     private SatisfyDemandingSliceHeights packing;
@@ -318,10 +330,10 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     	 this.source = src;
          this.manageable = vms;
          runnings = src.getRunnings();
-		waitings = new SimpleManagedElementList<VirtualMachine>(); // no vm
+         waitings = new SimpleManagedElementList<VirtualMachine>(); // no vm
 																	// shall be
 																	// waiting
-		sleepings = new SimpleManagedElementList<VirtualMachine>(); // no vm
+         sleepings = new SimpleManagedElementList<VirtualMachine>(); // no vm
 																	// shall be
 																	// sleeping
          terminated = new SimpleManagedElementList<VirtualMachine>(); 

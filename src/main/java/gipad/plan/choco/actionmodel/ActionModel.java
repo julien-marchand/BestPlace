@@ -24,6 +24,8 @@ import entropy.plan.action.Action;
 import entropy.plan.choco.ReconfigurationProblem;
 import entropy.plan.choco.actionModel.slice.ConsumingSlice;
 import entropy.plan.choco.actionModel.slice.DemandingSlice;
+import gipad.plan.choco.actionmodel.slice.IncomingSlice;
+import gipad.plan.choco.actionmodel.slice.LeavingSlice;
 
 /**
  * An abstract time bounded action.
@@ -38,8 +40,12 @@ public abstract class ActionModel {
     protected IntVar duration;
 
     protected ConsumingSlice cSlice = null;
+    
+    protected LeavingSlice lSlice = null;
+    
+    protected IncomingSlice iSlice = null;
 
-    protected DemandingSlice dSlice = null;
+	protected DemandingSlice dSlice = null;
 
 
     /**
@@ -99,6 +105,23 @@ public abstract class ActionModel {
     public ConsumingSlice getConsumingSlice() {
         return cSlice;
     }
+    
+    /**
+     * Get the leaving slice associated to the action.
+     * @return a slice. May be null
+     */
+    public LeavingSlice getLeavingSlice() {
+		return lSlice;
+	}
+
+
+    /**
+     * Get the incoming slice associated to the action.
+     * @return a slice. May be null
+     */
+	public IncomingSlice getIncomingSlice() {
+		return iSlice;
+	}
 
     /**
      * Get the demanding slice associated to the action.
