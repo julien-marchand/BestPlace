@@ -267,26 +267,26 @@ public interface Configuration {
      * @param vm
      * @return
      */
-    ActionConsomtion getConsomtion(VirtualMachine vm);
+    ActionConsumption getConsomtion(VirtualMachine vm);
     
     /**
      * 
      * @param vm
      * @return
      */
-    ActionConsomtion getLeavingConsomtion(VirtualMachine vm);
+    ActionConsumption getLeavingConsomtion(VirtualMachine vm);
     
     /**
      * 
      * @param vm
      * @return
      */
-    ActionConsomtion getIncomingConsomtion(VirtualMachine vm);
+    ActionConsumption getIncomingConsomtion(VirtualMachine vm);
     
     /**
      * 
      * @param vm
      * @return
      */
-    ActionConsomtion getDemandingConsomtion(VirtualMachine vm);
+    ActionConsumption getDemandingConsomtion(VirtualMachine vm);
 }

@@ -25,6 +25,7 @@ import gipad.configuration.ManagedElementList;
 import gipad.configuration.SimpleManagedElementList;
 import gipad.configuration.configuration.Configuration;
 import gipad.plan.choco.ReconfigurationProblem;
+import gipad.plan.choco.actionmodel.slice.Slice;
 
 
 
@@ -155,7 +156,7 @@ public class Ban implements PlacementConstraint {
                     if (t != null) {
                         for (int x = 0; x < nodesIdx.length; x++) {
                             try {
-                                t.hoster().remVal(nodesIdx[x]);
+                                t.hoster().removeValue(nodesIdx[x],null);
                             } catch (Exception e) {
                         	//FIXME debug log VJob.logger.error(e.getMessage(), e);
                             }

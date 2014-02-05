@@ -21,6 +21,7 @@ package gipad.placementconstraint;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
+import solver.constraints.set.SCF;
 import solver.exception.ContradictionException;
 import solver.variables.IntVar;
 import solver.variables.SetVar;
@@ -29,7 +30,11 @@ import gipad.configuration.ManagedElementList;
 import gipad.configuration.SimpleManagedElementList;
 import gipad.configuration.configuration.Configuration;
 import gipad.plan.choco.ReconfigurationProblem;
+import gipad.plan.choco.actionmodel.ActionModel;
+import gipad.plan.choco.actionmodel.slice.DemandingSlice;
+import gipad.plan.choco.actionmodel.slice.Slice;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -65,25 +70,25 @@ public class Lonely implements PlacementConstraint {
 
         //Link the assignment variables with the set
         //TODO: propose a MemberXY() constraints that takes an array of integer variables to improve performance
-        List<DemandingSlice> myDSlices = ActionModels.extractDemandingSlices(core.getAssociatedActions(goods));
-        IntVar[] myAssigns = Slices.extractHosters(myDSlices.toArray(new Slice[myDSlices.size()]));
+        List<DemandingSlice> myDSlices = extractDemandingSlices(core.getAssociatedActions(goods));
+        IntVar<?>[] myAssigns = extractHosters(myDSlices.toArray(new Slice[myDSlices.size()]));
 
-        List<DemandingSlice> otherDSlices = ActionModels.extractDemandingSlices(core.getAssociatedActions(otherVMs));
-        IntVar[] otherAssigns = Slices.extractHosters(otherDSlices.toArray(new Slice[otherDSlices.size()]));
+        List<DemandingSlice> otherDSlices = extractDemandingSlices(core.getAssociatedActions(otherVMs));
+        IntVar<?>[] otherAssigns = extractHosters(otherDSlices.toArray(new Slice[otherDSlices.size()]));
 
-        for (IntVar v : otherAssigns) {
+        for (IntVar<?> v : otherAssigns) {
             if (v.instantiated()) {
                 try {
                     otherNodes.addToKernel(v.getValue(), null);
                 } catch (ContradictionException e) {
-                    Plan.logger.error(e.getMessage());
+                   //FIXME  Plan.logger.error(e.getMessage());
                 }
             } else {
-                core.post(new MemberXY(otherNodes, v));
+        	core.getSolver().post(SCF.member(v, otherNodes));
             }
         }
 
-        for (IntVar v : myAssigns) {
+        for (IntVar<?> v : myAssigns) {
             if (v.instantiated()) {
                 try {
                     myNodes.addToKernel(v.getValue(), null);
@@ -91,14 +96,43 @@ public class Lonely implements PlacementConstraint {
                     //FIXME debug log Plan.logger.error(e.getMessage());
                 }
             } else {
-                core.post(new MemberXY(myNodes, v));
+                core.getSolver().post(SCF.member(v,myNodes));
             }
         }
-        core.post(new choco.cp.solver.constraints.set.Disjoint(myNodes, otherNodes));
+        core.getSolver().post(SCF.disjoint(myNodes, otherNodes));
 
 //        core.post(new Disjoint(core.getEnvironment(), myAssigns, otherAssigns, core.getNodes().length + 1));
     }
-
+    
+    /**
+     * Extract all the demanding slices of a list of actions.
+     *
+     * @param actions the list of action
+     * @return a list of demanding slice. May be empty
+     */
+    public static List<DemandingSlice> extractDemandingSlices(List<? extends ActionModel> actions) {
+        List<DemandingSlice> slices = new ArrayList<DemandingSlice>();
+        for (ActionModel a : actions) {
+            if (a.getDemandingSlice() != null) {
+                slices.add(a.getDemandingSlice());
+            }
+        }
+        return slices;
+    }
+    
+    /**
+     * Extract all the hosters of an array of slices.
+     *
+     * @param slices the slices to consider
+     * @return an array of assignement var, in an order similar to slices
+     */
+    public static IntVar<?>[] extractHosters(Slice[] slices) {
+        IntVar<?>[] l = new IntVar[slices.length];
+        for (int i = 0; i < slices.length; i++) {
+            l[i] = slices[i].hoster();
+        }
+        return l;
+    }
     @Override
     public boolean isSatisfied(Configuration cfg) {
         Set<Node> s1 = new HashSet<Node>();

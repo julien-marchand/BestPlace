@@ -19,6 +19,8 @@
 package gipad.plan.action;
 
 
+import gipad.plan.choco.actionmodel.slice.Slice;
+
 import org.discovery.DiscoveryModel.model.*;
 
 /**
@@ -79,4 +81,5 @@ public abstract class VirtualMachineAction extends Action {
     public Node getHost() {
         return this.host;
     }
+
 }
