@@ -5,14 +5,14 @@ import gipad.configuration.SimpleManagedElementList;
 
 import java.util.ArrayList;
 
+import junit.framework.Assert;
+
 import org.discovery.DiscoveryModel.model.HardwareSpecification;
 import org.discovery.DiscoveryModel.model.NetworkInterface;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.Units;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 import org.junit.Test;
-
-import scala.Unit;
 
 public class TestSimpleConfiguration {
 	
@@ -67,11 +67,13 @@ public class TestSimpleConfiguration {
 	
 	@Test
 	public void getNodeBandwith() {
-		conf.getBandwidth(nodes.get(1), nodes.get(2));
+		long val = conf.getBandwidth(nodes.get(1), nodes.get(2));
+		Assert.assertEquals(100l, val);
 	}
 	
 	@Test
 	public void getVMBandwidth() {		
-		conf.getBandwidth(vms.get(4), vms.get(4));
+		long val = conf.getBandwidth(vms.get(4), vms.get(4));
+		Assert.assertEquals(100l, val);
 	}
 }

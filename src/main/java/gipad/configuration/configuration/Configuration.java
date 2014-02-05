@@ -259,7 +259,7 @@ public interface Configuration {
      * @param vm2 a {@link VirtualMachine}
      * @return
      */
-    int getBandwidth(VirtualMachine vm1, VirtualMachine vm2);
+    long getBandwidth(VirtualMachine vm1, VirtualMachine vm2);
     
 
     /**

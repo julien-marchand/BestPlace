@@ -452,7 +452,7 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 	}
 
 	@Override
-	public int getBandwidth(VirtualMachine vm1, VirtualMachine vm2) {
+	public long getBandwidth(VirtualMachine vm1, VirtualMachine vm2) {
 		List<VirtualMachine> vms;
 		Node node, n1 = null, n2 = null;
 		for (int i = 0; i < allNodes.size() && (n1 == null || n2 ==null); i++) {
