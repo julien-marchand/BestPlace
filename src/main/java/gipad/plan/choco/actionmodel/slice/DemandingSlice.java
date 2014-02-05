@@ -1,5 +1,6 @@
 package gipad.plan.choco.actionmodel.slice;
 
+import gipad.configuration.configuration.ActionConsomtion;
 import gipad.plan.Plan;
 import gipad.plan.choco.ReconfigurationProblem;
 import solver.Cause;
@@ -35,64 +36,84 @@ public class DemandingSlice extends Slice {
     					model.getEnd()),
     					cpu,
     					mem,
-    					bwOut,
-    					bwIn);
+    					bwOut,//intvar
+    					bwIn);//intvar
     }
-
-
-
+    
+    
     /**
      * Make a demanding slice.
      *
-     * @param core   the model of the reconfiguration problem
-     * @param name   the name of the slice
-     * @param hoster the index of the node that will host the slice
-     * @param cpu   the CPU heights of the slice
-     * @param mem   the memory height of the slice
-     * @param bwOut the output bandwidth of the slice
-     * @param bwIn the input bandwidth of the slice
+     * @param model the model of the reconfiguration problem
+     * @param name the name of the slice
+     * @param consumption from the configuration
      */
-    public DemandingSlice(ReconfigurationProblem model, String name, int hoster, int[] cpu, int mem, int bwOut, int bwIn) {
-        super(name,
-                VF.fixed("h(" + name + ")", hoster, model.getSolver()),
+    public DemandingSlice(ReconfigurationProblem model, String name, Configuration conf) {
+        this(name,
+                VF.enumerated("h(" + name + ")", 0, model.getNodes().length - 1, model.getSolver()),
                 new Task(VF.enumerated("s(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
     					VF.enumerated("d(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
     					model.getEnd()),
-    					cpu,
-    					mem,
-    					bwOut,
-    					bwIn);
-    }
-
-    /**
-     * Make a demanding slice.
-     *
-     * @param core   the model of the reconfiguration problem
-     * @param name   the name of the slice
-     * @param hoster the index of the node that will host the slice
-     * @param start  the moment the action start
-     * @param cpu   the CPU heights of the slice
-     * @param mem   the memory height of the slice
-     * @param bwOut the output bandwidth of the slice
-     * @param bwIn the input bandwidth of the slice
-     */
-    public DemandingSlice(ReconfigurationProblem model, String name, int hoster, int start, int[] cpu, int mem, int bwOut, int bwIn) {
-        super(name,
-                VF.fixed("h(" + name + ")", hoster, model.getSolver()),
-                new Task(VF.fixed("s(" + name + ")", start, model.getSolver()),
-    					VF.enumerated("d(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
-    					model.getEnd()),
-    					cpu,
-    					mem,
-    					bwOut,
-    					bwIn);
+    					consumption.getCPU(),
+    					consumption.getMemory(),
+    					consumption.getBandwidthOut(),//conf
+    					consumption.getBandwidthIn())//conf
     }
 
 
 
-    public DemandingSlice(String name, IntVar hoster, Task t, int[] cpu, int mem, int bwOut, int bwIn) {
-        super(name, hoster, t, cpu, mem, bwOut, bwIn);
-    }
+//    /**
+//     * Make a demanding slice.
+//     *
+//     * @param core   the model of the reconfiguration problem
+//     * @param name   the name of the slice
+//     * @param hoster the index of the node that will host the slice
+//     * @param cpu   the CPU heights of the slice
+//     * @param mem   the memory height of the slice
+//     * @param bwOut the output bandwidth of the slice
+//     * @param bwIn the input bandwidth of the slice
+//     */
+//    public DemandingSlice(ReconfigurationProblem model, String name, int hoster, int[] cpu, int mem, int bwOut, int bwIn) {
+//        super(name,
+//                VF.fixed("h(" + name + ")", hoster, model.getSolver()),
+//                new Task(VF.enumerated("s(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
+//    					VF.enumerated("d(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
+//    					model.getEnd()),
+//    					cpu,
+//    					mem,
+//    					bwOut,
+//    					bwIn);
+//    }
+//
+//    /**
+//     * Make a demanding slice.
+//     *
+//     * @param core   the model of the reconfiguration problem
+//     * @param name   the name of the slice
+//     * @param hoster the index of the node that will host the slice
+//     * @param start  the moment the action start
+//     * @param cpu   the CPU heights of the slice
+//     * @param mem   the memory height of the slice
+//     * @param bwOut the output bandwidth of the slice
+//     * @param bwIn the input bandwidth of the slice
+//     */
+//    public DemandingSlice(ReconfigurationProblem model, String name, int hoster, int start, int[] cpu, int mem, int bwOut, int bwIn) {
+//        super(name,
+//                VF.fixed("h(" + name + ")", hoster, model.getSolver()),
+//                new Task(VF.fixed("s(" + name + ")", start, model.getSolver()),
+//    					VF.enumerated("d(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
+//    					model.getEnd()),
+//    					cpu,
+//    					mem,
+//    					bwOut,
+//    					bwIn);
+//    }
+//
+//
+//
+//    public DemandingSlice(String name, IntVar hoster, Task t, int[] cpu, int mem, int bwOut, int bwIn) {
+//        super(name, hoster, t, cpu, mem, bwOut, bwIn);
+//    }
 
     /**
      * Fix the node that will host the slice.

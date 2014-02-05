@@ -19,11 +19,11 @@
 package gipad.plan.choco.actionmodel;
 
 import solver.variables.IntVar;
-import entropy.configuration.Configuration;
-import entropy.plan.action.Action;
-import entropy.plan.choco.ReconfigurationProblem;
-import entropy.plan.choco.actionModel.slice.ConsumingSlice;
-import entropy.plan.choco.actionModel.slice.DemandingSlice;
+import gipad.configuration.configuration.Configuration;
+import gipad.plan.action.Action;
+import gipad.plan.choco.ReconfigurationProblem;
+import gipad.plan.choco.actionmodel.slice.ConsumingSlice;
+import gipad.plan.choco.actionmodel.slice.DemandingSlice;
 import gipad.plan.choco.actionmodel.slice.IncomingSlice;
 import gipad.plan.choco.actionmodel.slice.LeavingSlice;
 
@@ -84,9 +84,7 @@ public abstract class ActionModel {
      *
      * @return the moment the action ends.
      */
-    public IntVar getGlobalCost() {
-        return end();
-    }
+    public abstract IntVar getGlobalCost();
 
     /**
      * Get the duration of the action.

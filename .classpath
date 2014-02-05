@@ -40,5 +40,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/discovery-model.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Users/Pocman/Documents/BestPlace/src/main/resources"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

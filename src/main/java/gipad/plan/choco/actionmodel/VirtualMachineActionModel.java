@@ -19,13 +19,14 @@
 
 package gipad.plan.choco.actionmodel;
 
+import org.discovery.DiscoveryModel.model.VirtualMachine;
 
-import entropy.configuration.VirtualMachine;
+
+
 
 /**
  * An abstract action to model an action focused on a virtual machine
  *
- * @author Fabien Hermenier
  */
 public abstract class VirtualMachineActionModel extends ActionModel {
 
