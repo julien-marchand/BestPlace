@@ -27,7 +27,7 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 
 import java.util.List;
 
-import org.discovery.DiscoveryModel.model.NetworkSpecification;
+import org.discovery.DiscoveryModel.model.NetworkInterface;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
@@ -435,11 +435,20 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 	}
 
 	@Override
-	public int getBandwidth(Node n1, Node n2) {
-		NetworkSpecification spec = n1.networkSpecification();
-		System.out.println(n1);
-		System.out.println(spec);
-		return 0;
+	public long getBandwidth(Node n1, Node n2) {
+		List<NetworkInterface> l1 = n1.hardwareSpecification().networkInterfaces();
+		long s1 = getBandWithSum(l1);
+		List<NetworkInterface> l2 = n2.hardwareSpecification().networkInterfaces();
+		long s2 = getBandWithSum(l2);
+		return Math.min(s1, s2);
+	}
+
+	private long getBandWithSum(List<NetworkInterface> l1) {
+		long sum = 0;
+		for (NetworkInterface ni : l1) {
+			sum += ni.maxBandwidth();
+		}
+		return sum;
 	}
 
 	@Override

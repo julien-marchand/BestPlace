@@ -251,7 +251,7 @@ public interface Configuration {
      * @param n2 a {@link Node}
      * @return the bandwidth between two node
      */
-    int getBandwidth(Node n1, Node n2);
+    long getBandwidth(Node n1, Node n2);
     
     /**
      * Indicate the bandwidth between two {@link VirtualMachine} (static view limited only by the node hardware not the network)
