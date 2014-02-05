@@ -27,7 +27,7 @@ public class TestSimpleConfiguration {
 //			new NetworkSpecification(new ArrayList)
 		}
 		
-		nodes.add(new Node("node0", generateNetworkInterface(100), null, new ArrayList<VirtualMachine>() {
+		nodes.add(new Node("node0", generateNetworkInterface(10), null, new ArrayList<VirtualMachine>() {
 			{
 				add(vms.get(0));
 				add(vms.get(1));
@@ -67,13 +67,13 @@ public class TestSimpleConfiguration {
 	
 	@Test
 	public void getNodeBandwith() {
-		long val = conf.getBandwidth(nodes.get(1), nodes.get(2));
-		Assert.assertEquals(100l, val);
+		long val = conf.getBandwidth(nodes.get(0), nodes.get(2));
+		Assert.assertEquals(10l, val);
 	}
 	
 	@Test
 	public void getVMBandwidth() {		
-		long val = conf.getBandwidth(vms.get(4), vms.get(4));
+		long val = conf.getBandwidth(vms.get(4), vms.get(5));
 		Assert.assertEquals(100l, val);
 	}
 }

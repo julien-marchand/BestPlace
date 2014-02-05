@@ -15,24 +15,43 @@ public class ActionConsomtion {
 	/**
 	 * 
 	 */
-	private double bandwidth;
-
+	private double bandwidthOut;
+	
+	/**
+	 * 
+	 */
+	private double bandwithIn;
+	/**
+	 * 
+	 */
+	private double[] cpu;
+	
 	/**
 	 * 
 	 * @param memory
 	 * @param bandwidth
 	 */
-	public ActionConsomtion(double memory, double bandwidth) {
+	public ActionConsomtion(double memory, double[] cpu, double bandwidthOut, double bandwithIn) {
 		this.memory = memory;
-		this.bandwidth = bandwidth;
+		this.bandwidthOut = bandwidthOut;
+		this.bandwithIn = bandwithIn;
+		this.cpu = cpu;
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public double getBandwidth() {
-		return bandwidth;
+	public double getBandwidthOut() {
+		return bandwidthOut;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public double getBandwithIn() {
+		return bandwithIn;
 	}
 	
 	/**
@@ -41,5 +60,13 @@ public class ActionConsomtion {
 	 */
 	public double getMemory() {
 		return memory;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public double[] getCpu() {
+		return cpu;
 	}
 }
