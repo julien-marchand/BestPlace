@@ -1,4 +1,4 @@
 package gipad.tools;
 
-public class DC extends DataCalculateur {
+public class DC extends DataCalculator {
 }
