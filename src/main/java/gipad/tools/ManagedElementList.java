@@ -21,9 +21,6 @@ package gipad.tools;
 
 import java.util.List;
 
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
 /**
  * Specify a list of managed elements without duplicated elements.
  * The position of the element has to be maintained.

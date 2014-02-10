@@ -2,10 +2,6 @@ package gipad.configuration.configuration;
 
 import gipad.placementconstraint.PlacementConstraint;
 import gipad.tools.ManagedElementList;
-
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
 import solver.variables.IntVar;
 
 
@@ -281,11 +277,20 @@ public interface Configuration {
     
     int getMaxBandwith(Node n);
 
-	IntVar getRunDuration(VirtualMachine vm);
+	int getRunDuration(VirtualMachine vm);
 
 	int getMaxBandwidthOut();
 
 	int getMaxBandwidthIn();
 
-	IntVar getStopDuration(VirtualMachine vm);
+	int getStopDuration(VirtualMachine vm);
+	
+	
+	/**
+	 * TODO unité en Mo
+	 * @param vm
+	 * @param id
+	 * @return
+	 */
+	int getMigrationCapacity(VirtualMachine vm, int id);
 }

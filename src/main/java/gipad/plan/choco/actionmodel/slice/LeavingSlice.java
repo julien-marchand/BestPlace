@@ -1,13 +1,9 @@
 package gipad.plan.choco.actionmodel.slice;
 
 import gipad.configuration.configuration.ActionConsumption;
-import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.*;
 import gipad.plan.Plan;
 import gipad.plan.choco.ReconfigurationProblem;
-
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
 import solver.Cause;
 import solver.variables.IntVar;
 import solver.variables.Task;
@@ -39,7 +35,7 @@ public class LeavingSlice extends Slice {
     public LeavingSlice(ReconfigurationProblem model, String name, VirtualMachine vm, ActionConsumption consumption, Configuration conf) {
     	this(model, name, 
     			conf.getLocation(vm).getId(),
-    					consumption.getCPU(),
+    					consumption.getCpu(),
     					consumption.getMemory(),
     					conf.getMaxBandwidthOut(),
     					conf.getMaxBandwidthIn());
@@ -129,7 +125,7 @@ public class LeavingSlice extends Slice {
      */
     public void fixEnd(int t) {
         try {
-            this.end().instantiateTo(t, Cause.Null);
+            this.getEnd().instantiateTo(t, Cause.Null);
         } catch (Exception e) {
             Plan.logger.error(e.getMessage(), e);
         }
@@ -142,7 +138,7 @@ public class LeavingSlice extends Slice {
      */
     public void fixStart(int t) {
         try {
-            this.start().instantiateTo(t, Cause.Null);
+            this.getStart().instantiateTo(t, Cause.Null);
         } catch (Exception e) {
             Plan.logger.error(e.getMessage(), e);
         }

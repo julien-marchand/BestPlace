@@ -1,11 +1,9 @@
 package gipad.plan.choco.actionmodel.slice;
 
 import gipad.configuration.configuration.ActionConsumption;
-import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.*;
 import gipad.plan.Plan;
 import gipad.plan.choco.ReconfigurationProblem;
-
-import org.discovery.DiscoveryModel.model.Node;
 
 import solver.Cause;
 import solver.variables.IntVar;
@@ -146,7 +144,7 @@ public class IncomingSlice extends Slice {
      */
     public void fixEnd(int t) {
         try {
-            this.end().instantiateTo(t, Cause.Null);
+            this.getEnd().instantiateTo(t, Cause.Null);
         } catch (Exception e) {
             Plan.logger.error(e.getMessage(), e);
         }
@@ -172,7 +170,7 @@ public class IncomingSlice extends Slice {
      */
     public void fixStart(int t) {
         try {
-            this.start().instantiateTo(t, Cause.Null);
+            this.getStart().instantiateTo(t, Cause.Null);
         } catch (Exception e) {
             Plan.logger.error(e.getMessage(), e);
         }

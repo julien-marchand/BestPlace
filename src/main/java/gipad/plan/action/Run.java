@@ -18,8 +18,7 @@
  */
 package gipad.plan.action;
 
-import gipad.configuration.configuration.Configuration;
-import org.discovery.DiscoveryModel.model.*;
+import gipad.configuration.configuration.*;
 import gipad.execution.*;
 
 /**
