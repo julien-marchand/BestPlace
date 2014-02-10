@@ -259,20 +259,6 @@ public interface Configuration {
      */
     long getBandwidth(VirtualMachine vm1, VirtualMachine vm2);
     
-    /**
-     * 
-     * @param vm
-     * @return
-     */
-    ActionConsumption getConsumption(VirtualMachine vm);
-    
-    /**
-     * 
-     * @param vm
-     * @return
-     */
-    ActionConsumption getLeavingConsumption(VirtualMachine vm);
-
     ActionConsumption getConsuming(VirtualMachine vm);
     
 	ActionConsumption getIncoming(VirtualMachine vm);
@@ -281,35 +267,15 @@ public interface Configuration {
 
 	ActionConsumption getDemanding(VirtualMachine vm);
 
-    
-    /**
-     * TODO unité temporel
-     * @param n
-     * @param vm
-     * @return
-     */
-
-    ActionConsumption getIncomingConsumption(VirtualMachine vm);
-    
-    /**
-     * 
-     * @param vm
-     * @return
-     */
-    ActionConsumption getDemandingConsumption(VirtualMachine vm);
-
     int getRunDutaion(Node n, VirtualMachine vm);
+
+	int getStopDuration(VirtualMachine vm);
     
     int getMaxBandwith(Node n);
 
 	int getMaxBandwidthOut();
 
-
-	IntVar<?> getRunDuration(VirtualMachine vm);
 	int getMaxBandwidthIn();
-
-	int getStopDuration(VirtualMachine vm);
-	
 	
 	/**
 	 * TODO unité en Mo

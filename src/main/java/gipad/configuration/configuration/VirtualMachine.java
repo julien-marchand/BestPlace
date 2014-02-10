@@ -1,8 +1,18 @@
 package gipad.configuration.configuration;
 
+import java.util.List;
+
 public interface VirtualMachine {
 
-	public String name();
+	double getMemoryCurrentUsage();
+
+	double getMemoryUsage();
+
+	List<Core> getCores();
+
+	List<NetworkInterface> getNetworkInterfaces();
+
+	String name();
 
 	long[] getCoreUsage();
 }
