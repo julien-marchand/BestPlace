@@ -1,6 +1,6 @@
-package gipad.tools;
+package gipad.configuration.configuration;
 
-import org.discovery.DiscoveryModel.model.VirtualMachine;
+import gipad.tools.ManagedElementList;
 
 public interface Core {
 	ManagedElementList<VirtualMachine> getVM();
