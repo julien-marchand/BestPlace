@@ -21,10 +21,6 @@ package gipad.plan.choco;
 
 import java.util.List;
 import java.util.Set;
-
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
 import solver.Solver;
 import solver.variables.IntVar;
 import solver.variables.SetVar;

@@ -3,7 +3,6 @@ package gipad.configuration.configuration;
 import gipad.placementconstraint.PlacementConstraint;
 import gipad.tools.ManagedElementList;
 
-
 /**New Interface for a configuration
  * no more Set
  * @author Pocman
@@ -281,4 +280,12 @@ public interface Configuration {
 	int getMaxBandwidthOut();
 
 	int getMaxBandwidthIn();
+
+	/**
+	 * TODO unité en Mo
+	 * @param vm
+	 * @param id
+	 * @return
+	 */
+	int getMigrationCapacity(VirtualMachine vm, int id);
 }

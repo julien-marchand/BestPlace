@@ -19,12 +19,10 @@
 package gipad.placementconstraint;
 
 
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
-import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.*;
 import gipad.plan.choco.ReconfigurationProblem;
 import gipad.tools.ManagedElementList;
+import ch.qos.logback.core.pattern.parser.Node;
 
 /**
  * An interface to specify some constraints related to the planification of the action.

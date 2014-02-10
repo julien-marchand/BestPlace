@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.discovery.DiscoveryModel.model.Node;
+import gipad.configuration.configuration.*;
 import gipad.plan.action.*;
 /**
  * A graph to represent dependencies between the

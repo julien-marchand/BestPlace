@@ -19,7 +19,7 @@
 package gipad.exception;
 
 
-import org.discovery.DiscoveryModel.model.*;
+import gipad.configuration.configuration.*;
 
 /**
  * An exception dedicated to describe an incompatible

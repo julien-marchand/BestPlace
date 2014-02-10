@@ -22,8 +22,7 @@ package gipad.plan.action;
 
 //import java.io.IOException;
 
-import gipad.configuration.configuration.Configuration;
-import org.discovery.DiscoveryModel.model.*;
+import gipad.configuration.configuration.*;
 import gipad.execution.*;
 //import entropy.plan.parser.TimedReconfigurationPlanSerializer;
 //import entropy.plan.visualization.PlanVisualizer;

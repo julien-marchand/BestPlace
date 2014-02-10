@@ -19,11 +19,8 @@
 
 package gipad.placementconstraint;
 
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
 import solver.constraints.ICF;
-import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.*;
 import gipad.plan.choco.ReconfigurationProblem;
 import gipad.plan.choco.actionmodel.slice.Slice;
 import gipad.tools.ManagedElementList;
@@ -32,8 +29,6 @@ import gipad.tools.SimpleManagedElementList;
 
 /**
  * A constraint to assign a set of virtual machines to a single node.
- *
- * @author Fabien Hermenier
  */
 public class Gather implements PlacementConstraint {
 
