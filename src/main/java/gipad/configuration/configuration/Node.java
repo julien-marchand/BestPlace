@@ -11,4 +11,6 @@ public interface Node {
 	List<VirtualMachine> vms();
 
 	String name();
+
+	List<NetworkInterface> getNetworkInterfaces();
 }

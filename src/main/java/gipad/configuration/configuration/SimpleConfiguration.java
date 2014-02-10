@@ -435,7 +435,7 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 	public long getBandwidth(Node n1, Node n2) {
 		List<NetworkInterface> l1 = n1.getNetworkInterfaces();
 		long s1 = getBandWithSum(l1);
-		List<NetworkInterface> l2 = n2.hardwareSpecification().networkInterfaces();
+		List<NetworkInterface> l2 = n2.getNetworkInterfaces();
 		long s2 = getBandWithSum(l2);
 		return Math.min(s1, s2);
 	}
