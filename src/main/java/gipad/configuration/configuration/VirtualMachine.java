@@ -4,4 +4,5 @@ public interface VirtualMachine {
 
 	public String name();
 
+	long[] getCoreUsage();
 }

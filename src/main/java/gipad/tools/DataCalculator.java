@@ -1,10 +1,6 @@
 package gipad.tools;
 
-import org.discovery.DiscoveryModel.model.Cpu;
-import org.discovery.DiscoveryModel.model.HardwareSpecification;
-import org.discovery.DiscoveryModel.model.NetworkInterface;
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
+import gipad.configuration.configuration.VirtualMachine;
 
 public class DataCalculator {
 	public static double getSumCpuUsage(HardwareSpecification hs) {
