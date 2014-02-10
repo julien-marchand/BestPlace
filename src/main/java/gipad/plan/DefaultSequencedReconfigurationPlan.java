@@ -29,6 +29,8 @@ import gipad.configuration.configuration.Configuration;
 import gipad.configuration.*;
 import gipad.execution.*;
 import gipad.plan.action.*;
+import gipad.tools.ManagedElementList;
+import gipad.tools.SimpleManagedElementList;
 
 /**
  * A reconfiguration plan based on Action.

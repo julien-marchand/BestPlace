@@ -19,9 +19,9 @@
 
 package gipad.placementconstraint;
 
-import gipad.configuration.ManagedElementList;
-import gipad.configuration.SimpleManagedElementList;
 import gipad.configuration.configuration.Configuration;
+import gipad.tools.ManagedElementList;
+import gipad.tools.SimpleManagedElementList;
 
 import java.util.HashSet;
 import java.util.Set;

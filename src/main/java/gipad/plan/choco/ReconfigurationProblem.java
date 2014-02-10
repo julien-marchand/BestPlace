@@ -29,11 +29,11 @@ import solver.Solver;
 import solver.variables.IntVar;
 import solver.variables.SetVar;
 import gipad.configuration.configuration.*;
-import gipad.configuration.ManagedElementList;
 import gipad.plan.SequencedReconfigurationPlan;
 import gipad.plan.action.NodeAction;
 import gipad.plan.action.VirtualMachineAction;
 import gipad.plan.choco.actionmodel.VirtualMachineActionModel;
+import gipad.tools.ManagedElementList;
 
 /**
  * Specification of a reconfiguration problem.

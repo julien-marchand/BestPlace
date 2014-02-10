@@ -21,11 +21,11 @@ package gipad.placementconstraint;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
-import gipad.configuration.ManagedElementList;
-import gipad.configuration.SimpleManagedElementList;
 import gipad.configuration.configuration.Configuration;
 import gipad.plan.choco.ReconfigurationProblem;
 import gipad.plan.choco.actionmodel.slice.Slice;
+import gipad.tools.ManagedElementList;
+import gipad.tools.SimpleManagedElementList;
 
 
 

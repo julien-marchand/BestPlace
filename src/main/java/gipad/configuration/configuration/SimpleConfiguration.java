@@ -19,10 +19,10 @@
 
 package gipad.configuration.configuration;
 
-import gipad.configuration.ManagedElementList;
-import gipad.configuration.SimpleManagedElementList;
 import gipad.placementconstraint.PlacementConstraint;
 import gipad.tools.DataCalculateur;
+import gipad.tools.ManagedElementList;
+import gipad.tools.SimpleManagedElementList;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 

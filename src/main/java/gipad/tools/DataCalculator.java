@@ -19,9 +19,14 @@ public class DataCalculator {
 	
 	public static double getSumNetworkUsage(VirtualMachine vm) {
 		long sum = 0;
+
 		for (NetworkInterface ni : vm.hardwareSpecification().networkInterfaces()) {
 			sum += ni.nbCores() * cpu.getCpuCapacity();
 		}
 		return sum;
+	}
+	
+	public ManagedElementList<ICore> getCoreList(Node n){
+//		for(n.hardwareSpecification().cpus().)
 	}
 }

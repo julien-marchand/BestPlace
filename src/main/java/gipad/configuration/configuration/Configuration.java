@@ -1,7 +1,7 @@
 package gipad.configuration.configuration;
 
-import gipad.configuration.ManagedElementList;
 import gipad.placementconstraint.PlacementConstraint;
+import gipad.tools.ManagedElementList;
 
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;

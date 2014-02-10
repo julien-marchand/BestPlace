@@ -20,7 +20,8 @@
 package gipad.exception;
 
 
-import gipad.configuration.ManagedElementList;
+import gipad.tools.ManagedElementList;
+
 import org.discovery.DiscoveryModel.model.*;
 
 /**
