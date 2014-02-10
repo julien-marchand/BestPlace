@@ -19,7 +19,7 @@
 package gipad.plan.action;
 
 
-import org.discovery.DiscoveryModel.model.*;
+import gipad.configuration.configuration.*;
 
 /**
  * An abstract action dedicated to the action that manipulate the state of a node.

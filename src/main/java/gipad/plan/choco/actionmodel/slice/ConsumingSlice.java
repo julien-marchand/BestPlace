@@ -1,12 +1,9 @@
 package gipad.plan.choco.actionmodel.slice;
 
 import gipad.configuration.configuration.ActionConsumption;
-import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.*;
 import gipad.plan.Plan;
 import gipad.plan.choco.ReconfigurationProblem;
-
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 import solver.Cause;
 import solver.variables.IntVar;
@@ -83,7 +80,7 @@ public class ConsumingSlice extends Slice {
      */
     public void fixEnd(int t) {
         try {
-            this.end().instantiateTo(t, Cause.Null);
+            this.getEnd().instantiateTo(t, Cause.Null);
         } catch (Exception e) {
             Plan.logger.error(e.getMessage(), e);
         }

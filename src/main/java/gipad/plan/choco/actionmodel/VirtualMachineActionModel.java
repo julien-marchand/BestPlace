@@ -19,7 +19,7 @@
 
 package gipad.plan.choco.actionmodel;
 
-import org.discovery.DiscoveryModel.model.VirtualMachine;
+import gipad.configuration.configuration.*;
 
 
 

@@ -18,13 +18,9 @@
  */
 package gipad.plan.action;
 
-
-//import java.io.IOException;
-
 import gipad.configuration.configuration.Configuration;
 import gipad.execution.SequencedExecutionGraph;
-//import entropy.plan.parser.TimedReconfigurationPlanSerializer;
-//import entropy.plan.visualization.PlanVisualizer;
+
 
 /**
  * Abstract definition of an action that reconfigure a architecture. An action manipulate either virtual machines or nodes.

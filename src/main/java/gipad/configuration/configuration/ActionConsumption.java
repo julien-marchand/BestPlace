@@ -20,7 +20,7 @@ public class ActionConsumption {
 	/**
 	 * 
 	 */
-	private double bandwithIn;
+	private double bandwidthIn;
 	/**
 	 * 
 	 */
@@ -34,7 +34,7 @@ public class ActionConsumption {
 	public ActionConsumption(double memory, double[] cpu, double bandwidthOut, double bandwithIn) {
 		this.memory = memory;
 		this.bandwidthOut = bandwidthOut;
-		this.bandwithIn = bandwithIn;
+		this.bandwidthIn = bandwithIn;
 		this.cpu = cpu;
 	}
 	
@@ -50,8 +50,8 @@ public class ActionConsumption {
 	 * 
 	 * @return
 	 */
-	public double getBandwithIn() {
-		return bandwithIn;
+	public double getBandwidthIn() {
+		return bandwidthIn;
 	}
 	
 	/**

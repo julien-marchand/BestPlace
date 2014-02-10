@@ -474,6 +474,29 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 	}
 
 	@Override
+<<<<<<< HEAD
+	public ActionConsumption getConsumption(VirtualMachine vm) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ActionConsumption getLeavingConsumption(VirtualMachine vm) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ActionConsumption getIncomingConsumption(VirtualMachine vm) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ActionConsumption getDemandingConsumption(VirtualMachine vm) {
+		// TODO Auto-generated method stub
+		return null;
+=======
 	public ActionConsumption getConsuming(VirtualMachine vm) {
 		double memory = vm.hardwareSpecification().memory().getCurrentUsage();
 		double cpu = DataCalculateur.getSumCpuCurrentUsage(vm.hardwareSpecification());

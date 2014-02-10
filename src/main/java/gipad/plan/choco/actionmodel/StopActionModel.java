@@ -18,15 +18,13 @@
  */
 package gipad.plan.choco.actionmodel;
 
-import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.*;
 import gipad.plan.action.Stop;
 import gipad.plan.choco.ReconfigurationProblem;
 import gipad.plan.choco.actionmodel.slice.ConsumingSlice;
 import gipad.plan.choco.actionmodel.slice.DemandingSlice;
 import gipad.plan.choco.actionmodel.slice.IncomingSlice;
 import gipad.plan.choco.actionmodel.slice.LeavingSlice;
-
-import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 import solver.Cause;
 import solver.constraints.ICF;
@@ -66,7 +64,7 @@ public class StopActionModel extends VirtualMachineActionModel {
         //TODO adapter pour ajouter l'activité cpu
         model.getSolver().post(ICF.arithm(lSlice.duration(), "=", conf.getStopDuration(vm)));
         
-        model.getSolver().post(ICF.arithm(cSlice.end(), "=", lSlice.start()));
+        model.getSolver().post(ICF.arithm(cSlice.getEnd(), "=", lSlice.getStart()));
       //La durée totale de l'action model est la somme des durées des deux slices
         super.duration = VF.enumerated("stop_dur(" + vm.name() + ")", 0, model.MAX_TIME ,model.getSolver());
         model.getSolver().post(ICF.sum(new IntVar[]{cSlice.duration(), lSlice.duration()}, super.duration));
@@ -83,12 +81,12 @@ public class StopActionModel extends VirtualMachineActionModel {
 
     @Override
     public final IntVar start() {
-        return cSlice.start();
+        return cSlice.getStart();
     }
 
     @Override
     public final IntVar end() {
-        return lSlice.end();
+        return lSlice.getEnd();
     }
 
     @Override

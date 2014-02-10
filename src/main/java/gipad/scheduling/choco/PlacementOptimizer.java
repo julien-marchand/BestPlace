@@ -2,13 +2,9 @@ package gipad.scheduling.choco;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
-import org.discovery.DiscoveryModel.model.*;
-
 import gipad.exception.PlanException;
 import gipad.execution.*;
 import gipad.plan.action.*;
-
 import gipad.scheduling.EntropyProperties;
 import gipad.configuration.*;
 import gipad.configuration.configuration.*;

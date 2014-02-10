@@ -1,7 +1,7 @@
 package gipad.plan.choco.actionmodel.slice;
 
 import gipad.configuration.configuration.ActionConsumption;
-import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.*;
 import gipad.plan.Plan;
 import gipad.plan.choco.ReconfigurationProblem;
 import solver.Cause;
@@ -38,7 +38,7 @@ public class DemandingSlice extends Slice {
     					cpu,
     					mem,
     					VF.fixed(bwOut, model.getSolver()),
-    					VF.fixed(bwIn, model.getSolver()));
+    					VF.fixed(bwIn, model.getSolver()));//TODO VF.enumerated("out(" + name + ")", 0, bwMaxOut, model.getSolver()), VF.enumerated("in(" + name + ")", 0, bwMaxIn, model.getSolver())
     }
     
     
@@ -52,8 +52,13 @@ public class DemandingSlice extends Slice {
     public DemandingSlice(ReconfigurationProblem model, String name, ActionConsumption consumption, Configuration conf) {
     	this(model, name, consumption.getCPU(),
     					consumption.getMemory(),
+<<<<<<< HEAD
+    					conf.getBandwidthOut(),//conf
+    					conf.getBandwidthIn())//conf
+=======
     					consumption.getBandwidthOut(),//conf
     					consumption.getBandwidthIn());//conf
+>>>>>>> 29e0d5a9d473880122dfdd20c8c6292fd79b423e
     }
 
 
@@ -131,7 +136,7 @@ public class DemandingSlice extends Slice {
      */
     public void fixStart(int t) {
         try {
-            this.start().instantiateTo(t, Cause.Null);
+            this.getStart().instantiateTo(t, Cause.Null);
         } catch (Exception e) {
             Plan.logger.error(e.getMessage(), e);
         }

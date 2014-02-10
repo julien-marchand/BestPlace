@@ -19,7 +19,7 @@
 package gipad.plan.choco.actionmodel;
 
 import solver.variables.IntVar;
-import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.*;
 import gipad.plan.action.Action;
 import gipad.plan.choco.ReconfigurationProblem;
 import gipad.plan.choco.actionmodel.slice.ConsumingSlice;

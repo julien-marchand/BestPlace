@@ -31,8 +31,6 @@ import solver.constraints.ICF;
 
 /**
  * A constraint to assign a set of virtual machines to a single node.
- *
- * @author Fabien Hermenier
  */
 public class Gather implements PlacementConstraint {
 
