@@ -27,9 +27,11 @@ import gipad.plan.choco.actionmodel.slice.IncomingSlice;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
+import solver.Cause;
 import solver.ICause;
 import solver.constraints.ICF;
 import solver.constraints.LCF;
+import solver.exception.ContradictionException;
 import solver.explanations.Deduction;
 import solver.explanations.Explanation;
 import solver.variables.IntVar;
@@ -48,19 +50,10 @@ public class RunActionModel extends VirtualMachineActionModel {
 
     /**
      * Make a new run action.
-     * <p/>
-     * The following constraints are added:
-     * <ul>
-     * <li></li>
-     * <li>{@code run.duration = d.duration + i.duration}</li>
-     * <li>{@code i.duration = d(i.hoster())}</li>
-     * <li>{@code i.end() = d.start() }</li>
-     * <li>{@code i.hoster() = d.hoster() }</li>
-     * </ul>
      *
      * @param model the model of the reconfiguration problem
+     * @param conf the configuration we are working on
      * @param vm    the virtual machine associated to the action
-     * @param d     the duration of the action
      */
     public RunActionModel(ReconfigurationProblem model, Configuration conf, VirtualMachine vm) {
         super(vm);
@@ -85,8 +78,13 @@ public class RunActionModel extends VirtualMachineActionModel {
         
         model.getSolver().post(ICF.arithm(iSlice.hoster(), "=", dSlice.hoster()));
         //pas d'utilisation de la bande passante pour charger une VM en mémoire
-        iSlice.getBwInput().instantiateTo(0, null);
-        iSlice.getBwOutput().instantiateTo(0, null);
+        try {
+			iSlice.getBwInput().instantiateTo(0, Cause.Null);
+			iSlice.getBwOutput().instantiateTo(0, Cause.Null);
+		} catch (ContradictionException e) {
+			e.printStackTrace();
+		}
+      
         
     }
 
