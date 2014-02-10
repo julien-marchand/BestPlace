@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
+import entropy.plan.choco.actionModel.ActionModel;
 import solver.Solver;
 import solver.constraints.Constraint;
 import solver.search.loop.monitors.SearchMonitorFactory;
@@ -146,20 +147,26 @@ public class ChocoCustom3RP implements Plan {
 		/**
 		 * globalCost is equals to the sum of each action costs.
 		 */
+<<<<<<< HEAD
+		IntVar<?> globalCost = model.createBoundIntVar("globalCost", 0,
+				Choco.MAX_UPPER_BOUND);
+		List<ActionModel> allActions = new ArrayList<ActionModel>();
+=======
 		IntVar globalCost = model.createBoundIntVar("globalCost", 0, Choco.MAX_UPPER_BOUND);
 		List<Action> allActions = new ArrayList<Action>();
+>>>>>>> 29e0d5a9d473880122dfdd20c8c6292fd79b423e
 		allActions.addAll(model.getVirtualMachineActions());
 		allActions.addAll(model.getNodeMachineActions());
-		IntVar[] allCosts = ActionModels.extractCosts(allActions);
-		List<IntVar> varCosts = new ArrayList<IntVar>();
+		IntVar<?>[] allCosts = extractCosts(allActions);
+		List<IntVar<?>> varCosts = new ArrayList<IntVar<?>>();
 		for (int i = 0; i < allCosts.length; i++) {
-			IntVar c = allCosts[i];
+			IntVar<?> c = allCosts[i];
 			if (c.instantiated() && c.getValue() == 0) {
 			} else {
 				varCosts.add(c);
 			}
 		}
-		IntVar[] costs = varCosts.toArray(new IntVar[varCosts.size()]);
+		IntVar<?>[] costs = varCosts.toArray(new IntVar[varCosts.size()]);
 		// model.post(model.eq(globalCost,
 		// /*model.sum(costs)*/explodedSum(model, costs, 200, true)));
 
@@ -207,4 +214,19 @@ public class ChocoCustom3RP implements Plan {
 		return null;
 	}
 
+
+	    /**
+	     * Extract the cost of a list of actions.
+	     *
+	     * @param actions the list of actions
+	     * @return an array of costs, in the same order that the actions
+	     */
+	    public static IntVar[] extractCosts(List<ActionModel> tActions) {
+		ActionModel[] actions = tActions.toArray(new ActionModel[tActions.size()]);
+		IntVar[] vs = new IntVar[actions.length];
+	        for (int i = 0; i < actions.length; i++) {
+	            vs[i] = actions[i].getGlobalCost();
+	        }
+	        return vs;
+	    }
 }

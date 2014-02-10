@@ -1,5 +1,7 @@
 package gipad.plan.choco.constraints;
 
+
+
 import java.util.Arrays;
 
 import solver.Solver;
@@ -7,6 +9,11 @@ import solver.constraints.Constraint;
 import solver.variables.IntVar;
 import solver.variables.Task;
 
+/** Cumulative constraint on multiple dimensions 
+ * should be applied to the demanding slices 
+ * @author Sabrine
+ *
+ */
 public class CumulativeMultiDim extends Constraint{
     
     private static final long serialVersionUID = 2212908998958152173L;
@@ -16,11 +23,19 @@ public class CumulativeMultiDim extends Constraint{
 	private final int COLORED = PropTTPCDynamicSweepLoads.COLORED;
 	
 	//*********all variables
-	private IntVar[] allVars;
-	private static IntVar[][] vLoads;// Pb si en static ?
+	private IntVar<?>[] allVars;
+	private static IntVar<?>[][] vLoads;// Pb si en static ?
 	
 	
-	public CumulativeMultiDim( Task[] vTasks, IntVar[][] vHeights, IntVar[] vCapacities,  Solver solver, int[] interestingTimePoints) {
+	/**
+	 * @param vTasks The tasks to schedule
+	 * @param vHeights The consumption of the different tasks for each resource 
+	 * @param vCapacities The capacities in the different resources 
+	 * @param solver 
+	 * @param interestingTimePoints
+	 */
+	@SuppressWarnings("unchecked")
+	public CumulativeMultiDim( Task[] vTasks, IntVar<?>[][] vHeights, IntVar<?>[] vCapacities,  Solver solver, int[] interestingTimePoints) {
 	    super(varsAggregator(vCapacities.length, vTasks, vHeights, vCapacities,interestingTimePoints.length), solver);
 	    Constraint<?, PropTTPCDynamicSweepLoads> c = new Constraint(allVars, solver);
 	    int[] resourceType= new int[vCapacities.length];
@@ -33,10 +48,9 @@ public class CumulativeMultiDim extends Constraint{
 	    c.addPropagators(new PropTTPCDynamicSweepLoads(allVars,vTasks.length,vCapacities.length,capacities, new int[vTasks.length][0],resourceType,interestingTimePoints,interestingResources));	
 	}
 	
- 
-      private static IntVar[] varsAggregator(int nbResources, Task[] vTasks, IntVar[][] vHeights, IntVar[] vCapacities, int nbInterestingTimePoints) {
+    private static IntVar[] varsAggregator(int nbResources, Task[] vTasks, IntVar[][] vHeights, IntVar[] vCapacities, int nbInterestingTimePoints) {
           int hIdx = 3*vTasks.length;
-          IntVar[] allVars = new IntVar[hIdx+vTasks.length*nbResources+nbResources+nbInterestingTimePoints*nbResources];
+          IntVar<?>[] allVars = new IntVar[hIdx+vTasks.length*nbResources+nbResources+nbInterestingTimePoints*nbResources];
           CumulativeMultiDim.vLoads = new IntVar[nbInterestingTimePoints][vCapacities.length];
           for (int t=0;t<vTasks.length;t++) {
               allVars[t] = vTasks[t].getStart();

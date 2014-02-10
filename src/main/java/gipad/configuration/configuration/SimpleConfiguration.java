@@ -506,7 +506,7 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 	}
 
 	@Override
-	public int getRunDuration(VirtualMachine vm) {
+	public int getRunDutaion(Node n, VirtualMachine vm) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -531,6 +531,12 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 
 	@Override
 	public int getMaxBandwidthIn() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getMigrationCapacity(VirtualMachine vm, int id) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

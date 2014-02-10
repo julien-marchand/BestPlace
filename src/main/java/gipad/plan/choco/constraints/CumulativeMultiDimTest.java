@@ -13,16 +13,10 @@ import solver.variables.VariableFactory;
 import org.junit.*;
 
 
-/**
- * Created with IntelliJ IDEA.
- * User: Arnaud
- * Date: 12/12/13
- * Time: 09:54
- */
 @SuppressWarnings("rawtypes") 
 public class CumulativeMultiDimTest {
     	
-    // ===== DATA =====
+    	// ===== DATA =====
         
 	 Task[] vTasks;
 	 IntVar[] vStarts;
@@ -46,7 +40,7 @@ public class CumulativeMultiDimTest {
         int[] endsUB = new int[]{4, 4, 4, 4, 4,     1,2,3,4};
         int[] durations = new int[]{1, 1, 1, 1, 1,  1,1,1,1};
         int[][] heights = new int[][]{ {2,2,1}, {2,2,2}, {1,1,3}, {1,1,4}, {2,2,5},    {5,5,0},{5,5,0},{5,5,0},{5,5,0}};
-        int[][] successors = new int[startsLB.length][0];//{ {}, {}, {}, {}, {},     {},{},{},{}};
+        int[][] successors = new int[startsLB.length][0];
         int[] capacities = new int[]{10,10,2};
         int[] resourceType = new int[]{CUMULATIVE,CUMULATIVE,COLORED};
         int nbTasks = startsLB.length;
@@ -57,7 +51,7 @@ public class CumulativeMultiDimTest {
         int nbInterestingTimePoints = interestingTimePoints.length;
         int nbInterestingResources = interestingResources.length;
         
-        
+        //Convert to IntVar
         intToIntVar(solver, nbTasks, nbResources, nbInterestingTimePoints, nbInterestingResources,  startsLB, endsUB,  durations,heights,  interestingTimePoints, capacities,interestingResources);
         
         

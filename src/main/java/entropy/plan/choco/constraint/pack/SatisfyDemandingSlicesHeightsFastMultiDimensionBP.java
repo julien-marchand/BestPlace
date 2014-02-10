@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import solver.constraints.Constraint;
+import solver.variables.IntVar;
 import choco.kernel.solver.variables.integer.IntDomainVar;
 import entropy.configuration.Configuration;
 import entropy.configuration.Node;
@@ -32,6 +34,7 @@ import entropy.plan.choco.ReconfigurationProblem;
 import entropy.plan.choco.actionModel.slice.DemandingSlice;
 import entropy.plan.choco.actionModel.slice.SliceComparator;
 import entropy.vjob.ExplodedSet;
+import gipad.plan.choco.constraints.PropTTPCDynamicSweepLoads;
 
 /**
  * A constraint to assign a host with a sufficient amount of resources to satisfy
@@ -45,7 +48,10 @@ public class SatisfyDemandingSlicesHeightsFastMultiDimensionBP implements Satisf
     private FastMultiBinPacking pack;
 
     public SatisfyDemandingSlicesHeightsFastMultiDimensionBP() {
-
+	IntVar<?>[] allVars = varsAggregator( solver,  nbTasks,  nbResources,  nbInterestingTimePoints,  nbInterestingResources, capacities);
+        Constraint c = new Constraint(allVars, solver);
+        c.addPropagators(new PropTTPCDynamicSweepLoads(allVars,nbTasks,nbResources,capacities,successors,resourceType,interestingTimePoints,interestingResources));
+        solver.post(c);
     }
 
     @Override

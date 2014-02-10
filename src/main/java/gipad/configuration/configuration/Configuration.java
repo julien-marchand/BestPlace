@@ -2,6 +2,8 @@ package gipad.configuration.configuration;
 
 import gipad.placementconstraint.PlacementConstraint;
 import gipad.tools.ManagedElementList;
+import solver.variables.IntVar;
+
 
 /**New Interface for a configuration
  * no more Set
@@ -264,23 +266,17 @@ public interface Configuration {
 	ActionConsumption getLeaving(VirtualMachine vm);
 
 	ActionConsumption getDemanding(VirtualMachine vm);
-    
-    /**
-     * TODO s / Mo
-     * @param n
-     * @param vm
-     * @return
-     */
-	int getRunDuration(VirtualMachine vm);
+
+    int getRunDutaion(Node n, VirtualMachine vm);
 
 	int getStopDuration(VirtualMachine vm);
-	
+    
     int getMaxBandwith(Node n);
 
 	int getMaxBandwidthOut();
 
 	int getMaxBandwidthIn();
-
+	
 	/**
 	 * TODO unité en Mo
 	 * @param vm
