@@ -1,6 +1,6 @@
 package gipad.plan.choco.constraints;
 
-import gipad.plan.choco.ReconfigurationProblem;
+
 
 import java.util.Arrays;
 
@@ -48,14 +48,6 @@ public class CumulativeMultiDim extends Constraint{
 	    c.addPropagators(new PropTTPCDynamicSweepLoads(allVars,vTasks.length,vCapacities.length,capacities, new int[vTasks.length][0],resourceType,interestingTimePoints,interestingResources));	
 	}
 	
- 
-      public CumulativeMultiDim(ReconfigurationProblem ReconfPb) {
-	    // TODO Auto-generated constructor stub
-	  super(ReconfPb.getSolver());
-	  
-	}
-
-
     private static IntVar[] varsAggregator(int nbResources, Task[] vTasks, IntVar[][] vHeights, IntVar[] vCapacities, int nbInterestingTimePoints) {
           int hIdx = 3*vTasks.length;
           IntVar<?>[] allVars = new IntVar[hIdx+vTasks.length*nbResources+nbResources+nbInterestingTimePoints*nbResources];

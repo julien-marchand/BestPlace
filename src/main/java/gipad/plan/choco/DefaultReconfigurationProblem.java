@@ -38,6 +38,7 @@ import gipad.plan.action.Action;
 import gipad.plan.choco.actionmodel.*;
 import gipad.plan.choco.actionmodel.slice.*;
 import gipad.plan.choco.constraints.CumulativeMultiDim;
+import gipad.plan.choco.constraints.SatisfyDemandingSliceHeights;
 import gipad.exception.*;
 import gipad.tools.*;
 
@@ -139,22 +140,23 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     /**
      * Cpu usage indexed by the index of the node.
      */
-    private IntVar[] cpuCapacities;
+    private IntVar<?>[] cpuCapacities;
+    
 
     /**
      * Mem usage indexed by the index of the node.
      */
-    private IntVar[] memCapacities;
+    private IntVar<?>[] memCapacities;
     
     /**
      * Network input indexed by the index of the node.
      */
-    private IntVar[] netInCapacities;
+    private IntVar<?>[] netInCapacities;
     
     /**
      * Network output indexed by the index of the node.
      */
-    private IntVar[] netOutCapacities;
+    private IntVar<?>[] netOutCapacities;
 
     /**
      * All the virtual machines managed by the model.
@@ -221,7 +223,7 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
      */
     private List<DemandingSlice> demandingSlices;
     
-    private CumulativeMultiDim packing; //TODO 
+    private SatisfyDemandingSliceHeights packing; //TODO 
 
     private int[] grpId; //The group ID of each node
 
@@ -316,11 +318,9 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
         this.nodesGrp = new HashMap<ManagedElementList<Node>, Integer>();
         this.revNodesGrp = new ArrayList<ManagedElementList<Node>>(MAX_NB_GRP);
 
-	packing = new CumulativeMultiDim(this);// new
-															// SatisfyDemandingSlicesHeightsSimpleBP();
+	
         //notre cumulative colorée ici
-        //packing.add(this);
-
+        packing = new SatisfyDemandingSliceHeights(this);// new  SatisfyDemandingSlicesHeightsSimpleBP();
         //TODO: Uncomment for capacity
 		/*
 		 * if (!this.demandingSlices.isEmpty()) { this.makeSetModel(); }
@@ -968,5 +968,20 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 	@Override
 	public Solver getSolver() {
 		return s;
+	}
+	
+	public IntVar[] getCpuCapacities() {
+	     return cpuCapacities;
+	}
+	
+	public IntVar[] getMemCapacities() {
+	    return memCapacities;
+	}
+	public IntVar[] getNetInCapacities() {
+	    return netInCapacities;
+	}
+
+	public IntVar[] getNetOutCapacities() {
+	    return netOutCapacities;
 	}
 }
