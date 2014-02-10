@@ -83,9 +83,7 @@ public class RunActionModel extends VirtualMachineActionModel {
 			iSlice.getBwOutput().instantiateTo(0, Cause.Null);
 		} catch (ContradictionException e) {
 			e.printStackTrace();
-		}
-      
-        
+		}        
     }
 
     @Override

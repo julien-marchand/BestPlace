@@ -301,4 +301,6 @@ public interface Configuration {
 	int getMaxBandwidthOut();
 
 	int getMaxBandwidthIn();
+
+	IntVar getStopDuration(VirtualMachine vm);
 }
