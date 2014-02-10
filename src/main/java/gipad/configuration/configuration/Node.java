@@ -9,4 +9,5 @@ public interface Node {
 	long[] getMemCapacities();
 	long[] getNetworkInCapacities();
 	long[] getNetworkOutCapacities();
+	String name();
 }

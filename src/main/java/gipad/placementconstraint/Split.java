@@ -20,14 +20,13 @@
 package gipad.placementconstraint;
 
 import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.Node;
+import gipad.configuration.configuration.VirtualMachine;
 import gipad.tools.ManagedElementList;
 import gipad.tools.SimpleManagedElementList;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 
 /**

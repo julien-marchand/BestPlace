@@ -18,16 +18,13 @@
  */
 package gipad.placementconstraint;
 
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
 import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.Node;
+import gipad.configuration.configuration.VirtualMachine;
 import gipad.plan.choco.ReconfigurationProblem;
 import gipad.plan.choco.actionmodel.slice.Slice;
 import gipad.tools.ManagedElementList;
 import gipad.tools.SimpleManagedElementList;
-
-
 
 /**
  * A constraint to enforce a set of virtual machines to avoid
