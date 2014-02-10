@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
+import entropy.plan.choco.actionModel.ActionModel;
 import solver.Solver;
 import solver.constraints.Constraint;
 import solver.search.loop.monitors.SearchMonitorFactory;
@@ -149,10 +150,10 @@ public class ChocoCustom3RP implements Plan {
 		 */
 		IntVar globalCost = model.createBoundIntVar("globalCost", 0,
 				Choco.MAX_UPPER_BOUND);
-		List<Action> allActions = new ArrayList<Action>();
+		List<ActionModel> allActions = new ArrayList<ActionModel>();
 		allActions.addAll(model.getVirtualMachineActions());
 		allActions.addAll(model.getNodeMachineActions());
-		IntVar[] allCosts = ActionModels.extractCosts(allActions);
+		IntVar[] allCosts = extractCosts(allActions);
 		List<IntVar> varCosts = new ArrayList<IntVar>();
 		for (int i = 0; i < allCosts.length; i++) {
 			IntVar c = allCosts[i];
@@ -213,4 +214,19 @@ public class ChocoCustom3RP implements Plan {
 		return null;
 	}
 
+
+	    /**
+	     * Extract the cost of a list of actions.
+	     *
+	     * @param actions the list of actions
+	     * @return an array of costs, in the same order that the actions
+	     */
+	    public static IntVar[] extractCosts(List<ActionModel> tActions) {
+		ActionModel[] actions = tActions.toArray(new ActionModel[tActions.size()]);
+		IntVar[] vs = new IntVar[actions.length];
+	        for (int i = 0; i < actions.length; i++) {
+	            vs[i] = actions[i].getGlobalCost();
+	        }
+	        return vs;
+	    }
 }

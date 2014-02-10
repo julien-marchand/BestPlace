@@ -6,6 +6,8 @@ import gipad.placementconstraint.PlacementConstraint;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
+import solver.variables.IntVar;
+
 
 /**New Interface for a configuration
  * no more Set
@@ -289,4 +291,8 @@ public interface Configuration {
      * @return
      */
     ActionConsumption getDemandingConsomtion(VirtualMachine vm);
+
+    IntVar<?> getMaxBandwidthOut();
+
+    IntVar<?> getMaxBandwidthIn();
 }

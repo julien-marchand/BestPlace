@@ -1,5 +1,7 @@
 package gipad.plan.choco.actionmodel.slice;
 
+import gipad.configuration.configuration.ActionConsumption;
+import gipad.configuration.configuration.Configuration;
 import gipad.plan.Plan;
 import gipad.plan.choco.ReconfigurationProblem;
 
@@ -31,46 +33,67 @@ public class ConsumingSlice extends Slice {
      * @param bwOut the output bandwidth of the slice
      * @param bwIn the input bandwidth of the slice
      */
-    public ConsumingSlice(ReconfigurationProblem model, String name, int node, int[] cpu, int mem, int bwOut, int bwIn) {
+    public ConsumingSlice(ReconfigurationProblem model, String name, int node, int[] cpu, int mem, int bwMaxOut, int bwMaxIn) {
     	super(name, 
-    			VF.fixed("h(" + name + ")", node, model.getSolver()),
-    			new Task(model.getStart(),
+    		VF.enumerated("h(" + name + ")", 0, model.getNodes().length - 1, model.getSolver()),
+    			new Task(VF.enumerated("s(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
     					VF.enumerated("d(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
     					VF.enumerated("e(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver())),
     					cpu,
     					mem,
-    					bwOut,
-    					bwIn);
+    					VF.enumerated("out(" + name + ")", 0, bwMaxOut, model.getSolver()),
+    					VF.enumerated("in(" + name + ")", 0, bwMaxIn, model.getSolver()));
     }
 
     /**
-     * Make a new consuming slice.
+     * Make a Consuming slice.
      *
-     * @param model    the model of the reconfiguration problem
-     * @param name     the identifier of the slice
-     * @param node     the hosting node of the slice
-     * @param cpu   the CPU heights of the slice
-     * @param mem   the memory height of the slice
-     * @param bwOut the output bandwidth of the slice
-     * @param bwIn the input bandwidth of the slice
-     * @param duration the fixed duration of the slice
+     * @param model the model of the reconfiguration problem
+     * @param name the name of the slice
+     * @param consumption from the configuration
      */
-    public ConsumingSlice(ReconfigurationProblem model, String name, int node, int[] cpu, int mem, int bwOut, int bwIn, int duration) {
-    	super(name, 
-    			VF.fixed("h(" + name + ")", node, model.getSolver()),
-    			new Task(model.getStart(),
-    					VF.enumerated("d(" + name + ")", duration, duration, model.getSolver()),
-    					VF.enumerated("e(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver())),
-    					cpu,
-    					mem,
-    					bwOut,
-    					bwIn);
-
+    public ConsumingSlice(ReconfigurationProblem model, String name, ActionConsumption consumption, Configuration conf) {
+        this(name,
+                VF.enumerated("h(" + name + ")", 0, model.getNodes().length - 1, model.getSolver()),
+                new Task(VF.enumerated("s(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
+    					VF.enumerated("d(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
+    					model.getEnd()),
+    					consumption.getCPU(),
+    					consumption.getMemory(),
+    					conf.getMaxBandwidthOut(),
+    					conf.getMaxBandwidthIn());
     }
 
-    public ConsumingSlice(String name, IntVar node, Task t, int[] cpu, int mem, int bwOut, int bwIn) {
-        super(name, node, t, cpu, mem, bwOut, bwIn);
-    }
+    
+    
+    /**
+//     * Make a new consuming slice.
+//     *
+//     * @param model    the model of the reconfiguration problem
+//     * @param name     the identifier of the slice
+//     * @param node     the hosting node of the slice
+//     * @param cpu   the CPU heights of the slice
+//     * @param mem   the memory height of the slice
+//     * @param bwOut the output bandwidth of the slice
+//     * @param bwIn the input bandwidth of the slice
+//     * @param duration the fixed duration of the slice
+//     */
+//    public ConsumingSlice(ReconfigurationProblem model, String name, int node, int[] cpu, int mem, int bwOut, int bwIn, int duration) {
+//    	super(name, 
+//    			VF.fixed("h(" + name + ")", node, model.getSolver()),
+//    			new Task(model.getStart(),
+//    					VF.enumerated("d(" + name + ")", duration, duration, model.getSolver()),
+//    					VF.enumerated("e(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver())),
+//    					cpu,
+//    					mem,
+//    					bwOut,
+//    					bwIn);
+//
+//    }
+//
+//    public ConsumingSlice(String name, IntVar node, Task t, int[] cpu, int mem, int bwOut, int bwIn) {
+//        super(name, node, t, cpu, mem, bwOut, bwIn);
+//    }
 
     /**
      * Fix the end moment of the slice.

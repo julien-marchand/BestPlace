@@ -1,6 +1,7 @@
 package gipad.plan.choco.actionmodel.slice;
 
-import gipad.configuration.configuration.ActionConsomtion;
+import gipad.configuration.configuration.ActionConsumption;
+import gipad.configuration.configuration.Configuration;
 import gipad.plan.Plan;
 import gipad.plan.choco.ReconfigurationProblem;
 import solver.Cause;
@@ -28,7 +29,7 @@ public class DemandingSlice extends Slice {
      * @param bwOut the output bandwidth of the slice
      * @param bwIn the input bandwidth of the slice
      */
-    public DemandingSlice(ReconfigurationProblem model, String name, int[] cpu, int mem, int bwOut, int bwIn) {
+    public DemandingSlice(ReconfigurationProblem model, String name, int[] cpu, int mem, int bwMaxOut, int bwMaxIn) {
         super(name,
                 VF.enumerated("h(" + name + ")", 0, model.getNodes().length - 1, model.getSolver()),
                 new Task(VF.enumerated("s(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
@@ -36,8 +37,8 @@ public class DemandingSlice extends Slice {
     					model.getEnd()),
     					cpu,
     					mem,
-    					bwOut,//intvar
-    					bwIn);//intvar
+    					VF.enumerated("out(" + name + ")", 0, bwMaxOut, model.getSolver()),//IntVar
+    					VF.enumerated("in(" + name + ")", 0, bwMaxIn, model.getSolver()));//IntVar
     }
     
     
@@ -48,7 +49,7 @@ public class DemandingSlice extends Slice {
      * @param name the name of the slice
      * @param consumption from the configuration
      */
-    public DemandingSlice(ReconfigurationProblem model, String name, Configuration conf) {
+    public DemandingSlice(ReconfigurationProblem model, String name,ActionConsumption consumption, Configuration conf) {
         this(name,
                 VF.enumerated("h(" + name + ")", 0, model.getNodes().length - 1, model.getSolver()),
                 new Task(VF.enumerated("s(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
@@ -56,8 +57,8 @@ public class DemandingSlice extends Slice {
     					model.getEnd()),
     					consumption.getCPU(),
     					consumption.getMemory(),
-    					consumption.getBandwidthOut(),//conf
-    					consumption.getBandwidthIn())//conf
+    					conf.getMaxBandwidthOut(),//conf
+    					conf.getMaxBandwidthIn()) ;//conf
     }
 
 

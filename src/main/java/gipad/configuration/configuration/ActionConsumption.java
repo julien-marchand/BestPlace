@@ -42,4 +42,9 @@ public class ActionConsumption {
 	public double getMemory() {
 		return memory;
 	}
+
+	public int[] getCPU() {
+	    // TODO Auto-generated method stub
+	    return null;
+	}
 }

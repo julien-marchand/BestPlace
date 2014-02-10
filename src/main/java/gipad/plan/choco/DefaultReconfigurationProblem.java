@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import entropy.plan.choco.actionModel.slice.Slices;
 import gipad.configuration.*;
 import gipad.configuration.configuration.*;
 import gipad.configuration.configuration.Configuration;
@@ -36,14 +37,13 @@ import gipad.plan.action.*;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gipad.plan.action.Action;
 import gipad.plan.choco.actionmodel.NodeActionModel;
+import gipad.plan.choco.actionmodel.VirtualMachineActionModel;
 import gipad.plan.choco.actionmodel.slice.ConsumingSlice;
 import gipad.plan.choco.actionmodel.slice.DemandingSlice;
 import gipad.plan.choco.actionmodel.slice.IncomingSlice;
 import gipad.plan.choco.actionmodel.slice.LeavingSlice;
 import gipad.exception.*;
-import gipad.exception.NonViableSourceConfigurationException;
 import gipad.tools.*;
-
 
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
@@ -280,8 +280,8 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 					.currentlyOverloadedNodes(source).get(0));
         }
 
-        start = VF.fixed(0,this.getSolver());//this.makeConstantIntVar(0);
-        end = createBoundIntVar("end", 0, MAX_TIME);
+        start = VF.fixed(0,s);
+        end = VF.bounded("end", 0, MAX_TIME, s);
         post(geq(end, start));
 
 		this.vms = source.getAllVirtualMachines().toArray(
@@ -368,7 +368,7 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 
             for (int i = 0; i < sets.length; i++) {
                 Node n = nodes[i];
-                SetVar s = createEnumSetVar("host(" + n.name() + ")", 0, demandingSlices.size() - 1);
+                SetVar s = VF.set("host(" + n.name() + ")", 0, demandingSlices.size() - 1,this.s);
                 sets[i] = s;
             }
 
@@ -587,8 +587,7 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
             VirtualMachine vm = sleepings.get(i);
 //        for (VirtualMachine vm : getFutureSleepings()) {
             if (this.source.isRunning(vm)) {
-				VirtualMachineActionModel a = new SuspendActionModel(this, vm,
-						durationEval.evaluateLocalSuspend(vm));
+				VirtualMachineActionModel a = new SuspendActionModel(this, vm,durationEval.evaluateLocalSuspend(vm));
                 vmActions.set(getVirtualMachine(vm), a);
             } else if (this.source.isWaiting(vm)) {
                 throw new NoAvailableTransitionException(vm, "waiting", "sleeping");
@@ -600,8 +599,7 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
             VirtualMachine vm = terminated.get(i);
             //for (VirtualMachine vm : getFutureTerminated()) {
             if (this.source.isRunning(vm)) {
-				VirtualMachineActionModel a = new StopActionModel(this, vm,
-						durationEval.evaluateStop(vm));
+				VirtualMachineActionModel a = new StopActionModel(this, vm,durationEval.evaluateStop(vm));
                 vmActions.set(getVirtualMachine(vm), a);
             } else if (this.source.isSleeping(vm)) {
                 throw new NoAvailableTransitionException(vm, "sleeping", "terminated");
