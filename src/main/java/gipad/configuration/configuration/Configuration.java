@@ -289,4 +289,14 @@ public interface Configuration {
      * @return
      */
     ActionConsomtion getDemanding(VirtualMachine vm);
+    
+    /**
+     * TODO unité temporel
+     * @param n
+     * @param vm
+     * @return
+     */
+    int getRunDutaion(Node n, VirtualMachine vm);
+    
+    int getMaxBandwith(Node n);
 }

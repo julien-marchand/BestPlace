@@ -494,9 +494,9 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 	@Override
 	public ActionConsomtion getIncoming(VirtualMachine vm) {
 		double memory = vm.hardwareSpecification().memory().getUsage();
-		double cpu = DataCalculateur.getSumCpuUsage(vm.hardwareSpecification()) + incomingCpu;
-		double bandwidthOut = DataCalculateur.getSumOutUsage(vm.hardwareSpecification()) + incomingBandwidth;
-		double bandwithIn = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
+		double cpu = incomingCpu;
+		double bandwidthOut = 0;
+		double bandwithIn = incomingBandwidth;
 		return new ActionConsomtion(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
 	}
 
@@ -507,5 +507,11 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 		double bandwidthOut = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
 		double bandwithIn = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
 		return new ActionConsomtion(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
+	}
+
+	@Override
+	public int getRunDutaion(Node n, VirtualMachine vm) {
+		// TODO Stub de la méthode généré automatiquement
+		return 0;
 	}
 }
