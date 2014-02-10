@@ -40,12 +40,12 @@ public class Slice {
     /**
      * The output bandwidth of the slice
      */
-    private int bwOutput;
+    private IntVar bwOutput;
     
     /**
      * The input bandwith of the slice
      */
-    private int bwInput;
+    private IntVar bwInput;
 
     /**
      * name of the slice
@@ -66,8 +66,8 @@ public class Slice {
                  Task t,
                  int[] cpuHeight,
                  int memHeight,
-                 int bwOutput,
-                 int bwInput) {
+                 IntVar bwOutput,
+                 IntVar bwInput) {
         this.name = name;
         task = t;
         hoster = h;
@@ -91,7 +91,7 @@ public class Slice {
      * 
      * @return a positive integer
      */
-    public int getBwOutput() {
+    public IntVar getBwOutput() {
 		return bwOutput;
 	}
 
@@ -100,7 +100,7 @@ public class Slice {
      * 
      * @return a positive integer
      */
-	public int getBwInput() {
+	public IntVar getBwInput() {
 		return bwInput;
 	}
 
@@ -230,8 +230,8 @@ public class Slice {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + bwInput;
-		result = prime * result + bwOutput;
+		result = prime * result + bwInput.hashCode();
+		result = prime * result + bwOutput.hashCode();
 		result = prime * result + Arrays.hashCode(cpuHeight);
 		result = prime * result + ((hoster == null) ? 0 : hoster.hashCode());
 		result = prime * result + memHeight;

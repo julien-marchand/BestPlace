@@ -6,6 +6,8 @@ import gipad.placementconstraint.PlacementConstraint;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
+import solver.variables.IntVar;
+
 
 /**New Interface for a configuration
  * no more Set
@@ -261,34 +263,13 @@ public interface Configuration {
      */
     long getBandwidth(VirtualMachine vm1, VirtualMachine vm2);
     
+    ActionConsumption getConsuming(VirtualMachine vm);
+    
+	ActionConsumption getIncoming(VirtualMachine vm);
+	
+	ActionConsumption getLeaving(VirtualMachine vm);
 
-    /**
-     * 
-     * @param vm
-     * @return
-     */
-    ActionConsomtion getConsuming(VirtualMachine vm);
-    
-    /**
-     * 
-     * @param vm
-     * @return
-     */
-    ActionConsomtion getLeaving(VirtualMachine vm);
-    
-    /**
-     * 
-     * @param vm
-     * @return
-     */
-    ActionConsomtion getIncoming(VirtualMachine vm);
-    
-    /**
-     * 
-     * @param vm
-     * @return
-     */
-    ActionConsomtion getDemanding(VirtualMachine vm);
+	ActionConsumption getDemanding(VirtualMachine vm);
     
     /**
      * TODO unité temporel
@@ -299,4 +280,12 @@ public interface Configuration {
     int getRunDutaion(Node n, VirtualMachine vm);
     
     int getMaxBandwith(Node n);
+
+	IntVar getRunDuration(VirtualMachine vm);
+
+	int getMaxBandwidthOut();
+
+	int getMaxBandwidthIn();
+
+	IntVar getStopDuration(VirtualMachine vm);
 }

@@ -474,39 +474,39 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 	}
 
 	@Override
-	public ActionConsomtion getConsuming(VirtualMachine vm) {
+	public ActionConsumption getConsuming(VirtualMachine vm) {
 		double memory = vm.hardwareSpecification().memory().getCurrentUsage();
 		double cpu = DataCalculateur.getSumCpuCurrentUsage(vm.hardwareSpecification());
 		double bandwidthOut = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
 		double bandwithIn = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
-		return new ActionConsomtion(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
+		return new ActionConsumption(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
 	}
 
 	@Override
-	public ActionConsomtion getLeaving(VirtualMachine vm) {
+	public ActionConsumption getLeaving(VirtualMachine vm) {
 		double memory = vm.hardwareSpecification().memory().getCurrentUsage();
 		double cpu = DataCalculateur.getSumCpuCurrentUsage(vm.hardwareSpecification()) + leavingCpu;
 		double bandwidthOut = DataCalculateur.getSumOutUsage(vm.hardwareSpecification()) + leavingBandwidth;
 		double bandwithIn = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
-		return new ActionConsomtion(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
+		return new ActionConsumption(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
 	}
 
 	@Override
-	public ActionConsomtion getIncoming(VirtualMachine vm) {
+	public ActionConsumption getIncoming(VirtualMachine vm) {
 		double memory = vm.hardwareSpecification().memory().getUsage();
 		double cpu = incomingCpu;
 		double bandwidthOut = 0;
 		double bandwithIn = incomingBandwidth;
-		return new ActionConsomtion(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
+		return new ActionConsumption(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
 	}
 
 	@Override
-	public ActionConsomtion getDemanding(VirtualMachine vm) {
+	public ActionConsumption getDemanding(VirtualMachine vm) {
 		double memory = vm.hardwareSpecification().memory().getUsage();
 		double cpu = DataCalculateur.getSumCpuUsage(vm.hardwareSpecification());
 		double bandwidthOut = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
 		double bandwithIn = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
-		return new ActionConsomtion(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
+		return new ActionConsumption(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
 	}
 
 	@Override

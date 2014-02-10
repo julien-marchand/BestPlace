@@ -33,6 +33,7 @@ import gipad.configuration.ManagedElementList;
 import gipad.plan.SequencedReconfigurationPlan;
 import gipad.plan.action.NodeAction;
 import gipad.plan.action.VirtualMachineAction;
+import gipad.plan.choco.actionmodel.VirtualMachineActionModel;
 
 /**
  * Specification of a reconfiguration problem.
@@ -125,14 +126,14 @@ public interface ReconfigurationProblem {
      *
      * @return a variable equals to 0
      */
-    IntVar getStart();
+    IntVar<?> getStart();
 
     /**
      * Get the end  moment of the reconfiguration
      *
      * @return a variable, should be equals to the last end moment of actions
      */
-    IntVar getEnd();
+    IntVar<?> getEnd();
 
     /**
      * Get the index of a virtual machine
@@ -179,7 +180,7 @@ public interface ReconfigurationProblem {
      * @param vm the virtual machine
      * @return the action associated to the virtual machine.
      */
-    VirtualMachineAction getAssociatedAction(VirtualMachine vm);
+    VirtualMachineActionModel getAssociatedAction(VirtualMachine vm);
 
     /**
      * Get all the actions related to nodes.
@@ -202,7 +203,7 @@ public interface ReconfigurationProblem {
      * @param n the node
      * @return the free CPU capacity for this node
      */
-    IntVar getFreeCPU(Node n);
+    IntVar<?> getFreeCPU(Node n);
 
     /**
      * Get the free memory capacity of a node.
@@ -210,7 +211,7 @@ public interface ReconfigurationProblem {
      * @param n the node
      * @return the free memory capacity for this node
      */
-    IntVar getFreeMem(Node n);
+    IntVar<?> getFreeMem(Node n);
 
     /**
      * Get the variable associated to a group of VMs.
@@ -219,7 +220,7 @@ public interface ReconfigurationProblem {
      * @param vms the group of virtual machines.
      * @return the variable associated to the group or null if at least one VM of the proposed new group already belong to a group
      */
-    IntVar getVMGroup(ManagedElementList<VirtualMachine> vms);
+    IntVar<?> getVMGroup(ManagedElementList<VirtualMachine> vms);
 
     /**
      * Make a group variable.
@@ -228,7 +229,7 @@ public interface ReconfigurationProblem {
      * @param nodes the possible hosting group
      * @return a variable denoting the assignment of the VMs group to one of the group of nodes
      */
-    IntVar makeGroup(ManagedElementList<VirtualMachine> vms, List<ManagedElementList<Node>> nodes);
+    IntVar<?> makeGroup(ManagedElementList<VirtualMachine> vms, List<ManagedElementList<Node>> nodes);
 
     /**
      * Get the group variable associated to a virtual machine.
@@ -236,7 +237,7 @@ public interface ReconfigurationProblem {
      * @param vm the virtual machine
      * @return the group variable if it exists, null otherwise
      */
-    IntVar getAssociatedGroup(VirtualMachine vm);
+    IntVar<?> getAssociatedGroup(VirtualMachine vm);
 
     /**
      * Get all the defined groups of virtual machines.
@@ -292,7 +293,7 @@ public interface ReconfigurationProblem {
      * @param vms the virtual machines
      * @return a list of actions. The order is the same than the order of the VMs.
      */
-    List<VirtualMachineAction> getAssociatedActions(ManagedElementList<VirtualMachine> vms);
+    List<VirtualMachineActionModel> getAssociatedActions(ManagedElementList<VirtualMachine> vms);
 
     /**
      * Get the set model of the nodes.

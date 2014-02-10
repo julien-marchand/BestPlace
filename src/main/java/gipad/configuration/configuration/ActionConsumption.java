@@ -5,7 +5,7 @@ package gipad.configuration.configuration;
  * @author Clement
  *
  */
-public class ActionConsomtion {
+public class ActionConsumption {
 
 	/**
 	 * 
@@ -31,7 +31,7 @@ public class ActionConsomtion {
 	 * @param memory
 	 * @param bandwidth
 	 */
-	public ActionConsomtion(double memory, double[] cpu, double bandwidthOut, double bandwithIn) {
+	public ActionConsumption(double memory, double[] cpu, double bandwidthOut, double bandwithIn) {
 		this.memory = memory;
 		this.bandwidthOut = bandwidthOut;
 		this.bandwithIn = bandwithIn;
