@@ -27,8 +27,13 @@ import gipad.plan.choco.actionmodel.slice.IncomingSlice;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
+import solver.Cause;
+import solver.ICause;
 import solver.constraints.ICF;
 import solver.constraints.LCF;
+import solver.exception.ContradictionException;
+import solver.explanations.Deduction;
+import solver.explanations.Explanation;
 import solver.variables.IntVar;
 import solver.variables.VF;
 
@@ -45,39 +50,42 @@ public class RunActionModel extends VirtualMachineActionModel {
 
     /**
      * Make a new run action.
-     * <p/>
-     * The following constraints are added:
-     * <ul>
-     * <li></li>
-     * <li>{@code run.duration = d.duration + i.duration}</li>
-     * <li>{@code i.duration = d(i.hoster())}</li>
-     * <li>{@code i.end() = d.start() }</li>
-     * <li>{@code i.hoster() = d.hoster() }</li>
-     * </ul>
      *
      * @param model the model of the reconfiguration problem
+     * @param conf the configuration we are working on
      * @param vm    the virtual machine associated to the action
-     * @param d     the duration of the action
      */
     public RunActionModel(ReconfigurationProblem model, Configuration conf, VirtualMachine vm) {
         super(vm);
-
-        super.iSlice = new IncomingSlice(model, "run(" + vm.name() + ")", conf.getIncoming(vm) , conf);
-        super.dSlice = new DemandingSlice(model, "run(" + vm.name() + ")", conf.getDemanding(vm),conf);
+        super.conf = conf;
+        super.iSlice = new IncomingSlice(model, "run(" + vm.name() + ")", conf.getIncoming(vm), conf);
+        super.dSlice = new DemandingSlice(model, "run(" + vm.name() + ")", conf.getDemanding(vm), conf);
  
         iSlice.addToModel(model);
         dSlice.addToModel(model);
-        super.duration = VF.enumerated("run_dur(" + vm.name() + ")", 0, model.MAX_TIME ,model.getSolver());
+
         
 //        //la durée du démarrage ne dépend pas de l'hote mais uniquement du volume de la VM
 //        for(Node n : conf.getAllNodes()){
 //        	model.getSolver().post(LCF.ifThen(ICF.arithm(iSlice.hoster(), "=", n.getId()), ICF.arithm(iSlice.duration(), "=", conf.getRunDuration(n, vm))));
 //        }
+        //La durée de chargement en mémoire est fixe (elle dépend de la taille de la vm)
         model.getSolver().post(ICF.arithm(iSlice.duration(), "=", conf.getRunDuration(vm)));
         model.getSolver().post(ICF.arithm(iSlice.end(), "=", dSlice.start()));
+        //La durée totale de l'action model est la somme des durées des deux slices
+        super.duration = VF.enumerated("run_dur(" + vm.name() + ")", 0, model.MAX_TIME ,model.getSolver());
         model.getSolver().post(ICF.sum(new IntVar[]{dSlice.duration(), iSlice.duration()}, super.duration));
+        
         model.getSolver().post(ICF.arithm(iSlice.hoster(), "=", dSlice.hoster()));
-
+        //pas d'utilisation de la bande passante pour charger une VM en mémoire
+        try {
+			iSlice.getBwInput().instantiateTo(0, Cause.Null);
+			iSlice.getBwOutput().instantiateTo(0, Cause.Null);
+		} catch (ContradictionException e) {
+			e.printStackTrace();
+		}
+      
+        
     }
 
     @Override
@@ -112,7 +120,6 @@ public class RunActionModel extends VirtualMachineActionModel {
 
     @Override
     public IntVar getGlobalCost() {
-    	//TODO better cost using cost func ?
         return super.duration;
     }
 }

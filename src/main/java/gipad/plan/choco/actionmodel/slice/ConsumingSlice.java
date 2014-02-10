@@ -6,6 +6,7 @@ import gipad.plan.Plan;
 import gipad.plan.choco.ReconfigurationProblem;
 
 import org.discovery.DiscoveryModel.model.Node;
+import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 import solver.Cause;
 import solver.variables.IntVar;
@@ -22,51 +23,43 @@ import solver.variables.VF;
  */
 public class ConsumingSlice extends Slice {
 
-    /**
-     * Make a new consuming slice.
-     *
-     * @param model the model of the reconfiguration problem
-     * @param name  the identifier of the slice
-     * @param node  the current hoster of the slice
-     * @param cpu   the CPU heights of the slice
-     * @param mem   the memory height of the slice
-     * @param bwOut the output bandwidth of the slice
-     * @param bwIn the input bandwidth of the slice
-     */
-    public ConsumingSlice(ReconfigurationProblem model, String name, int node, int[] cpu, int mem, int bwMaxOut, int bwMaxIn) {
+//    /**
+//     * Make a new consuming slice.
+//     *
+//     * @param model the model of the reconfiguration problem
+//     * @param name  the identifier of the slice
+//     * @param node  the current hoster of the slice
+//     * @param cpu   the CPU heights of the slice
+//     * @param mem   the memory height of the slice
+//     * @param bwOut the output bandwidth of the slice
+//     * @param bwIn the input bandwidth of the slice
+//     */
+//    public ConsumingSlice(ReconfigurationProblem model, String name, int node, int[] cpu, int mem, int bwOut, int bwIn) {
+//    	super(name, 
+//    			VF.fixed("h(" + name + ")", node, model.getSolver()),
+//    			new Task(model.getStart(),
+//    					VF.enumerated("d(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
+//    					VF.enumerated("e(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver())),
+//    					cpu,
+//    					mem,
+//    					bwOut,
+//    					bwIn);
+//    }
+//    
+    public ConsumingSlice(ReconfigurationProblem model, String name, VirtualMachine vm, ActionConsumption consumption, Configuration conf) {
     	super(name, 
-    		VF.enumerated("h(" + name + ")", 0, model.getNodes().length - 1, model.getSolver()),
-    			new Task(VF.enumerated("s(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
+    			VF.fixed(conf.getLocation(vm).getId(), model.getSolver()),
+    			new Task(model.getStart(),
     					VF.enumerated("d(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
     					VF.enumerated("e(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver())),
-    					cpu,
-    					mem,
-    					VF.enumerated("out(" + name + ")", 0, bwMaxOut, model.getSolver()),
-    					VF.enumerated("in(" + name + ")", 0, bwMaxIn, model.getSolver()));
-    }
-
-    /**
-     * Make a Consuming slice.
-     *
-     * @param model the model of the reconfiguration problem
-     * @param name the name of the slice
-     * @param consumption from the configuration
-     */
-    public ConsumingSlice(ReconfigurationProblem model, String name, ActionConsumption consumption, Configuration conf) {
-        this(name,
-                VF.enumerated("h(" + name + ")", 0, model.getNodes().length - 1, model.getSolver()),
-                new Task(VF.enumerated("s(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
-    					VF.enumerated("d(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
-    					model.getEnd()),
     					consumption.getCPU(),
     					consumption.getMemory(),
-    					conf.getMaxBandwidthOut(),
-    					conf.getMaxBandwidthIn());
+    					VF.fixed(consumption.getBandwidthOut(), model.getSolver()),
+    					VF.fixed(consumption.getBandwidthIn(), model.getSolver()));
+    	
     }
 
-    
-    
-    /**
+//    /**
 //     * Make a new consuming slice.
 //     *
 //     * @param model    the model of the reconfiguration problem

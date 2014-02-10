@@ -18,14 +18,15 @@
  */
 package gipad.plan.choco.actionmodel;
 
-import choco.kernel.solver.ContradictionException;
-import choco.kernel.solver.variables.integer.IntDomainVar;
-import entropy.configuration.Configuration;
-import entropy.configuration.VirtualMachine;
-import entropy.plan.Plan;
-import entropy.plan.action.Stop;
-import entropy.plan.choco.ReconfigurationProblem;
-import entropy.plan.choco.actionModel.slice.ConsumingSlice;
+import gipad.configuration.configuration.Configuration;
+import gipad.plan.choco.ReconfigurationProblem;
+import gipad.plan.choco.actionmodel.slice.ConsumingSlice;
+import gipad.plan.choco.actionmodel.slice.DemandingSlice;
+import gipad.plan.choco.actionmodel.slice.IncomingSlice;
+
+import org.discovery.DiscoveryModel.model.VirtualMachine;
+
+
 
 /**
  * Model a stop action.
@@ -39,21 +40,18 @@ public class StopActionModel extends VirtualMachineActionModel {
 
     /**
      * Make a new stop action.
-     * <p/>
-     * Following constraints are added:
-     * <ul>
-     * <li>{@code slice.duration().inf = actionDuration }</li>
-     * <li>{@code end() = start() + actionDuration }</li>
-     * <li>{@code actionDuration <= slice.duration() }</li>
-     * <li>{@code actionDuration < model.getEnd() }</li>
-     * </ul>
      *
      * @param model the model of the reconfiguration problem
      * @param vm    the virtual machine involved in the action
      * @param d     the duration of the action
      */
-    public StopActionModel(ReconfigurationProblem model, VirtualMachine vm, int d) {
+    public StopActionModel(ReconfigurationProblem model, Configuration conf, VirtualMachine vm) {
         super(vm);
+        
+        super.conf = conf;
+        super.cSlice = new ConsumingSlice(model, "stop(" + vm.name() + ")", vm ,conf.getIncoming(vm), conf);
+        super.lSlice = new LeavingSlice(model, "stop(" + vm.name() + ")", conf.getDemanding(vm), conf);
+        
         model.createBoundIntVar("start(stop(" + vm.getName() + "))", 0, ReconfigurationProblem.MAX_TIME);
         this.cSlice = new ConsumingSlice(model, "stop(" + vm.getName() + ")", model.getSourceConfiguration().getLocation(vm), vm.getCPUConsumption(), vm.getMemoryConsumption());
         duration = model.createIntegerConstant("d(stop(" + vm.getName() + "))", d);
