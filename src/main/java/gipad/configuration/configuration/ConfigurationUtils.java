@@ -19,8 +19,10 @@
 
 package gipad.configuration.configuration;
 
+import entropy.configuration.ConfigurationsException;
 import gipad.configuration.ManagedElementList;
 import gipad.configuration.SimpleManagedElementList;
+import gipad.tools.DC;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -36,7 +38,7 @@ import org.discovery.DiscoveryModel.model.VirtualMachine;
  *
  * @author Fabien Hermenier
  */
-public final class Configurations {
+public final class ConfigurationUtils {
 
     public static enum State {
         /**
@@ -53,7 +55,7 @@ public final class Configurations {
     /**
      * Utility class. No instantiation.
      */
-    private Configurations() {
+    private ConfigurationUtils() {
     }
 
     /**
@@ -111,12 +113,15 @@ public final class Configurations {
     public static ManagedElementList<Node> currentlyOverloadedNodes(Configuration cfg) {
         ManagedElementList<Node> nodes = new SimpleManagedElementList<Node>();
         for (Node n : cfg.getOnlines()) {
-            int cpuCapa = n.hardwareSpecification().;
-            int memCapa = n.getMemoryCapacity();
+            int cpuCapa = DC.getSumCPu(n);
+            long memCapa = n.hardwareSpecification().memory().capacity();
+            long network = n.hardwareSpecification().networkInterfaces().get(0).maxBandwidth();
             for (VirtualMachine vm : cfg.getRunnings(n)) {
-                cpuCapa -= vm.getCPUConsumption();
-                memCapa -= vm.getMemoryConsumption();
-                if (cpuCapa < 0 || memCapa < 0) {
+                cpuCapa -= DC.getSumCPu(vm);
+                memCapa -= vm.hardwareSpecification().memory().capacity();
+                network -= DC.getSumNetwork
+                		vm.hardwareSpecification().cpus().get(0).
+                if (cpuCapa < 0 || memCapa < 0 || network < 0) {
                     nodes.add(n);
                     break;
                 }
@@ -132,7 +137,7 @@ public final class Configurations {
      *
      * @return a subset of nodes, may be empty.
      */
-
+/*
     public static ManagedElementList<Node> futureOverloadedNodes(Configuration cfg) {
         ManagedElementList<Node> nodes = new SimpleManagedElementList<Node>();
         for (Node n : cfg.getOnlines()) {
@@ -157,14 +162,14 @@ public final class Configurations {
             }
         }
         return nodes;
-    }
+    }*/
 
     /**
      * Check whether the current configuration is overloaded or not.
      *
      * @return true if at least one node is overloaded
      */
-    public static boolean isCurrentlyViable(Configuration cfg) {
+    /*public static boolean isCurrentlyViable(Configuration cfg) {
         for (Node n : cfg.getOnlines()) {
             int cpuCapa = n.getCPUCapacity();
             int memCapa = n.getMemoryCapacity();
@@ -177,7 +182,7 @@ public final class Configurations {
             }
         }
         return true;
-    }
+    }*/
 
     /**
      * Check whether the current configuration will be overloaded once
@@ -185,7 +190,7 @@ public final class Configurations {
      *
      * @return true if at least one node is overloaded
      */
-    public static boolean isFutureViable(Configuration cfg) {
+    /*public static boolean isFutureViable(Configuration cfg) {
         for (Node n : cfg.getOnlines()) {
             int cpuCapa = n.getCPUCapacity();
             int memCapa = n.getMemoryCapacity();
@@ -198,7 +203,7 @@ public final class Configurations {
             }
         }
         return true;
-    }
+    }*/
 
     /**
      * Compute a sub configuration that only consider a subset of nodes and virtual machines
@@ -219,10 +224,10 @@ public final class Configurations {
                 ManagedElementList<VirtualMachine> runs = cfg.getRunnings(n);
                 ManagedElementList<VirtualMachine> sleeps = cfg.getSleepings(n);
                 if (!cpy.containsAll(runs)) {
-                    throw new ConfigurationsException(cfg, "VMs on node " + n.getName() + "(" + runs + ") does not only contains VMs in " + cpy);
+                    throw new ConfigurationsException(cfg, "VMs on node " + n.name() + "(" + runs + ") does not only contains VMs in " + cpy);
                 }
                 if (!cpy.containsAll(sleeps)) {
-                    throw new ConfigurationsException(cfg, "VMs on node " + n.getName() + "(" + sleeps + ") does not only contains VMs in " + cpy);
+                    throw new ConfigurationsException(cfg, "VMs on node " + n.name() + "(" + sleeps + ") does not only contains VMs in " + cpy);
                 }
 
                 cpy.removeAll(runs);
@@ -279,7 +284,7 @@ public final class Configurations {
             }
             for (Node n : c.getOfflines()) {
                 if (res.isOnline(n)) {
-                    throw new ConfigurationsException(c, "Conflicting state for node '" + n.getName() + "'");
+                    throw new ConfigurationsException(c, "Conflicting state for node '" + n.name() + "'");
                 }
                 if (!res.isOffline(n)) {
                     res.addOffline(n);
@@ -287,19 +292,19 @@ public final class Configurations {
             }
             for (Node n : c.getOnlines()) {
                 if (res.isOffline(n)) {
-                    throw new ConfigurationsException(c, "Conflicting state for node '" + n.getName() + "'");
+                    throw new ConfigurationsException(c, "Conflicting state for node '" + n.name() + "'");
                 }
                 if (!res.isOnline(n)) {
                     res.addOnline(n);
                 }
                 for (VirtualMachine vm : c.getRunnings(n)) {
                     if (!res.setRunOn(vm, n)) {
-                        throw new ConfigurationsException(c, "Unable to place running '" + vm.getName() + "' on '" + n.getName() + "'");
+                        throw new ConfigurationsException(c, "Unable to place running '" + vm.name() + "' on '" + n.name() + "'");
                     }
                 }
                 for (VirtualMachine vm : c.getSleepings(n)) {
                     if (!res.setSleepOn(vm, n)) {
-                        throw new ConfigurationsException(c, "Unable to place sleeping '" + vm.getName() + "' on '" + n.getName() + "'");
+                        throw new ConfigurationsException(c, "Unable to place sleeping '" + vm.name() + "' on '" + n.name() + "'");
                     }
                 }
             }

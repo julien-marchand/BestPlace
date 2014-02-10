@@ -111,8 +111,8 @@ public class ChocoCustom3RP implements Plan {
 		 * return model.getSolvingStatistics(); }
 		 */
 
-	public SequencedReconfigurationPlan compute(Configuration src,
-			ManagedElementList<VirtualMachine> q) throws PlanException {
+	public SequencedReconfigurationPlan compute(Configuration src, ManagedElementList<VirtualMachine> q)
+			throws PlanException {
 		queue = q;
 		model = null;
 		ManagedElementList<VirtualMachine> vms = null;
@@ -130,8 +130,7 @@ public class ChocoCustom3RP implements Plan {
 			// Hardcore way for the packing. TODO: externalize
 			// System.err.println("pack issue:" +
 			// src.getRunnings(src.getUnacceptableNodes()));
-			vms.addAll(src.getRunnings(Configurations
-					.futureOverloadedNodes(src)));
+			vms.addAll(src.getRunnings(Configurations.futureOverloadedNodes(src)));
 		} else {
 			vms = src.getAllVirtualMachines();
 		}
@@ -147,8 +146,7 @@ public class ChocoCustom3RP implements Plan {
 		/**
 		 * globalCost is equals to the sum of each action costs.
 		 */
-		IntVar globalCost = model.createBoundIntVar("globalCost", 0,
-				Choco.MAX_UPPER_BOUND);
+		IntVar globalCost = model.createBoundIntVar("globalCost", 0, Choco.MAX_UPPER_BOUND);
 		List<Action> allActions = new ArrayList<Action>();
 		allActions.addAll(model.getVirtualMachineActions());
 		allActions.addAll(model.getNodeMachineActions());
@@ -175,15 +173,13 @@ public class ChocoCustom3RP implements Plan {
 		// model.post(cs);
 
 		if (getTimeLimit() > 0) {
-			SearchMonitorFactory.limitTime(model.getSolver(),
-					getTimeLimit() * 1000);
+			SearchMonitorFactory.limitTime(model.getSolver(), getTimeLimit() * 1000);
 		}
 		// Configure search : Heuristics + Objectiv
 		model.getSolver().findSolution();// launch();
 		Boolean ret = model.getSolver().isFeasible() == ESat.TRUE;
 		if (ret == null) {
-			throw new PlanException(
-					"Unable to check wether a solution exists or not");
+			throw new PlanException("Unable to check wether a solution exists or not");
 		} else {
 			if (Boolean.FALSE.equals(ret)) {
 				throw new PlanException("No solution");
@@ -191,9 +187,8 @@ public class ChocoCustom3RP implements Plan {
 				SequencedReconfigurationPlan plan = model.extractSolution();
 				Configuration res = plan.getDestination();
 				if (Configurations.futureOverloadedNodes(res).size() != 0) {
-					throw new PlanException(
-							"Resulting configuration is not viable: Overloaded nodes="
-									+ Configurations.futureOverloadedNodes(res));
+					throw new PlanException("Resulting configuration is not viable: Overloaded nodes="
+							+ Configurations.futureOverloadedNodes(res));
 				}
 
 				int cost = 0;
@@ -201,8 +196,7 @@ public class ChocoCustom3RP implements Plan {
 					cost += a.getFinishMoment();
 				}
 				if (cost != globalCost.getValue()) {
-					throw new PlanException("Practical cost of the plan ("
-							+ cost + ") and objective ("
+					throw new PlanException("Practical cost of the plan (" + cost + ") and objective ("
 							+ globalCost.getValue() + ") missmatch:\n" + plan);
 				}
 				// Verify all Placement constraints are satisfied
