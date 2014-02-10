@@ -22,12 +22,13 @@ package gipad.configuration.configuration;
 import gipad.configuration.ManagedElementList;
 import gipad.configuration.SimpleManagedElementList;
 import gipad.placementconstraint.PlacementConstraint;
+import gipad.tools.DataCalculateur;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 
 import java.util.List;
 
-import org.discovery.DiscoveryModel.model.NetworkSpecification;
+import org.discovery.DiscoveryModel.model.NetworkInterface;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
@@ -435,15 +436,24 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 	}
 
 	@Override
-	public int getBandwidth(Node n1, Node n2) {
-		NetworkSpecification spec = n1.networkSpecification();
-		System.out.println(n1);
-		System.out.println(spec);
-		return 0;
+	public long getBandwidth(Node n1, Node n2) {
+		List<NetworkInterface> l1 = n1.hardwareSpecification().networkInterfaces();
+		long s1 = getBandWithSum(l1);
+		List<NetworkInterface> l2 = n2.hardwareSpecification().networkInterfaces();
+		long s2 = getBandWithSum(l2);
+		return Math.min(s1, s2);
+	}
+
+	private long getBandWithSum(List<NetworkInterface> l1) {
+		long sum = 0;
+		for (NetworkInterface ni : l1) {
+			sum += ni.maxBandwidth();
+		}
+		return sum;
 	}
 
 	@Override
-	public int getBandwidth(VirtualMachine vm1, VirtualMachine vm2) {
+	public long getBandwidth(VirtualMachine vm1, VirtualMachine vm2) {
 		List<VirtualMachine> vms;
 		Node node, n1 = null, n2 = null;
 		for (int i = 0; i < allNodes.size() && (n1 == null || n2 ==null); i++) {
@@ -464,26 +474,44 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 	}
 
 	@Override
-	public ActionConsomtion getConsomtion(VirtualMachine vm) {
-		// TODO Auto-generated method stub
-		return null;
+	public ActionConsumption getConsuming(VirtualMachine vm) {
+		double memory = vm.hardwareSpecification().memory().getCurrentUsage();
+		double cpu = DataCalculateur.getSumCpuCurrentUsage(vm.hardwareSpecification());
+		double bandwidthOut = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
+		double bandwithIn = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
+		return new ActionConsumption(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
 	}
 
 	@Override
-	public ActionConsomtion getLeavingConsomtion(VirtualMachine vm) {
-		// TODO Auto-generated method stub
-		return null;
+	public ActionConsumption getLeaving(VirtualMachine vm) {
+		double memory = vm.hardwareSpecification().memory().getCurrentUsage();
+		double cpu = DataCalculateur.getSumCpuCurrentUsage(vm.hardwareSpecification()) + leavingCpu;
+		double bandwidthOut = DataCalculateur.getSumOutUsage(vm.hardwareSpecification()) + leavingBandwidth;
+		double bandwithIn = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
+		return new ActionConsumption(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
 	}
 
 	@Override
-	public ActionConsomtion getIncomingConsomtion(VirtualMachine vm) {
-		// TODO Auto-generated method stub
-		return null;
+	public ActionConsumption getIncoming(VirtualMachine vm) {
+		double memory = vm.hardwareSpecification().memory().getUsage();
+		double cpu = incomingCpu;
+		double bandwidthOut = 0;
+		double bandwithIn = incomingBandwidth;
+		return new ActionConsumption(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
 	}
 
 	@Override
-	public ActionConsomtion getDemandingConsomtion(VirtualMachine vm) {
-		// TODO Auto-generated method stub
-		return null;
+	public ActionConsumption getDemanding(VirtualMachine vm) {
+		double memory = vm.hardwareSpecification().memory().getUsage();
+		double cpu = DataCalculateur.getSumCpuUsage(vm.hardwareSpecification());
+		double bandwidthOut = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
+		double bandwithIn = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
+		return new ActionConsumption(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
+	}
+
+	@Override
+	public int getRunDutaion(Node n, VirtualMachine vm) {
+		// TODO Stub de la méthode généré automatiquement
+		return 0;
 	}
 }

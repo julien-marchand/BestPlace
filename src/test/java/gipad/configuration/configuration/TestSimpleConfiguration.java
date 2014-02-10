@@ -1,13 +1,16 @@
 package gipad.configuration.configuration;
 
-import static org.junit.Assert.*;
 import gipad.configuration.ManagedElementList;
 import gipad.configuration.SimpleManagedElementList;
 
 import java.util.ArrayList;
 
-import org.discovery.DiscoveryModel.model.NetworkSpecification;
+import junit.framework.Assert;
+
+import org.discovery.DiscoveryModel.model.HardwareSpecification;
+import org.discovery.DiscoveryModel.model.NetworkInterface;
 import org.discovery.DiscoveryModel.model.Node;
+import org.discovery.DiscoveryModel.model.Units;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 import org.junit.Test;
 
@@ -24,26 +27,26 @@ public class TestSimpleConfiguration {
 //			new NetworkSpecification(new ArrayList)
 		}
 		
-		nodes.add(new Node("node0", null, null, null, new ArrayList<VirtualMachine>() {
+		nodes.add(new Node("node0", generateNetworkInterface(10), null, new ArrayList<VirtualMachine>() {
 			{
 				add(vms.get(0));
 				add(vms.get(1));
 			}
 		}));
-		nodes.add(new Node("node1", null, null, null, new ArrayList<VirtualMachine>() {
+		nodes.add(new Node("node1", generateNetworkInterface(100), null, new ArrayList<VirtualMachine>() {
 			{
 				add(vms.get(2));
 				add(vms.get(3));
 			}
 		}));
-		nodes.add(new Node("node2", null, null, null, new ArrayList<VirtualMachine>() {
+		nodes.add(new Node("node2", generateNetworkInterface(100), null, new ArrayList<VirtualMachine>() {
 			{
 				add(vms.get(4));
 				add(vms.get(5));
 				add(vms.get(6));
 			}
 		}));
-		nodes.add(new Node("node3", null, null, null, new ArrayList<VirtualMachine>() {
+		nodes.add(new Node("node3", generateNetworkInterface(100), null, new ArrayList<VirtualMachine>() {
 			{
 				add(vms.get(7));
 				add(vms.get(8));
@@ -54,13 +57,23 @@ public class TestSimpleConfiguration {
 		conf.addOnline(nodes);
 	}
 	
+	HardwareSpecification generateNetworkInterface(final int i) {
+		return new HardwareSpecification(null, new ArrayList<NetworkInterface>() {
+			{
+				add(new NetworkInterface("lan0", i * Units.MEGA()));
+			}
+		}, null, null);
+	}
+	
 	@Test
 	public void getNodeBandwith() {
-		conf.getBandwidth(nodes.get(1), nodes.get(2));
+		long val = conf.getBandwidth(nodes.get(0), nodes.get(2));
+		Assert.assertEquals(10l, val);
 	}
 	
 	@Test
 	public void getVMBandwidth() {		
-		conf.getBandwidth(vms.get(4), vms.get(4));
+		long val = conf.getBandwidth(vms.get(4), vms.get(5));
+		Assert.assertEquals(100l, val);
 	}
 }

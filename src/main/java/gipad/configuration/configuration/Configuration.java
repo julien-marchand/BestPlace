@@ -6,6 +6,8 @@ import gipad.placementconstraint.PlacementConstraint;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
+import solver.variables.IntVar;
+
 
 /**New Interface for a configuration
  * no more Set
@@ -251,7 +253,7 @@ public interface Configuration {
      * @param n2 a {@link Node}
      * @return the bandwidth between two node
      */
-    int getBandwidth(Node n1, Node n2);
+    long getBandwidth(Node n1, Node n2);
     
     /**
      * Indicate the bandwidth between two {@link VirtualMachine} (static view limited only by the node hardware not the network)
@@ -259,34 +261,31 @@ public interface Configuration {
      * @param vm2 a {@link VirtualMachine}
      * @return
      */
-    int getBandwidth(VirtualMachine vm1, VirtualMachine vm2);
+    long getBandwidth(VirtualMachine vm1, VirtualMachine vm2);
     
+    ActionConsumption getConsuming(VirtualMachine vm);
+    
+	ActionConsumption getIncoming(VirtualMachine vm);
+	
+	ActionConsumption getLeaving(VirtualMachine vm);
 
-    /**
-     * 
-     * @param vm
-     * @return
-     */
-    ActionConsomtion getConsomtion(VirtualMachine vm);
+	ActionConsumption getDemanding(VirtualMachine vm);
     
     /**
-     * 
+     * TODO unité temporel
+     * @param n
      * @param vm
      * @return
      */
-    ActionConsomtion getLeavingConsomtion(VirtualMachine vm);
+    int getRunDutaion(Node n, VirtualMachine vm);
     
-    /**
-     * 
-     * @param vm
-     * @return
-     */
-    ActionConsomtion getIncomingConsomtion(VirtualMachine vm);
-    
-    /**
-     * 
-     * @param vm
-     * @return
-     */
-    ActionConsomtion getDemandingConsomtion(VirtualMachine vm);
+    int getMaxBandwith(Node n);
+
+	IntVar getRunDuration(VirtualMachine vm);
+
+	int getMaxBandwidthOut();
+
+	int getMaxBandwidthIn();
+
+	IntVar getStopDuration(VirtualMachine vm);
 }
