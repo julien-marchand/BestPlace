@@ -38,7 +38,7 @@ public class DemandingSlice extends Slice {
     					cpu,
     					mem,
     					VF.fixed(bwOut, model.getSolver()),
-    					VF.fixed(bwIn, model.getSolver()));
+    					VF.fixed(bwIn, model.getSolver()));//TODO VF.enumerated("out(" + name + ")", 0, bwMaxOut, model.getSolver()), VF.enumerated("in(" + name + ")", 0, bwMaxIn, model.getSolver())
     }
     
     
@@ -57,8 +57,8 @@ public class DemandingSlice extends Slice {
     					model.getEnd()),
     					consumption.getCPU(),
     					consumption.getMemory(),
-    					consumption.getBandwidthOut(),//conf
-    					consumption.getBandwidthIn())//conf
+    					conf.getBandwidthOut(),//conf
+    					conf.getBandwidthIn())//conf
     }
 
 

@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import entropy.plan.choco.actionModel.slice.Slices;
 import gipad.configuration.*;
 import gipad.configuration.configuration.*;
 import gipad.configuration.configuration.Configuration;
@@ -36,12 +35,9 @@ import gipad.plan.*;
 import gipad.plan.action.*;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gipad.plan.action.Action;
-import gipad.plan.choco.actionmodel.NodeActionModel;
-import gipad.plan.choco.actionmodel.VirtualMachineActionModel;
-import gipad.plan.choco.actionmodel.slice.ConsumingSlice;
-import gipad.plan.choco.actionmodel.slice.DemandingSlice;
-import gipad.plan.choco.actionmodel.slice.IncomingSlice;
-import gipad.plan.choco.actionmodel.slice.LeavingSlice;
+import gipad.plan.choco.actionmodel.*;
+import gipad.plan.choco.actionmodel.slice.*;
+import gipad.plan.choco.constraints.CumulativeMultiDim;
 import gipad.exception.*;
 import gipad.tools.*;
 
@@ -49,6 +45,8 @@ import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 import solver.*;
+import solver.constraints.ICF;
+import solver.constraints.set.SCF;
 import solver.variables.*;
 
 /**
@@ -72,12 +70,12 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     /**
      * The moment the reconfiguration starts. Equals to 0.
      */
-    private IntVar start;
+    private IntVar<?> start;
 
     /**
      * The moment the reconfiguration ends. Variable.
      */
-    private IntVar end;
+    private IntVar<?> end;
 
     /**
      * All the virtual machines' action to perform that implies regular actions.
@@ -223,9 +221,7 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
      */
     private List<DemandingSlice> demandingSlices;
     
-
-    //private SatisfyDemandingSlicesHeightsCustomBP packing;
-    private SatisfyDemandingSliceHeights packing;
+    private CumulativeMultiDim packing; //TODO 
 
     private int[] grpId; //The group ID of each node
 
@@ -282,9 +278,9 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 
         start = VF.fixed(0,s);
         end = VF.bounded("end", 0, MAX_TIME, s);
-        post(geq(end, start));
+        s.post(ICF.arithm(start, "<=", end));
 
-		this.vms = source.getAllVirtualMachines().toArray(
+	this.vms = source.getAllVirtualMachines().toArray(
 				new VirtualMachine[source.getAllVirtualMachines().size()]);
         this.revVMs = new TIntIntHashMap(vms.length);
         for (int i = 0; i < vms.length; i++) {
@@ -298,17 +294,16 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
             revNodes.put(nodes[i].hashCode(), i);
         }
         try {
-			this.makeBasicActions(); // creation des actions possible pour
-										// chaque VM
-			// En fonction de l'état actuel de la VM et de l'action qui est
-			// demandé à la VM
+            this.makeBasicActions(); 	// creation des actions possible pour chaque VM
+					// En fonction de l'état actuel de la VM et de l'action qui est
+					// demandé à la VM
         } catch (DurationEvaluationException e) {
             throw new PlanException(e.getMessage(), e);
         }
         this.makeResourcesCapacities(); 
 		// creation de toutes les variables qui représentent les sommes de
 		// comsommations sur chaque noeud
-
+        //TODO
         this.vmGrp = new ArrayList<IntVar>(this.vms.length);
         for (int i = 0; i < vms.length; i++) {
             this.vmGrp.add(i, null);
@@ -321,10 +316,10 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
         this.nodesGrp = new HashMap<ManagedElementList<Node>, Integer>();
         this.revNodesGrp = new ArrayList<ManagedElementList<Node>>(MAX_NB_GRP);
 
-		packing = new SatisfyDemandingSlicesHeightsFastBP();// new
+	packing = new CumulativeMultiDim(this);// new
 															// SatisfyDemandingSlicesHeightsSimpleBP();
         //notre cumulative colorée ici
-        packing.add(this);
+        //packing.add(this);
 
         //TODO: Uncomment for capacity
 		/*
@@ -332,19 +327,15 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 		 */
         new SlicesPlanner().add(this);
     }
-
+	//TODO
 	public DefaultReconfigurationProblem(Configuration src, ManagedElementList<VirtualMachine> vms,
 			CostFunction costFunc) throws PlanException  {
 
     	 this.source = src;
          this.manageable = vms;
          runnings = src.getRunnings();
-         waitings = new SimpleManagedElementList<VirtualMachine>(); // no vm
-																	// shall be
-																	// waiting
+         waitings = new SimpleManagedElementList<VirtualMachine>(); // no vm  waiting
          sleepings = new SimpleManagedElementList<VirtualMachine>(); // no vm
-																	// shall be
-																	// sleeping
          terminated = new SimpleManagedElementList<VirtualMachine>(); 
          onlines = src.getOnlines();
          offlines = new SimpleManagedElementList<Node>();
@@ -357,7 +348,7 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
          }
 	}
 
-	/**
+   /**
      * Make a set model. On set per node, that indicates the VMs it will run
      */
     private void makeSetModel() {
@@ -374,12 +365,12 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 
             //Make the channeling with the assignment variable of all the d-slices
 
-            IntVar[] assigns = Slices.extractHosters(demandingSlices.toArray(new Slice[demandingSlices.size()]));
-            post(new InverseSetInt(assigns, sets));
+            IntVar<?>[] assigns = SliceUtils.extractHosters(demandingSlices.toArray(new Slice[demandingSlices.size()]));
+            //TODO verify : post(new InverseSetInt(assigns, sets));
+            s.post(SCF.int_channel(sets, assigns, 0, 0));
         }
     }
 
-    @Override
     public SatisfyDemandingSliceHeights getSatisfyDSlicesHeightConstraint() {
         return this.packing;
     }
@@ -402,9 +393,11 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 		}
 		involvedNodes.addAll(getFutureOnlines());
 		for (Node n : involvedNodes) {
-			cpuCapacities[getNode(n)] = VariableFactory.bounded(n.name()+"#cpuCapacity", 0, DC.getSumCPu(n), getSolver());
-			memCapacities[getNode(n)] = VariableFactory.bounded(n.name()+"#memCapacity", 0, (int)n.hardwareSpecification().memory().capacity(), getSolver());
-			netInCapacities[getNode(n)] = VariableFactory.bounded(n.name()+"#netInCapacity", 0, n.networkSpecification().networkInterfaces().get(0)., s);
+			cpuCapacities[getNode(n)] = VF.bounded(n.name()+"#cpuCapacity", 0, DC.getSumCPu(n), getSolver());
+			memCapacities[getNode(n)] = VF.bounded(n.name()+"#memCapacity", 0, (int)n.hardwareSpecification().memory().capacity(), getSolver());
+			netInCapacities[getNode(n)] = VF.bounded(n.name()+"#netInCapacity", 0, n.hardwareSpecification().networkInterfaces().get(0), s);//FIXME : getCapa
+			netOutCapacities[getNode(n)] = VF.bounded(n.name()+"#netOutCapacity", 0, n.hardwareSpecification().networkInterfaces().get(0), s);//FIXME : getCapa
+
 		}
     }
 
@@ -489,12 +482,12 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     }
 
     @Override
-    public IntVar getStart() {
+    public IntVar<?> getStart() {
         return this.start;
     }
 
     @Override
-    public IntVar getEnd() {
+    public IntVar<?> getEnd() {
         return this.end;
     }
 
@@ -532,7 +525,7 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
         return null;
     }
 
-    /**
+    /**	FIXME duration evaluator
 	 * Create all the basic action that manipulate the state of the virtual
 	 * machine and the nodes. creation de l'arraylist qui contient l'ensemble
 	 * des actions possibles pour chaque VM
@@ -543,7 +536,6 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     private void makeBasicActions() throws DurationEvaluationException, NoAvailableTransitionException {
 
         //make the actions for the VMs
-
         this.vmActions = new ArrayList<VirtualMachineActionModel>(vms.length);
         for (int i = 0; i < vms.length; i++) {
             this.vmActions.add(i, null);
@@ -643,12 +635,12 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
         //Get all the slices
 
         this.demandingSlices = new ArrayList<DemandingSlice>();
-        this.demandingSlices.addAll(ActionModels.extractDemandingSlices(getVirtualMachineActions()));
-        this.demandingSlices.addAll(ActionModels.extractDemandingSlices(getNodeMachineActions()));
+        this.demandingSlices.addAll(ActionModelUtils.extractDemandingSlices(getVirtualMachineActions()));
+        this.demandingSlices.addAll(ActionModelUtils.extractDemandingSlices(getNodeMachineActions()));
 
         this.consumingSlices = new ArrayList<ConsumingSlice>();
-        this.consumingSlices.addAll(ActionModels.extractConsumingSlices(getVirtualMachineActions()));
-        this.consumingSlices.addAll(ActionModels.extractConsumingSlices(getNodeMachineActions()));
+        this.consumingSlices.addAll(ActionModelUtils.extractConsumingSlices(getVirtualMachineActions()));
+        this.consumingSlices.addAll(ActionModelUtils.extractConsumingSlices(getNodeMachineActions()));
     }
 
     @Override
@@ -689,23 +681,22 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     }
 
     @Override
-    public IntVar getFreeCPU(Node n) {
+    public IntVar<?> getFreeCPU(Node n) {
         return this.cpuCapacities[getNode(n)];
     }
 
     @Override
-    public IntVar getFreeMem(Node n) {
+    public IntVar<?> getFreeMem(Node n) {
         return this.memCapacities[getNode(n)];
     }
 
     @Override
-    public IntVar getVMGroup(ManagedElementList<VirtualMachine> vms) {
-        IntVar v = this.vmsGrp.get(vms);
+    public IntVar<?> getVMGroup(ManagedElementList<VirtualMachine> vms) {
+        IntVar<?> v = this.vmsGrp.get(vms);
         if (v != null) {
             return v;
         }
-
-        v = createEnumIntVar("vmset" + vms.toString(), 0, MAX_NB_GRP);
+        v = VF.enumerated("vmset" + vms.toString(), 0, MAX_NB_GRP, s);
         for (VirtualMachine vm : vms) {
             this.vmGrp.set(getVirtualMachine(vm), v);
         }
@@ -714,19 +705,19 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
     }
 
     @Override
-    public IntVar makeGroup(ManagedElementList<VirtualMachine> vms, List<ManagedElementList<Node>> nodes) {
+    public IntVar<?> makeGroup(ManagedElementList<VirtualMachine> vms, List<ManagedElementList<Node>> nodes) {
         int[] values = new int[nodes.size()];
         for (int i = 0; i < values.length; i++) {
             values[i] = getGroup(nodes.get(i));
         }
-        IntVar v = createEnumIntVar("vmset" + vms.toString(), /*0, MAX_NB_GRP*/values);
+        IntVar<?> v = VF.enumerated("vmset" + vms.toString(), /*0, MAX_NB_GRP*/values,s);
         this.vmsGrp.put(vms, v);
         //System.err.println(vmsGrp.size());
         return v;
     }
 
     @Override
-    public IntVar getAssociatedGroup(VirtualMachine vm) {
+    public IntVar<?> getAssociatedGroup(VirtualMachine vm) {
         return this.vmGrp.get(getVirtualMachine(vm));
     }
 
@@ -926,32 +917,32 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
 				 */
             }
         }
-        if (plan.getDuration() != end.getVal()) {
-			Plan.logger.error("Theoretical duration (" + getEnd().getVal() + ") and plan duration "
+        if (plan.getDuration() != end.getValue()) {
+			Plan.logger.error("Theoretical duration (" + getEnd().getValue() + ") and plan duration "
 					+ plan.getDuration() + " mismatch");
             return null;
         }
         return plan;
     }
 
-    @Override
-    public List<SolutionStatistics> getSolutionsStatistics() {
-        List<SolutionStatistics> stats = new LinkedList<SolutionStatistics>();
-        for (Solution s : this.getSearchStrategy().getStoredSolutions()) {
-            IMeasures m = s.getMeasures();
-            SolutionStatistics st;
-            if (m.getObjectiveValue() != null) {
-				st = new SolutionStatistics(m.getNodeCount(), m.getBackTrackCount(), m.getTimeCount(),
-						this.isEncounteredLimit(), m.getObjectiveValue().intValue());
-            } else {
-				st = new SolutionStatistics(m.getNodeCount(), m.getBackTrackCount(), m.getTimeCount(),
-                        this.isEncounteredLimit());
-            }
-            stats.add(st);
-        }
-        Collections.sort(stats, SolutionStatisticsComparator);
-        return stats;
-    }
+//    @Override
+//    public List<SolutionStatistics> getSolutionsStatistics() {
+//        List<SolutionStatistics> stats = new LinkedList<SolutionStatistics>();
+//        for (Solution s : this.getSearchStrategy().getStoredSolutions()) {
+//            IMeasures m = s.getMeasures();
+//            SolutionStatistics st;
+//            if (m.getObjectiveValue() != null) {
+//				st = new SolutionStatistics(m.getNodeCount(), m.getBackTrackCount(), m.getTimeCount(),
+//						this.isEncounteredLimit(), m.getObjectiveValue().intValue());
+//            } else {
+//				st = new SolutionStatistics(m.getNodeCount(), m.getBackTrackCount(), m.getTimeCount(),
+//                        this.isEncounteredLimit());
+//            }
+//            stats.add(st);
+//        }
+//        Collections.sort(stats, SolutionStatisticsComparator);
+//        return stats;
+//    }
 
     /*FIXME @Override
      public SolvingStatistics getSolvingStatistics() {
@@ -959,20 +950,20 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
                 this.isEncounteredLimit());
     }*/
 
-    private static Comparator SolutionStatisticsComparator = new Comparator<SolutionStatistics>() {
-
-        @Override
-        public int compare(SolutionStatistics sol1, SolutionStatistics sol2) {
-            if (sol1.getTimeCount() == sol2.getTimeCount()) {
-                //Compare wrt. the number of nodes or backtracks
-                if (sol1.getNbNodes() == sol2.getTimeCount()) {
-                    return sol1.getNbBacktracks() - sol2.getNbBacktracks();
-                }
-                return sol1.getNbNodes() - sol2.getNbNodes();
-            }
-            return sol1.getTimeCount() - sol2.getTimeCount();
-        }
-    };
+//    private static Comparator SolutionStatisticsComparator = new Comparator<SolutionStatistics>() {
+//
+//        @Override
+//        public int compare(SolutionStatistics sol1, SolutionStatistics sol2) {
+//            if (sol1.getTimeCount() == sol2.getTimeCount()) {
+//                //Compare wrt. the number of nodes or backtracks
+//                if (sol1.getNbNodes() == sol2.getTimeCount()) {
+//                    return sol1.getNbBacktracks() - sol2.getNbBacktracks();
+//                }
+//                return sol1.getNbNodes() - sol2.getNbNodes();
+//            }
+//            return sol1.getTimeCount() - sol2.getTimeCount();
+//        }
+//    };
 
 	@Override
 	public Solver getSolver() {

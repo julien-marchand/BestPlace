@@ -19,6 +19,7 @@
 
 package gipad.plan.choco;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -33,7 +34,11 @@ import gipad.configuration.ManagedElementList;
 import gipad.plan.SequencedReconfigurationPlan;
 import gipad.plan.action.NodeAction;
 import gipad.plan.action.VirtualMachineAction;
+import gipad.plan.choco.actionmodel.ActionModel;
+import gipad.plan.choco.actionmodel.NodeActionModel;
 import gipad.plan.choco.actionmodel.VirtualMachineActionModel;
+import gipad.plan.choco.actionmodel.slice.ConsumingSlice;
+import gipad.plan.choco.actionmodel.slice.DemandingSlice;
 
 /**
  * Specification of a reconfiguration problem.
@@ -172,7 +177,7 @@ public interface ReconfigurationProblem {
      *
      * @return a list of actions.
      */
-    List<VirtualMachineAction> getVirtualMachineActions();
+    List<? extends ActionModel> getVirtualMachineActions();
 
     /**
      * Get the action associated to a virtual machine.
@@ -187,7 +192,7 @@ public interface ReconfigurationProblem {
      *
      * @return a list of actions.
      */
-    List<NodeAction> getNodeMachineActions();
+    List<? extends ActionModel> getNodeMachineActions();
 
     /**
      * Get the action associated to a node.
@@ -195,7 +200,7 @@ public interface ReconfigurationProblem {
      * @param n the node
      * @return the associated action, may be null
      */
-    NodeAction getAssociatedAction(Node n);
+    NodeActionModel getAssociatedAction(Node n);
 
     /**
      * Get the free CPU capacity of a node.
@@ -321,6 +326,16 @@ public interface ReconfigurationProblem {
      * @return a plan if the solving process succeeded or {@code null}
      */
     SequencedReconfigurationPlan extractSolution();
+
+    /**Get list of demanding slices
+     * @return  a list of demanding slices
+     */
+    List<DemandingSlice> getDemandingSlices();
+
+    /**Get list of consuming slices
+     * @return a list of demanding slices
+     */
+    List<ConsumingSlice> getConsumingSlice();
 
     /**
      * Get statistics about computed solutions.

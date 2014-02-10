@@ -473,25 +473,25 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 	}
 
 	@Override
-	public ActionConsumption getConsomtion(VirtualMachine vm) {
+	public ActionConsumption getConsumption(VirtualMachine vm) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ActionConsumption getLeavingConsomtion(VirtualMachine vm) {
+	public ActionConsumption getLeavingConsumption(VirtualMachine vm) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ActionConsumption getIncomingConsomtion(VirtualMachine vm) {
+	public ActionConsumption getIncomingConsumption(VirtualMachine vm) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ActionConsumption getDemandingConsomtion(VirtualMachine vm) {
+	public ActionConsumption getDemandingConsumption(VirtualMachine vm) {
 		// TODO Auto-generated method stub
 		return null;
 	}

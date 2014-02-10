@@ -148,21 +148,21 @@ public class ChocoCustom3RP implements Plan {
 		/**
 		 * globalCost is equals to the sum of each action costs.
 		 */
-		IntVar globalCost = model.createBoundIntVar("globalCost", 0,
+		IntVar<?> globalCost = model.createBoundIntVar("globalCost", 0,
 				Choco.MAX_UPPER_BOUND);
 		List<ActionModel> allActions = new ArrayList<ActionModel>();
 		allActions.addAll(model.getVirtualMachineActions());
 		allActions.addAll(model.getNodeMachineActions());
-		IntVar[] allCosts = extractCosts(allActions);
-		List<IntVar> varCosts = new ArrayList<IntVar>();
+		IntVar<?>[] allCosts = extractCosts(allActions);
+		List<IntVar<?>> varCosts = new ArrayList<IntVar<?>>();
 		for (int i = 0; i < allCosts.length; i++) {
-			IntVar c = allCosts[i];
+			IntVar<?> c = allCosts[i];
 			if (c.instantiated() && c.getValue() == 0) {
 			} else {
 				varCosts.add(c);
 			}
 		}
-		IntVar[] costs = varCosts.toArray(new IntVar[varCosts.size()]);
+		IntVar<?>[] costs = varCosts.toArray(new IntVar[varCosts.size()]);
 		// model.post(model.eq(globalCost,
 		// /*model.sum(costs)*/explodedSum(model, costs, 200, true)));
 
