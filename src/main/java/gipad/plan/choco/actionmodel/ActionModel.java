@@ -47,6 +47,7 @@ public abstract class ActionModel {
 
 	protected DemandingSlice dSlice = null;
 
+	protected Configuration conf = null;
 
     /**
      * Get the start moment of the action.
@@ -129,4 +130,14 @@ public abstract class ActionModel {
     public DemandingSlice getDemandingSlice() {
         return dSlice;
     }
+
+	public Configuration getConf() {
+		return conf;
+	}
+
+	public void setConf(Configuration conf) {
+		this.conf = conf;
+	}
+    
+    
 }

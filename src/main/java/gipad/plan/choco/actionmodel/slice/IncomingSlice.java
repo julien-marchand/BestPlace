@@ -1,6 +1,6 @@
 package gipad.plan.choco.actionmodel.slice;
 
-import gipad.configuration.configuration.ActionConsomtion;
+import gipad.configuration.configuration.ActionConsumption;
 import gipad.configuration.configuration.Configuration;
 import gipad.plan.Plan;
 import gipad.plan.choco.ReconfigurationProblem;
