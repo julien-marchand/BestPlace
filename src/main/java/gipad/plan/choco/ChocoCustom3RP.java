@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
 import solver.Solver;
 import solver.constraints.Constraint;
 import solver.search.loop.monitors.SearchMonitorFactory;
@@ -14,8 +12,7 @@ import solver.variables.IntVar;
 import util.ESat;
 import gipad.placementconstraint.*;
 import gipad.configuration.CostFunction;
-import gipad.configuration.configuration.Configuration;
-import gipad.configuration.configuration.Configurations;
+import gipad.configuration.configuration.*;
 import gipad.exception.PlanException;
 import gipad.plan.*;
 import gipad.plan.action.Action;
@@ -130,7 +127,7 @@ public class ChocoCustom3RP implements Plan {
 			// Hardcore way for the packing. TODO: externalize
 			// System.err.println("pack issue:" +
 			// src.getRunnings(src.getUnacceptableNodes()));
-			vms.addAll(src.getRunnings(Configurations.futureOverloadedNodes(src)));
+			vms.addAll(src.getRunnings(ConfigurationUtils.getOverloadedNodes(src)));
 		} else {
 			vms = src.getAllVirtualMachines();
 		}
@@ -142,6 +139,8 @@ public class ChocoCustom3RP implements Plan {
 
 		// Inject placement constraints
 		// A pretty print of the problem
+		
+		/***************Not Down Yet*******************/
 
 		/**
 		 * globalCost is equals to the sum of each action costs.
@@ -186,9 +185,9 @@ public class ChocoCustom3RP implements Plan {
 			} else {
 				SequencedReconfigurationPlan plan = model.extractSolution();
 				Configuration res = plan.getDestination();
-				if (Configurations.futureOverloadedNodes(res).size() != 0) {
+				if (ConfigurationUtils.getOverloadedNodes(res).size() != 0) {
 					throw new PlanException("Resulting configuration is not viable: Overloaded nodes="
-							+ Configurations.futureOverloadedNodes(res));
+							+ ConfigurationUtils.getOverloadedNodes(res));
 				}
 
 				int cost = 0;

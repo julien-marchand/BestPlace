@@ -19,6 +19,29 @@
 
 package gipad.plan.choco;
 
+import gipad.configuration.CostFunction;
+import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.ConfigurationUtils;
+import gipad.configuration.configuration.Node;
+import gipad.configuration.configuration.VirtualMachine;
+import gipad.exception.DurationEvaluationException;
+import gipad.exception.MultipleResultingStateException;
+import gipad.exception.NoAvailableTransitionException;
+import gipad.exception.NonViableSourceConfigurationException;
+import gipad.exception.PlanException;
+import gipad.exception.UnknownResultingStateException;
+import gipad.plan.Plan;
+import gipad.plan.action.Action;
+import gipad.plan.choco.actionmodel.MigratableActionModel;
+import gipad.plan.choco.actionmodel.NodeActionModel;
+import gipad.plan.choco.actionmodel.RunActionModel;
+import gipad.plan.choco.actionmodel.StopActionModel;
+import gipad.plan.choco.actionmodel.VirtualMachineActionModel;
+import gipad.tools.DC;
+import gipad.tools.ManagedElementList;
+import gipad.tools.SimpleManagedElementList;
+import gnu.trove.map.hash.TIntIntHashMap;
+import gipad.plan.choco.actionmodel.slice.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,27 +51,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import gipad.configuration.*;
-import gipad.configuration.configuration.*;
-import gipad.configuration.configuration.Configuration;
-import gipad.plan.*;
-import gipad.plan.action.*;
-import gnu.trove.map.hash.TIntIntHashMap;
-import gipad.plan.action.Action;
-import gipad.plan.choco.actionmodel.NodeActionModel;
-import gipad.plan.choco.actionmodel.slice.ConsumingSlice;
-import gipad.plan.choco.actionmodel.slice.DemandingSlice;
-import gipad.plan.choco.actionmodel.slice.IncomingSlice;
-import gipad.plan.choco.actionmodel.slice.LeavingSlice;
-import gipad.exception.*;
-import gipad.tools.*;
-
-
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
-import solver.*;
-import solver.variables.*;
+import solver.Solver;
+import solver.search.measure.IMeasures;
+import solver.search.solution.Solution;
+import solver.variables.IntVar;
+import solver.variables.SetVar;
+import solver.variables.VF;
+import solver.variables.VariableFactory;
 
 /**
  * A CSP to model a reconfiguration plan composed of time bounded actions. In
@@ -350,9 +359,9 @@ public final class DefaultReconfigurationProblem implements ReconfigurationProbl
          this.costFunc = costFunc;
          
          this.checkDisjointSet();
-         if (Configurations.currentlyOverloadedNodes(this.source).size() > 0) {
-			throw new NonViableSourceConfigurationException(source, Configurations
-					.currentlyOverloadedNodes(source).get(0));
+         if (ConfigurationUtils.getOverloadedNodes(this.source).size() > 0) {
+			throw new NonViableSourceConfigurationException(source, ConfigurationUtils
+					.getOverloadedNodes(source).get(0));
          }
 	}
 
