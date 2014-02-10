@@ -39,7 +39,22 @@ public class ActionConsumption {
 	 * 
 	 * @return
 	 */
-	public double getMemory() {
-		return memory;
+	public int getMemory() {
+		return (int)memory;
+	}
+
+	public int[] getCPU() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int getBandwidthOut() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int getBandwidthIn() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

@@ -297,4 +297,8 @@ public interface Configuration {
 	ActionConsumption getDemanding(VirtualMachine vm);
 
 	IntVar getRunDuration(VirtualMachine vm);
+
+	int getMaxBandwidthOut();
+
+	int getMaxBandwidthIn();
 }

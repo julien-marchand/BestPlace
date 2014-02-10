@@ -23,6 +23,7 @@ import gipad.plan.choco.ReconfigurationProblem;
 import gipad.plan.choco.actionmodel.slice.ConsumingSlice;
 import gipad.plan.choco.actionmodel.slice.DemandingSlice;
 import gipad.plan.choco.actionmodel.slice.IncomingSlice;
+import gipad.plan.choco.actionmodel.slice.LeavingSlice;
 
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
@@ -50,7 +51,7 @@ public class StopActionModel extends VirtualMachineActionModel {
         
         super.conf = conf;
         super.cSlice = new ConsumingSlice(model, "stop(" + vm.name() + ")", vm ,conf.getIncoming(vm), conf);
-        super.lSlice = new LeavingSlice(model, "stop(" + vm.name() + ")", conf.getDemanding(vm), conf);
+        super.lSlice = new LeavingSlice(model, "stop(" + vm.name() + ")", vm, conf.getDemanding(vm), conf);
         
         model.createBoundIntVar("start(stop(" + vm.getName() + "))", 0, ReconfigurationProblem.MAX_TIME);
         this.cSlice = new ConsumingSlice(model, "stop(" + vm.getName() + ")", model.getSourceConfiguration().getLocation(vm), vm.getCPUConsumption(), vm.getMemoryConsumption());

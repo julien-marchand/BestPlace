@@ -52,12 +52,7 @@ public class IncomingSlice extends Slice {
      * @param consumption from the configuration
      */
     public IncomingSlice(ReconfigurationProblem model, String name, ActionConsumption consumption, Configuration conf) {
-        this(name,
-                VF.enumerated("h(" + name + ")", 0, model.getNodes().length - 1, model.getSolver()),
-                new Task(VF.enumerated("s(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
-    					VF.enumerated("d(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
-    					model.getEnd()),
-    					consumption.getCPU(),
+        this(model, name, consumption.getCPU(),
     					consumption.getMemory(),
     					conf.getMaxBandwidthOut(),
     					conf.getMaxBandwidthIn());
