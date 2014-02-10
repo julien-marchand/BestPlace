@@ -19,20 +19,14 @@
 
 package gipad.configuration.configuration;
 
-import gipad.configuration.ManagedElementList;
-import gipad.configuration.SimpleManagedElementList;
 import gipad.placementconstraint.PlacementConstraint;
 import gipad.tools.DataCalculator;
+import gipad.tools.ManagedElementList;
+import gipad.tools.SimpleManagedElementList;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 
 import java.util.List;
-
-import org.discovery.DiscoveryModel.model.NetworkInterface;
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
-import solver.variables.IntVar;
 
 
 /**
@@ -439,7 +433,7 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 
 	@Override
 	public long getBandwidth(Node n1, Node n2) {
-		List<NetworkInterface> l1 = n1.hardwareSpecification().networkInterfaces();
+		List<NetworkInterface> l1 = n1.getNetworkInterfaces();
 		long s1 = getBandWithSum(l1);
 		List<NetworkInterface> l2 = n2.hardwareSpecification().networkInterfaces();
 		long s2 = getBandWithSum(l2);
@@ -477,25 +471,25 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 
 	@Override
 	public ActionConsumption getConsuming(VirtualMachine vm) {
-		double memory = vm.hardwareSpecification().memory().getCurrentUsage();
-		double cpu = DataCalculator.getSumCpuCurrentUsage(vm.hardwareSpecification());
-		double bandwidthOut = DataCalculator.getSumOutUsage(vm.hardwareSpecification());
-		double bandwithIn = DataCalculator.getSumOutUsage(vm.hardwareSpecification());
+		double memory = vm.getMemoryCurrentUsage();
+		double cpu = DataCalculator.getSumCpuCurrentUsage(vm);
+		double bandwidthOut = DataCalculator.getSumOutUsage(vm);
+		double bandwithIn = DataCalculator.getSumOutUsage(vm);
 		return new ActionConsumption(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
 	}
 
 	@Override
 	public ActionConsumption getLeaving(VirtualMachine vm) {
-		double memory = vm.hardwareSpecification().memory().getCurrentUsage();
-		double cpu = DataCalculator.getSumCpuCurrentUsage(vm.hardwareSpecification()) + leavingCpu;
-		double bandwidthOut = DataCalculator.getSumOutUsage(vm.hardwareSpecification()) + leavingBandwidth;
-		double bandwithIn = DataCalculator.getSumOutUsage(vm.hardwareSpecification());
+		double memory = vm.getMemoryCurrentUsage();
+		double cpu = DataCalculator.getSumCpuCurrentUsage(vm) + leavingCpu;
+		double bandwidthOut = DataCalculator.getSumOutUsage(vm) + leavingBandwidth;
+		double bandwithIn = DataCalculator.getSumOutUsage(vm);
 		return new ActionConsumption(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
 	}
 
 	@Override
 	public ActionConsumption getIncoming(VirtualMachine vm) {
-		double memory = vm.hardwareSpecification().memory().usage();
+		double memory = vm.getMemoryUsage();
 		double cpu = incomingCpu;
 		double bandwidthOut = 0;
 		double bandwithIn = incomingBandwidth;
@@ -504,10 +498,10 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 
 	@Override
 	public ActionConsumption getDemanding(VirtualMachine vm) {
-		double memory = vm.hardwareSpecification().memory().usage();
-		double cpu = DataCalculator.getSumCpuUsage(vm.hardwareSpecification());
-		double bandwidthOut = DataCalculator.getSumOutUsage(vm.hardwareSpecification());
-		double bandwithIn = DataCalculator.getSumOutUsage(vm.hardwareSpecification());
+		double memory = vm.getMemoryUsage();
+		double cpu = DataCalculator.getSumCpuUsage(vm);
+		double bandwidthOut = DataCalculator.getSumOutUsage(vm);
+		double bandwithIn = DataCalculator.getSumOutUsage(vm);
 		return new ActionConsumption(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
 	}
 

@@ -22,9 +22,9 @@ package gipad.placementconstraint;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
-import gipad.configuration.ManagedElementList;
 import gipad.configuration.configuration.Configuration;
 import gipad.plan.choco.ReconfigurationProblem;
+import gipad.tools.ManagedElementList;
 
 /**
  * An interface to specify some constraints related to the planification of the action.

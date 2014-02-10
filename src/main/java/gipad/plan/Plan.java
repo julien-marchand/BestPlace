@@ -1,8 +1,8 @@
 package gipad.plan;
 
-import gipad.configuration.ManagedElementList;
 import gipad.configuration.configuration.Configuration;
 import gipad.exception.PlanException;
+import gipad.tools.ManagedElementList;
 
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 import org.slf4j.Logger;

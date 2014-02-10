@@ -20,9 +20,9 @@
 package gipad.configuration.configuration;
 
 import entropy.configuration.ConfigurationsException;
-import gipad.configuration.ManagedElementList;
-import gipad.configuration.SimpleManagedElementList;
 import gipad.tools.DC;
+import gipad.tools.ManagedElementList;
+import gipad.tools.SimpleManagedElementList;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -112,14 +112,15 @@ public final class ConfigurationUtils {
      */
     public static ManagedElementList<Node> currentlyOverloadedNodes(Configuration cfg) {
         ManagedElementList<Node> nodes = new SimpleManagedElementList<Node>();
-        for (Node n : cfg.getOnlines()) {
-            int cpuCapa = DC.getSumCPu(n);
+        for (INode n : cfg.getOnlines()) {
+            int cpuCapa = n.;
             long memCapa = n.hardwareSpecification().memory().capacity();
             long network = n.hardwareSpecification().networkInterfaces().get(0).maxBandwidth();
             for (VirtualMachine vm : cfg.getRunnings(n)) {
-                cpuCapa -= DC.getSumCPu(vm);
+            	vm.hardwareSpecification().
+                cpuCapa -= DC.getSumCpu(vm);
                 memCapa -= vm.hardwareSpecification().memory().capacity();
-                network -= DC.getSumNetwork
+                network -= DC.getSumNetwork();
                 		vm.hardwareSpecification().cpus().get(0).
                 if (cpuCapa < 0 || memCapa < 0 || network < 0) {
                     nodes.add(n);

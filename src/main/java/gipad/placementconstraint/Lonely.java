@@ -26,13 +26,13 @@ import solver.exception.ContradictionException;
 import solver.variables.IntVar;
 import solver.variables.SetVar;
 import solver.variables.VF;
-import gipad.configuration.ManagedElementList;
-import gipad.configuration.SimpleManagedElementList;
 import gipad.configuration.configuration.Configuration;
 import gipad.plan.choco.ReconfigurationProblem;
 import gipad.plan.choco.actionmodel.ActionModel;
 import gipad.plan.choco.actionmodel.slice.DemandingSlice;
 import gipad.plan.choco.actionmodel.slice.Slice;
+import gipad.tools.ManagedElementList;
+import gipad.tools.SimpleManagedElementList;
 
 import java.util.ArrayList;
 import java.util.HashSet;

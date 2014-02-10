@@ -41,7 +41,6 @@ import gipad.plan.choco.actionmodel.slice.DemandingSlice;
 import gipad.plan.choco.actionmodel.slice.IncomingSlice;
 import gipad.plan.choco.actionmodel.slice.LeavingSlice;
 import gipad.exception.*;
-import gipad.exception.NonViableSourceConfigurationException;
 import gipad.tools.*;
 
 

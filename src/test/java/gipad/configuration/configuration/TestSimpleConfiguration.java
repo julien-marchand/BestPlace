@@ -1,7 +1,7 @@
 package gipad.configuration.configuration;
 
-import gipad.configuration.ManagedElementList;
-import gipad.configuration.SimpleManagedElementList;
+import gipad.tools.ManagedElementList;
+import gipad.tools.SimpleManagedElementList;
 
 import java.util.ArrayList;
 

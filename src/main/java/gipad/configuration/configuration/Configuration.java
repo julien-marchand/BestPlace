@@ -1,12 +1,7 @@
 package gipad.configuration.configuration;
 
-import gipad.configuration.ManagedElementList;
 import gipad.placementconstraint.PlacementConstraint;
-
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
-import solver.variables.IntVar;
+import gipad.tools.ManagedElementList;
 
 
 /**New Interface for a configuration

@@ -14,13 +14,13 @@ import solver.variables.IntVar;
 import util.ESat;
 import gipad.placementconstraint.*;
 import gipad.configuration.CostFunction;
-import gipad.configuration.ManagedElementList;
-import gipad.configuration.SimpleManagedElementList;
 import gipad.configuration.configuration.Configuration;
 import gipad.configuration.configuration.Configurations;
 import gipad.exception.PlanException;
 import gipad.plan.*;
 import gipad.plan.action.Action;
+import gipad.tools.ManagedElementList;
+import gipad.tools.SimpleManagedElementList;
 
 public class ChocoCustom3RP implements Plan {
 
