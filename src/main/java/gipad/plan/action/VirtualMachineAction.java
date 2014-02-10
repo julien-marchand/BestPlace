@@ -20,8 +20,7 @@ package gipad.plan.action;
 
 
 import gipad.plan.choco.actionmodel.slice.Slice;
-
-import org.discovery.DiscoveryModel.model.*;
+import gipad.configuration.configuration.*;
 
 /**
  * An abstract action related to a virtual machine hosted on an online node.

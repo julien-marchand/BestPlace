@@ -19,26 +19,23 @@
 
 package gipad.plan.choco;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
-import solver.Solver;
-import solver.variables.IntVar;
-import solver.variables.SetVar;
-import gipad.configuration.configuration.*;
-import gipad.configuration.ManagedElementList;
+import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.Node;
+import gipad.configuration.configuration.VirtualMachine;
 import gipad.plan.SequencedReconfigurationPlan;
-import gipad.plan.action.NodeAction;
-import gipad.plan.action.VirtualMachineAction;
 import gipad.plan.choco.actionmodel.ActionModel;
 import gipad.plan.choco.actionmodel.NodeActionModel;
 import gipad.plan.choco.actionmodel.VirtualMachineActionModel;
 import gipad.plan.choco.actionmodel.slice.ConsumingSlice;
 import gipad.plan.choco.actionmodel.slice.DemandingSlice;
+import gipad.tools.ManagedElementList;
+
+import java.util.List;
+import java.util.Set;
+
+import solver.Solver;
+import solver.variables.IntVar;
+import solver.variables.SetVar;
 
 /**
  * Specification of a reconfiguration problem.

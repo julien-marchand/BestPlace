@@ -1,11 +1,7 @@
 package gipad.configuration.configuration;
 
-import gipad.configuration.ManagedElementList;
 import gipad.placementconstraint.PlacementConstraint;
-
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
+import gipad.tools.ManagedElementList;
 import solver.variables.IntVar;
 
 
@@ -263,7 +259,6 @@ public interface Configuration {
      */
     long getBandwidth(VirtualMachine vm1, VirtualMachine vm2);
     
-
     /**
      * 
      * @param vm
@@ -277,12 +272,23 @@ public interface Configuration {
      * @return
      */
     ActionConsumption getLeavingConsumption(VirtualMachine vm);
+
+    ActionConsumption getConsuming(VirtualMachine vm);
+    
+	ActionConsumption getIncoming(VirtualMachine vm);
+	
+	ActionConsumption getLeaving(VirtualMachine vm);
+
+	ActionConsumption getDemanding(VirtualMachine vm);
+
     
     /**
-     * 
+     * TODO unité temporel
+     * @param n
      * @param vm
      * @return
      */
+
     ActionConsumption getIncomingConsumption(VirtualMachine vm);
     
     /**
@@ -292,9 +298,24 @@ public interface Configuration {
      */
     ActionConsumption getDemandingConsumption(VirtualMachine vm);
 
-	ActionConsumption getIncoming(VirtualMachine vm);
+    int getRunDutaion(Node n, VirtualMachine vm);
+    
+    int getMaxBandwith(Node n);
 
-	ActionConsumption getDemanding(VirtualMachine vm);
+	int getMaxBandwidthOut();
+
 
 	IntVar<?> getRunDuration(VirtualMachine vm);
+	int getMaxBandwidthIn();
+
+	int getStopDuration(VirtualMachine vm);
+	
+	
+	/**
+	 * TODO unité en Mo
+	 * @param vm
+	 * @param id
+	 * @return
+	 */
+	int getMigrationCapacity(VirtualMachine vm, int id);
 }

@@ -19,7 +19,7 @@
 package gipad.plan.action;
 
 
-import org.discovery.DiscoveryModel.model.*;
+import gipad.configuration.configuration.*;
 
 /**
  * An abstract action to describe a virtual machine that move from one online node to one another.

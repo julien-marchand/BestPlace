@@ -26,6 +26,7 @@ import gipad.configuration.configuration.Configuration;
 import gipad.configuration.*;
 import gipad.execution.*;
 import gipad.plan.action.*;
+import gipad.tools.ManagedElementList;
 
 
 /**

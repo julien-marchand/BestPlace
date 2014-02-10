@@ -19,8 +19,7 @@
 package gipad.exception;
 
 
-import gipad.configuration.configuration.Configuration;
-import org.discovery.DiscoveryModel.model.*;
+import gipad.configuration.configuration.*;
 
 /**
  * An exception to describe a non viable source configuration for a planning problem.

@@ -19,9 +19,10 @@
 
 package gipad.configuration.configuration;
 
-import gipad.configuration.ManagedElementList;
-import gipad.configuration.SimpleManagedElementList;
 import gipad.placementconstraint.PlacementConstraint;
+import gipad.tools.DataCalculateur;
+import gipad.tools.ManagedElementList;
+import gipad.tools.SimpleManagedElementList;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 
@@ -473,6 +474,7 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public ActionConsumption getConsumption(VirtualMachine vm) {
 		// TODO Auto-generated method stub
 		return null;
@@ -494,5 +496,45 @@ public class SimpleConfiguration implements Configuration, Cloneable {
 	public ActionConsumption getDemandingConsumption(VirtualMachine vm) {
 		// TODO Auto-generated method stub
 		return null;
+=======
+	public ActionConsumption getConsuming(VirtualMachine vm) {
+		double memory = vm.hardwareSpecification().memory().getCurrentUsage();
+		double cpu = DataCalculateur.getSumCpuCurrentUsage(vm.hardwareSpecification());
+		double bandwidthOut = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
+		double bandwithIn = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
+		return new ActionConsumption(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
+	}
+
+	@Override
+	public ActionConsumption getLeaving(VirtualMachine vm) {
+		double memory = vm.hardwareSpecification().memory().getCurrentUsage();
+		double cpu = DataCalculateur.getSumCpuCurrentUsage(vm.hardwareSpecification()) + leavingCpu;
+		double bandwidthOut = DataCalculateur.getSumOutUsage(vm.hardwareSpecification()) + leavingBandwidth;
+		double bandwithIn = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
+		return new ActionConsumption(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
+	}
+
+	@Override
+	public ActionConsumption getIncoming(VirtualMachine vm) {
+		double memory = vm.hardwareSpecification().memory().;
+		double cpu = incomingCpu;
+		double bandwidthOut = 0;
+		double bandwithIn = incomingBandwidth;
+		return new ActionConsumption(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
+	}
+
+	@Override
+	public ActionConsumption getDemanding(VirtualMachine vm) {
+		double memory = vm.hardwareSpecification().memory().;
+		double cpu = DataCalculateur.getSumCpuUsage(vm.hardwareSpecification());
+		double bandwidthOut = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
+		double bandwithIn = DataCalculateur.getSumOutUsage(vm.hardwareSpecification());
+		return new ActionConsumption(memory, new double[] {cpu}, bandwidthOut, bandwithIn);
+	}
+
+	@Override
+	public int getRunDutaion(Node n, VirtualMachine vm) {
+		// TODO Stub de la méthode généré automatiquement
+		return 0;
 	}
 }

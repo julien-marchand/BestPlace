@@ -18,14 +18,11 @@
  */
 package gipad.plan.choco.actionmodel;
 
-import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.*;
 import gipad.plan.action.Run;
 import gipad.plan.choco.ReconfigurationProblem;
 import gipad.plan.choco.actionmodel.slice.DemandingSlice;
 import gipad.plan.choco.actionmodel.slice.IncomingSlice;
-
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 import solver.Cause;
 import solver.ICause;
@@ -71,7 +68,7 @@ public class RunActionModel extends VirtualMachineActionModel {
 //        }
         //La durée de chargement en mémoire est fixe (elle dépend de la taille de la vm)
         model.getSolver().post(ICF.arithm(iSlice.duration(), "=", conf.getRunDuration(vm)));
-        model.getSolver().post(ICF.arithm(iSlice.end(), "=", dSlice.start()));
+        model.getSolver().post(ICF.arithm(iSlice.getEnd(), "=", dSlice.getStart()));
         //La durée totale de l'action model est la somme des durées des deux slices
         super.duration = VF.enumerated("run_dur(" + vm.name() + ")", 0, model.MAX_TIME ,model.getSolver());
         model.getSolver().post(ICF.sum(new IntVar[]{dSlice.duration(), iSlice.duration()}, super.duration));
@@ -83,9 +80,7 @@ public class RunActionModel extends VirtualMachineActionModel {
 			iSlice.getBwOutput().instantiateTo(0, Cause.Null);
 		} catch (ContradictionException e) {
 			e.printStackTrace();
-		}
-      
-        
+		}        
     }
 
     @Override
@@ -104,12 +99,12 @@ public class RunActionModel extends VirtualMachineActionModel {
 
     @Override
     public final IntVar start() {
-        return iSlice.start();
+        return iSlice.getStart();
     }
 
     @Override
     public final IntVar end() {
-        return dSlice.end();
+        return dSlice.getEnd();
     }
 
 

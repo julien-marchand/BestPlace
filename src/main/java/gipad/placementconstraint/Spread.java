@@ -26,9 +26,9 @@ import java.util.Map;
 import org.discovery.DiscoveryModel.model.Node;
 import org.discovery.DiscoveryModel.model.VirtualMachine;
 
-import gipad.configuration.ManagedElementList;
-import gipad.configuration.SimpleManagedElementList;
 import gipad.configuration.configuration.Configuration;
+import gipad.tools.ManagedElementList;
+import gipad.tools.SimpleManagedElementList;
 
 /**
  * A constraint to ensure a set of VMs will be hosted on different nodes.

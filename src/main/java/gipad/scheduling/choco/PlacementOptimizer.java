@@ -2,19 +2,17 @@ package gipad.scheduling.choco;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
-import org.discovery.DiscoveryModel.model.*;
-
 import gipad.exception.PlanException;
 import gipad.execution.*;
 import gipad.plan.action.*;
-
 import gipad.scheduling.EntropyProperties;
 import gipad.configuration.*;
 import gipad.configuration.configuration.*;
 import gipad.execution.SequencedExecutionGraph;
 import gipad.plan.choco.*;
 import gipad.scheduling.AbstractScheduler;
+import gipad.tools.ManagedElementList;
+import gipad.tools.SimpleManagedElementList;
 import gipad.plan.*;
 
 /**Scheduling module

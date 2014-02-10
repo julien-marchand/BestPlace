@@ -20,8 +20,8 @@
 package gipad.exception;
 
 
-import gipad.configuration.ManagedElementList;
-import org.discovery.DiscoveryModel.model.*;
+import gipad.tools.ManagedElementList;
+import gipad.configuration.configuration.*;
 
 /**
  * An exception to signal a virtual machine or a node is in several resulting state simultaneously.

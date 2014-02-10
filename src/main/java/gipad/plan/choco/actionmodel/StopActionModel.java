@@ -18,13 +18,19 @@
  */
 package gipad.plan.choco.actionmodel;
 
-import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.*;
+import gipad.plan.action.Stop;
 import gipad.plan.choco.ReconfigurationProblem;
 import gipad.plan.choco.actionmodel.slice.ConsumingSlice;
 import gipad.plan.choco.actionmodel.slice.DemandingSlice;
 import gipad.plan.choco.actionmodel.slice.IncomingSlice;
+import gipad.plan.choco.actionmodel.slice.LeavingSlice;
 
-import org.discovery.DiscoveryModel.model.VirtualMachine;
+import solver.Cause;
+import solver.constraints.ICF;
+import solver.exception.ContradictionException;
+import solver.variables.IntVar;
+import solver.variables.VF;
 
 
 
@@ -47,47 +53,48 @@ public class StopActionModel extends VirtualMachineActionModel {
      */
     public StopActionModel(ReconfigurationProblem model, Configuration conf, VirtualMachine vm) {
         super(vm);
-        
         super.conf = conf;
         super.cSlice = new ConsumingSlice(model, "stop(" + vm.name() + ")", vm ,conf.getIncoming(vm), conf);
-        super.lSlice = new LeavingSlice(model, "stop(" + vm.name() + ")", conf.getDemanding(vm), conf);
+        super.lSlice = new LeavingSlice(model, "stop(" + vm.name() + ")", vm, conf.getDemanding(vm), conf);
         
-        model.createBoundIntVar("start(stop(" + vm.getName() + "))", 0, ReconfigurationProblem.MAX_TIME);
-        this.cSlice = new ConsumingSlice(model, "stop(" + vm.getName() + ")", model.getSourceConfiguration().getLocation(vm), vm.getCPUConsumption(), vm.getMemoryConsumption());
-        duration = model.createIntegerConstant("d(stop(" + vm.getName() + "))", d);
-        //aStart = end - duration
+        cSlice.addToModel(model);
+        lSlice.addToModel(model);
+        
+        //La durée de chargement sur le disque est fixe (elle dépend de la taille de la vm)
+        //TODO adapter pour ajouter l'activité cpu
+        model.getSolver().post(ICF.arithm(lSlice.duration(), "=", conf.getStopDuration(vm)));
+        
+        model.getSolver().post(ICF.arithm(cSlice.getEnd(), "=", lSlice.getStart()));
+      //La durée totale de l'action model est la somme des durées des deux slices
+        super.duration = VF.enumerated("stop_dur(" + vm.name() + ")", 0, model.MAX_TIME ,model.getSolver());
+        model.getSolver().post(ICF.sum(new IntVar[]{cSlice.duration(), lSlice.duration()}, super.duration));
+                
+        //pas d'utilisation de la bande passante pour charger une VM dans le disque
         try {
-            cSlice.duration().setInf(d);
-            cSlice.end().setInf(d);
-        } catch (ContradictionException e) {
-            Plan.logger.error(e.getMessage(), e);
-        }
-        getConsumingSlice().addToModel(model);
+			lSlice.getBwInput().instantiateTo(0, Cause.Null);
+			lSlice.getBwOutput().instantiateTo(0, Cause.Null);
+		} catch (ContradictionException e) {
+			e.printStackTrace();
+		}
 
     }
 
-    /**
-     * Get the moment the action starts.
-     * This moment may differ to the moment the slice starts.
-     *
-     * @return a positive moment between the beginning and the end of the slice
-     */
     @Override
-    public final IntDomainVar start() {
-        return cSlice.start();
+    public final IntVar start() {
+        return cSlice.getStart();
     }
 
     @Override
-    public final IntDomainVar end() {
-        return duration;
+    public final IntVar end() {
+        return lSlice.getEnd();
     }
 
     @Override
     public Stop getDefinedAction(ReconfigurationProblem solver) {
         return new Stop(getVirtualMachine(),
-                solver.getNode(cSlice.hoster().getVal()),
-                start().getVal(),
-                end().getVal());
+                solver.getNode(cSlice.hoster().getValue()),
+                start().getValue(),
+                end().getValue());
     }
 
     @Override
@@ -99,4 +106,9 @@ public class StopActionModel extends VirtualMachineActionModel {
     public ConsumingSlice getConsumingSlice() {
         return this.cSlice;
     }
+
+	@Override
+	public IntVar getGlobalCost() {
+		return super.duration;
+	}
 }

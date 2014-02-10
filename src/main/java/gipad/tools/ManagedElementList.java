@@ -17,12 +17,9 @@
  * along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gipad.configuration;
+package gipad.tools;
 
 import java.util.List;
-
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
 
 /**
  * Specify a list of managed elements without duplicated elements.

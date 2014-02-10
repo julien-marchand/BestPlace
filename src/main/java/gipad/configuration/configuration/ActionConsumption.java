@@ -15,24 +15,43 @@ public class ActionConsumption {
 	/**
 	 * 
 	 */
-	private double bandwidth;
-
+	private double bandwidthOut;
+	
+	/**
+	 * 
+	 */
+	private double bandwidthIn;
+	/**
+	 * 
+	 */
+	private double[] cpu;
+	
 	/**
 	 * 
 	 * @param memory
 	 * @param bandwidth
 	 */
-	public ActionConsumption(double memory, double bandwidth) {
+	public ActionConsumption(double memory, double[] cpu, double bandwidthOut, double bandwithIn) {
 		this.memory = memory;
-		this.bandwidth = bandwidth;
+		this.bandwidthOut = bandwidthOut;
+		this.bandwidthIn = bandwithIn;
+		this.cpu = cpu;
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public double getBandwidth() {
-		return bandwidth;
+	public double getBandwidthOut() {
+		return bandwidthOut;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public double getBandwidthIn() {
+		return bandwidthIn;
 	}
 	
 	/**
@@ -42,9 +61,12 @@ public class ActionConsumption {
 	public double getMemory() {
 		return memory;
 	}
-
-	public int[] getCPU() {
-	    // TODO Auto-generated method stub
-	    return null;
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public double[] getCpu() {
+		return cpu;
 	}
 }

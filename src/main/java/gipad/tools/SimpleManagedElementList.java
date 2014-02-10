@@ -17,7 +17,7 @@
  * along with Entropy.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gipad.configuration;
+package gipad.tools;
 
 
 import gnu.trove.map.hash.TIntObjectHashMap;
