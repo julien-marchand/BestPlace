@@ -19,12 +19,12 @@
 
 package gipad.tools;
 
-
 import gnu.trove.map.hash.TIntObjectHashMap;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Basic implementation of a ManagedElementList.
@@ -43,11 +43,11 @@ public class SimpleManagedElementList<E> extends ArrayList<E> implements Managed
     /**
      * Make a singleton.
      *
-     * @param e the element in the singleton.
+     * @param list the element in the singleton.
      */
-    public SimpleManagedElementList(E e) {
+    public SimpleManagedElementList(List<E> list) {
         this();
-        this.add(e);
+        this.addAll(list);
     }
 
     /**
@@ -194,7 +194,8 @@ public class SimpleManagedElementList<E> extends ArrayList<E> implements Managed
         return b.append("}").toString();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public boolean equals(Object o) {
         if (o == null) {
             return false;

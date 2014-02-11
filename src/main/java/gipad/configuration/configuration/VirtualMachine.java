@@ -2,17 +2,42 @@ package gipad.configuration.configuration;
 
 import java.util.List;
 
-public interface VirtualMachine {
+public class VirtualMachine implements IVirtualMachine {
+	private org.discovery.DiscoveryModel.model.VirtualMachine vm;
+	
+	@Override
+	public double getMemoryCurrentUsage() {
+		// TODO Stub de la méthode généré automatiquement
+		return 0;
+	}
 
-	double getMemoryCurrentUsage();
+	@Override
+	public double getMemoryUsage() {
+		// TODO Stub de la méthode généré automatiquement
+		return 0;
+	}
 
-	double getMemoryUsage();
+	@Override
+	public List<NetworkInterface> getNetworkInterfaces() {
+		// TODO Stub de la méthode généré automatiquement
+		return null;
+	}
 
-	List<Core> getCores();
+	@Override
+	public String name() {
+		return vm.name();
+	}
 
-	List<NetworkInterface> getNetworkInterfaces();
+	@Override
+	public long[] getCoreUsage() {
+		// TODO Stub de la méthode généré automatiquement
+		return null;
+	}
 
-	String name();
+	@Override
+	public List<Core> getCores() {
+		// TODO Stub de la méthode généré automatiquement
+		return null;
+	}
 
-	long[] getCoreUsage();
 }
