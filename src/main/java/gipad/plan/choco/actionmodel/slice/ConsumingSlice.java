@@ -38,7 +38,7 @@ public class ConsumingSlice extends Slice {
     			new Task(model.getStart(),
     					VF.enumerated("d(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver()),
     					VF.enumerated("e(" + name + ")", 0, ReconfigurationProblem.MAX_TIME, model.getSolver())),
-    					consumption.getCPU(),
+    					consumption.getCpu(),
     					consumption.getMemory(),
     					VF.fixed(consumption.getBandwidthOut(), model.getSolver()),
     					VF.fixed(consumption.getBandwidthIn(), model.getSolver()));

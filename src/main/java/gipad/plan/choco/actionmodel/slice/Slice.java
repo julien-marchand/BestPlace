@@ -181,11 +181,7 @@ public class Slice {
      *
      * @return a positive moment
      */
-<<<<<<< HEAD
-    public IntVar<?> start() {
-=======
-    public IntVar getStart() {
->>>>>>> 29e0d5a9d473880122dfdd20c8c6292fd79b423e
+    public IntVar<?> getStart() {
         return task.getStart();
     }
     
@@ -226,11 +222,7 @@ public class Slice {
      *
      * @return a positive moment
      */
-<<<<<<< HEAD
-    public IntVar<?> end() {
-=======
-    public IntVar getEnd() {
->>>>>>> 29e0d5a9d473880122dfdd20c8c6292fd79b423e
+    public IntVar<?> getEnd() {
         return task.getEnd();
     }
 
