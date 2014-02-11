@@ -19,12 +19,14 @@
 
 package gipad.placementconstraint;
 
-import solver.constraints.ICF;
-import gipad.configuration.configuration.*;
+import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.Node;
+import gipad.configuration.configuration.VirtualMachine;
 import gipad.plan.choco.ReconfigurationProblem;
 import gipad.plan.choco.actionmodel.slice.Slice;
 import gipad.tools.ManagedElementList;
 import gipad.tools.SimpleManagedElementList;
+import solver.constraints.ICF;
 
 
 /**

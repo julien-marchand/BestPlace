@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import solver.Cause;
 import solver.constraints.ICF;
-import solver.exception.ContradictionException;
 import solver.variables.IntVar;
 import solver.variables.Task;
 
@@ -25,7 +24,7 @@ public class Slice {
     /**
      * Indicates the identifier of slice hoster.
      */
-    private IntVar hoster;
+    private IntVar<?> hoster;
 
     /**
      * The CPU height of the slice.
@@ -40,12 +39,12 @@ public class Slice {
     /**
      * The output bandwidth of the slice
      */
-    private IntVar bwOutput;
+    private IntVar<?> bwOutput;
     
     /**
      * The input bandwith of the slice
      */
-    private IntVar bwInput;
+    private IntVar<?> bwInput;
 
     /**
      * name of the slice
@@ -62,12 +61,12 @@ public class Slice {
      * @param memHeight the memory height of the slice
      */
     public Slice(String name,
-                 IntVar h,
+                 IntVar<?> h,
                  Task t,
                  int[] cpuHeight,
                  int memHeight,
-                 IntVar bwOutput,
-                 IntVar bwInput) {
+                 IntVar<?> bwOutput,
+                 IntVar<?> bwInput) {
         this.name = name;
         task = t;
         hoster = h;
@@ -91,7 +90,7 @@ public class Slice {
      * 
      * @return a positive integer
      */
-    public IntVar getBwOutput() {
+    public IntVar<?> getBwOutput() {
 		return bwOutput;
 	}
 
@@ -100,7 +99,7 @@ public class Slice {
      * 
      * @return a positive integer
      */
-	public IntVar getBwInput() {
+	public IntVar<?> getBwInput() {
 		return bwInput;
 	}
 
@@ -118,7 +117,7 @@ public class Slice {
      *
      * @return the index of the node.
      */
-    public IntVar hoster() {
+    public IntVar<?> hoster() {
         return hoster;
     }
 
@@ -182,7 +181,11 @@ public class Slice {
      *
      * @return a positive moment
      */
+<<<<<<< HEAD
+    public IntVar<?> start() {
+=======
     public IntVar getStart() {
+>>>>>>> 29e0d5a9d473880122dfdd20c8c6292fd79b423e
         return task.getStart();
     }
     
@@ -198,7 +201,7 @@ public class Slice {
      *
      * @return a positive moment
      */
-    public IntVar duration() {
+    public IntVar<?> duration() {
         return task.getDuration();
     }
     
@@ -223,7 +226,11 @@ public class Slice {
      *
      * @return a positive moment
      */
+<<<<<<< HEAD
+    public IntVar<?> end() {
+=======
     public IntVar getEnd() {
+>>>>>>> 29e0d5a9d473880122dfdd20c8c6292fd79b423e
         return task.getEnd();
     }
 

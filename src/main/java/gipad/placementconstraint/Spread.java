@@ -19,21 +19,15 @@
 
 package gipad.placementconstraint;
 
+import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.Node;
+import gipad.configuration.configuration.VirtualMachine;
+import gipad.tools.ManagedElementList;
+import gipad.tools.SimpleManagedElementList;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-
-
-
-
-
-
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
-import gipad.configuration.configuration.Configuration;
-import gipad.tools.ManagedElementList;
-import gipad.tools.SimpleManagedElementList;
 
 /**
  * A constraint to ensure a set of VMs will be hosted on different nodes.

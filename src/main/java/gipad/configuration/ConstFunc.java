@@ -1,7 +1,9 @@
 package gipad.configuration;
 
-import entropy.configuration.Node;
-import entropy.configuration.VirtualMachine;
+import org.discovery.DiscoveryModel.model.Node;
+import org.discovery.DiscoveryModel.model.VirtualMachine;
+
+
 
 public class ConstFunc implements CostFunction {
 

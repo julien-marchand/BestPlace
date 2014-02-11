@@ -18,15 +18,10 @@
  */
 
 package gipad.placementconstraint;
-import org.discovery.DiscoveryModel.model.Node;
-import org.discovery.DiscoveryModel.model.VirtualMachine;
 
-import solver.constraints.set.SCF;
-import solver.exception.ContradictionException;
-import solver.variables.IntVar;
-import solver.variables.SetVar;
-import solver.variables.VF;
 import gipad.configuration.configuration.Configuration;
+import gipad.configuration.configuration.Node;
+import gipad.configuration.configuration.VirtualMachine;
 import gipad.plan.choco.ReconfigurationProblem;
 import gipad.plan.choco.actionmodel.ActionModel;
 import gipad.plan.choco.actionmodel.slice.DemandingSlice;
@@ -38,6 +33,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import solver.constraints.set.SCF;
+import solver.exception.ContradictionException;
+import solver.variables.IntVar;
+import solver.variables.SetVar;
+import solver.variables.VF;
 
 /**
  * A placement constraint to ensure the given set of VMs will not be hosted

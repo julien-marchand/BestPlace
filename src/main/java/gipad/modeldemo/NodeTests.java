@@ -19,7 +19,9 @@ package gipad.modeldemo;
  * limitations under the License.
  * ============================================================ */
 
+import gipad.configuration.configuration.VirtualMachine;
 import junit.framework.TestCase;
+
 import org.discovery.DiscoveryModel.model.*;
 
 import java.util.ArrayList;

@@ -35,6 +35,7 @@ import java.util.Iterator;
  *
  * @author Fabien Hermenier
  */
+@SuppressWarnings("serial")
 public class SimpleManagedElementList<E> extends ArrayList<E> implements ManagedElementList<E>, Cloneable {
 
     private TIntObjectHashMap<E> map;

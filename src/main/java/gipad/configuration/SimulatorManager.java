@@ -1,4 +1,4 @@
-package gipad.simulation;
+package gipad.configuration;
 
 import configuration.SimulatorProperties;
 import configuration.VMClasses;

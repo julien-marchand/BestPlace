@@ -19,14 +19,8 @@
 
 package gipad.configuration.configuration;
 
-import entropy.configuration.ConfigurationsException;
-import gipad.tools.DC;
 import gipad.tools.ManagedElementList;
 import gipad.tools.SimpleManagedElementList;
-
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
 
 /**
  * Common tools related to Configuration
@@ -62,7 +56,7 @@ public final class ConfigurationUtils {
 	 *            the hosting type to consider
 	 * @return subset of node that may be empty
 	 */
-	public static ManagedElementList<Node> usedNodes(Configuration cfg, EnumSet<State> wrt) {
+	/*public static ManagedElementList<Node> usedNodes(Configuration cfg, EnumSet<State> wrt) {
 		ManagedElementList<Node> ns = new SimpleManagedElementList<Node>();
 
 		if (wrt.contains(State.Runnings)) {
@@ -77,7 +71,7 @@ public final class ConfigurationUtils {
 		}
 
 		return ns;
-	}
+	}*/
 
 	/**
 	 * Return the subset of online nodes that does not host virtual machines.
@@ -88,7 +82,7 @@ public final class ConfigurationUtils {
 	 *            the hosting type to consider
 	 * @return a subset of node that may be empty
 	 */
-	public static ManagedElementList<Node> unusedNodes(Configuration cfg, State wrt) {
+	/*public static ManagedElementList<Node> unusedNodes(Configuration cfg, State wrt) {
 		ManagedElementList<Node> ns = new SimpleManagedElementList<Node>();
 		for (Node n : cfg.getOnlines()) {
 			if (wrt == State.Runnings && cfg.getRunnings(n).size() == 0) {
@@ -100,7 +94,7 @@ public final class ConfigurationUtils {
 
 		}
 		return ns;
-	}
+	}*/
 
 	/**
 	 * Return the subset of nodes that are currently overloaded. A node is
@@ -139,9 +133,11 @@ public final class ConfigurationUtils {
     }
 	
 	public static long[] computeFreeUsage(long[] capacities, long[] consumption){		
+		long[] freeUsageLeft = capacities.clone();
 		for(int i=0; i<capacities.length && i<consumption.length; i++){
-			
+			freeUsageLeft[i] -= consumption[i];
 		}
+		return freeUsageLeft;
 	}
 	
 	public static boolean isResourceViolated(long[] resource){
@@ -214,7 +210,7 @@ public final class ConfigurationUtils {
 	 * @return a new configuration is the operation succeed, {@code null}
 	 *         otherwise
 	 */
-	public static Configuration subConfiguration(Configuration cfg,
+	/*public static Configuration subConfiguration(Configuration cfg,
 			ManagedElementList<VirtualMachine> vms, ManagedElementList<Node> nodes)
 			throws ConfigurationsException {
 		Configuration sub = new SimpleConfiguration();
@@ -258,7 +254,7 @@ public final class ConfigurationUtils {
 		}
 
 		return sub;
-	}
+	}*/
 
 	/**
 	 * Merge a list of Configurations. The set of virtual machines in the
@@ -271,9 +267,9 @@ public final class ConfigurationUtils {
 	 * @throws ConfigurationsException
 	 *             if configurations are conflicting between each other
 	 */
-	public static Configuration merge(List<Configuration> cfgs) throws ConfigurationsException {
+	/*public static Configuration merge(List<Configuration> cfgs) throws ConfigurationsException {
 		return merge(cfgs.toArray(new Configuration[cfgs.size()]));
-	}
+	}*/
 
 	/**
 	 * Merge a list of Configurations. The set of virtual machines in the
@@ -286,7 +282,7 @@ public final class ConfigurationUtils {
 	 * @throws ConfigurationsException
 	 *             if configurations are conflicting between each other
 	 */
-	public static Configuration merge(Configuration... cfgs) throws ConfigurationsException {
+	/*public static Configuration merge(Configuration... cfgs) throws ConfigurationsException {
 		Configuration res = new SimpleConfiguration();
 		for (Configuration c : cfgs) {
 			if (!Collections.disjoint(c.getAllVirtualMachines(), res.getAllVirtualMachines())) {
@@ -326,5 +322,5 @@ public final class ConfigurationUtils {
 			}
 		}
 		return res;
-	}
+	}*/
 }

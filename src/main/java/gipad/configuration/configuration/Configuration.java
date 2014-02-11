@@ -266,25 +266,16 @@ public interface Configuration {
 	ActionConsumption getLeaving(VirtualMachine vm);
 
 	ActionConsumption getDemanding(VirtualMachine vm);
-    
-    /**
-     * TODO unité temporel
-     * @param n
-     * @param vm
-     * @return
-     */
+
     int getRunDutaion(Node n, VirtualMachine vm);
+
+	int getStopDuration(VirtualMachine vm);
     
     int getMaxBandwith(Node n);
-
-	int getRunDuration(VirtualMachine vm);
 
 	int getMaxBandwidthOut();
 
 	int getMaxBandwidthIn();
-
-	int getStopDuration(VirtualMachine vm);
-	
 	
 	/**
 	 * TODO unité en Mo
