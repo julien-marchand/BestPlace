@@ -67,8 +67,8 @@ public class RunActionModel extends VirtualMachineActionModel {
 //        	model.getSolver().post(LCF.ifThen(ICF.arithm(iSlice.hoster(), "=", n.getId()), ICF.arithm(iSlice.duration(), "=", conf.getRunDuration(n, vm))));
 //        }
         //La durée de chargement en mémoire est fixe (elle dépend de la taille de la vm)
-        model.getSolver().post(ICF.arithm(iSlice.duration(), "=", conf.getRunDuration(vm)));
-        model.getSolver().post(ICF.arithm(iSlice.getEnd(), "=", dSlice.getStart()));
+        model.getSolver().post(ICF.arithm(iSlice.duration(), "=", VF.fixed(conf.getRunDuration(vm), model.getSolver())));
+        iSlice.setEnd(dSlice.getStart());
         //La durée totale de l'action model est la somme des durées des deux slices
         super.duration = VF.enumerated("run_dur(" + vm.name() + ")", 0, model.MAX_TIME ,model.getSolver());
         model.getSolver().post(ICF.sum(new IntVar[]{dSlice.duration(), iSlice.duration()}, super.duration));

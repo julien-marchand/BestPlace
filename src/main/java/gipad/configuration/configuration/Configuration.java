@@ -267,7 +267,7 @@ public interface Configuration {
 
 	ActionConsumption getDemanding(VirtualMachine vm);
 
-    int getRunDutaion(Node n, VirtualMachine vm);
+    int getRunDuration(VirtualMachine vm);
 
 	int getStopDuration(VirtualMachine vm);
     
