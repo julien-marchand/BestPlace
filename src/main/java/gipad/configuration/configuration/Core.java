@@ -1,8 +1,17 @@
 package gipad.configuration.configuration;
 
-public interface Core {
+public class Core implements ICore {
 
-	double getCapacity();
+	@Override
+	public double getCapacity() {
+		// TODO Stub de la méthode généré automatiquement
+		return 0;
+	}
 
-	long getUsage();
+	@Override
+	public long getUsage() {
+		// TODO Stub de la méthode généré automatiquement
+		return 0;
+	}
+
 }

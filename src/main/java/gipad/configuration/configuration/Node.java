@@ -1,25 +1,63 @@
 package gipad.configuration.configuration;
 
+import gipad.tools.ManagedElementList;
+import gipad.tools.SimpleManagedElementList;
+
 import java.util.List;
 
-public interface Node {
+public class Node implements INode {
+	private org.discovery.DiscoveryModel.model.Node node;
+	
+	@Override
+	public List<Core> getCores() {
+		// TODO Stub de la méthode généré automatiquement
+		return null;
+	}
 
-	List<Core> getCores();
+	@Override
+	public int getId() {
+		// TODO
+		return 0;
+	}
 
-	int getId();
+	@Override
+	public ManagedElementList<VirtualMachine> vms() {
+		// TODO
+		return null;
+	}
 
-	List<VirtualMachine> vms();
+	@Override
+	public String name() {
+		return node.name();
+	}
 
-	String name();
+	@Override
+	public List<NetworkInterface> getNetworkInterfaces() {
+		// TODO Stub de la méthode généré automatiquement
+		return null;
+	}
 
-	List<NetworkInterface> getNetworkInterfaces();
+	@Override
+	public long[] getCoresCapacities() {
+		return null;
+	}
 
-	long[] getCoresCapacities();
+	@Override
+	public long[] getMemCapacities() {
+		// TODO Stub de la méthode généré automatiquement
+		return null;
+	}
 
-	long[] getMemCapacities();
+	@Override
+	public long[] getNetworkInCapacities() {
+		// TODO Stub de la méthode généré automatiquement
+		return null;
+	}
 
-	long[] getNetworkInCapacities();
+	@Override
+	public long[] getNetworkOutCapacities() {
+		// TODO Stub de la méthode généré automatiquement
+		return null;
+	}
 
-	long[] getNetworkOutCapacities();
-	String name();
 }
