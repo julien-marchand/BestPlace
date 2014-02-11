@@ -5,6 +5,10 @@ import java.util.List;
 public class VirtualMachine implements IVirtualMachine {
 	private org.discovery.DiscoveryModel.model.VirtualMachine vm;
 	
+	public VirtualMachine(org.discovery.DiscoveryModel.model.VirtualMachine vm) {
+		this.vm = vm;
+	}
+
 	@Override
 	public double getMemoryCurrentUsage() {
 		// TODO Stub de la méthode généré automatiquement

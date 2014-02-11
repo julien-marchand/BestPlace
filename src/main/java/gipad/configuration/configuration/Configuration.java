@@ -2,7 +2,6 @@ package gipad.configuration.configuration;
 
 import gipad.placementconstraint.PlacementConstraint;
 import gipad.tools.ManagedElementList;
-import solver.variables.IntVar;
 
 
 /**New Interface for a configuration

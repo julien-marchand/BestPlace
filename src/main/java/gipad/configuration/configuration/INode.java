@@ -10,19 +10,22 @@ public interface INode {
 
 	int getId();
 
-	List<VirtualMachine> vms();
+	//vms
+	List<IVirtualMachine> getVms();
 
 	//CPU
-	List<Core> getCores();
+//	List<Core> getCores();
 	
-	long[] getCoresCapacities();
+	long[] getCoreCapacities();
 	
 	//Memory
 	long[] getMemCapacities();
 
 	// Network
-	List<NetworkInterface> getNetworkInterfaces();
+//	List<INetworkInterface> getNetworkInterfaces();
 	
 	long[] getNetworkInCapacities();
 
-	long[] getNetworkOutCapacities();}
+	long[] getNetworkOutCapacities();
+	
+}

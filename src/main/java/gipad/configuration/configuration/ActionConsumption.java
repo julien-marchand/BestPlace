@@ -7,29 +7,34 @@ package gipad.configuration.configuration;
  */
 public class ActionConsumption {
 
+	private static final double MILLE = 1000;
+
 	/**
-	 * 
+	 * en Mo
 	 */
 	private double memory;
 	
 	/**
-	 * 
+	 * en Mo/s
 	 */
 	private double bandwidthOut;
 	
 	/**
-	 * 
+	 * en Mo/s
 	 */
 	private double bandwidthIn;
+	
 	/**
-	 * 
+	 * en ???
 	 */
 	private double[] cpu;
 	
 	/**
 	 * 
 	 * @param memory
-	 * @param bandwidth
+	 * @param cpu
+	 * @param bandwidthOut
+	 * @param bandwithIn
 	 */
 	public ActionConsumption(double memory, double[] cpu, double bandwidthOut, double bandwithIn) {
 		this.memory = memory;
@@ -39,27 +44,27 @@ public class ActionConsumption {
 	}
 	
 	/**
-	 * 
+	 * en ko/s
 	 * @return
 	 */
-	public double getBandwidthOut() {
-		return bandwidthOut;
+	public int getBandwidthOut() {
+		return (int) (MILLE * bandwidthOut);
 	}
 	
 	/**
-	 * 
+	 * en ko/s
 	 * @return
 	 */
-	public double getBandwidthIn() {
-		return bandwidthIn;
+	public int getBandwidthIn() {
+		return (int) (MILLE * bandwidthIn);
 	}
 	
 	/**
-	 * 
+	 * en ko
 	 * @return
 	 */
-	public double getMemory() {
-		return memory;
+	public int getMemory() {
+		return (int) (MILLE * memory);
 	}
 	
 	/**
