@@ -103,7 +103,7 @@ public final class ConfigurationUtils {
 	 * 
 	 * @return a subset of nodes, may be empty.
 	 */
-	public static ManagedElementList<Node> currentlyOverloadedNodes(Configuration cfg) {
+	public static ManagedElementList<Node> getOverloadedNodes(Configuration cfg) {
         ManagedElementList<Node> nodes = new SimpleManagedElementList<Node>();
         for (Node n : cfg.getOnlines()) {
             if(isOverloaded(cfg, n)){
@@ -132,7 +132,7 @@ public final class ConfigurationUtils {
 	    return true;
     }
 	
-	public static long[] computeFreeUsage(long[] capacities, long[] consumption){
+	public static long[] computeFreeUsage(long[] capacities, long[] consumption){		
 		long[] freeUsageLeft = capacities.clone();
 		for(int i=0; i<capacities.length && i<consumption.length; i++){
 			freeUsageLeft[i] -= consumption[i];

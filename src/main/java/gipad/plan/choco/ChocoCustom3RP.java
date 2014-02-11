@@ -1,13 +1,8 @@
 package gipad.plan.choco;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.discovery.DiscoveryModel.model.VirtualMachine;
-
-import entropy.plan.choco.actionModel.ActionModel;
 import solver.Solver;
 import solver.constraints.Constraint;
 import solver.search.loop.monitors.SearchMonitorFactory;
@@ -15,8 +10,7 @@ import solver.variables.IntVar;
 import util.ESat;
 import gipad.placementconstraint.*;
 import gipad.configuration.CostFunction;
-import gipad.configuration.configuration.Configuration;
-import gipad.configuration.configuration.Configurations;
+import gipad.configuration.configuration.*;
 import gipad.exception.PlanException;
 import gipad.plan.*;
 import gipad.plan.action.Action;
@@ -131,7 +125,7 @@ public class ChocoCustom3RP implements Plan {
 			// Hardcore way for the packing. TODO: externalize
 			// System.err.println("pack issue:" +
 			// src.getRunnings(src.getUnacceptableNodes()));
-			vms.addAll(src.getRunnings(Configurations.futureOverloadedNodes(src)));
+			vms.addAll(src.getRunnings(ConfigurationUtils.getOverloadedNodes(src)));
 		} else {
 			vms = src.getAllVirtualMachines();
 		}
@@ -143,30 +137,26 @@ public class ChocoCustom3RP implements Plan {
 
 		// Inject placement constraints
 		// A pretty print of the problem
+		
+		/***************Not Down Yet*******************/
 
 		/**
 		 * globalCost is equals to the sum of each action costs.
 		 */
-<<<<<<< HEAD
-		IntVar<?> globalCost = model.createBoundIntVar("globalCost", 0,
-				Choco.MAX_UPPER_BOUND);
-		List<ActionModel> allActions = new ArrayList<ActionModel>();
-=======
 		IntVar globalCost = model.createBoundIntVar("globalCost", 0, Choco.MAX_UPPER_BOUND);
 		List<Action> allActions = new ArrayList<Action>();
->>>>>>> 29e0d5a9d473880122dfdd20c8c6292fd79b423e
 		allActions.addAll(model.getVirtualMachineActions());
 		allActions.addAll(model.getNodeMachineActions());
-		IntVar<?>[] allCosts = extractCosts(allActions);
-		List<IntVar<?>> varCosts = new ArrayList<IntVar<?>>();
+		IntVar[] allCosts = ActionModels.extractCosts(allActions);
+		List<IntVar> varCosts = new ArrayList<IntVar>();
 		for (int i = 0; i < allCosts.length; i++) {
-			IntVar<?> c = allCosts[i];
+			IntVar c = allCosts[i];
 			if (c.instantiated() && c.getValue() == 0) {
 			} else {
 				varCosts.add(c);
 			}
 		}
-		IntVar<?>[] costs = varCosts.toArray(new IntVar[varCosts.size()]);
+		IntVar[] costs = varCosts.toArray(new IntVar[varCosts.size()]);
 		// model.post(model.eq(globalCost,
 		// /*model.sum(costs)*/explodedSum(model, costs, 200, true)));
 
@@ -193,9 +183,9 @@ public class ChocoCustom3RP implements Plan {
 			} else {
 				SequencedReconfigurationPlan plan = model.extractSolution();
 				Configuration res = plan.getDestination();
-				if (Configurations.futureOverloadedNodes(res).size() != 0) {
+				if (ConfigurationUtils.getOverloadedNodes(res).size() != 0) {
 					throw new PlanException("Resulting configuration is not viable: Overloaded nodes="
-							+ Configurations.futureOverloadedNodes(res));
+							+ ConfigurationUtils.getOverloadedNodes(res));
 				}
 
 				int cost = 0;
@@ -214,19 +204,4 @@ public class ChocoCustom3RP implements Plan {
 		return null;
 	}
 
-
-	    /**
-	     * Extract the cost of a list of actions.
-	     *
-	     * @param actions the list of actions
-	     * @return an array of costs, in the same order that the actions
-	     */
-	    public static IntVar[] extractCosts(List<ActionModel> tActions) {
-		ActionModel[] actions = tActions.toArray(new ActionModel[tActions.size()]);
-		IntVar[] vs = new IntVar[actions.length];
-	        for (int i = 0; i < actions.length; i++) {
-	            vs[i] = actions[i].getGlobalCost();
-	        }
-	        return vs;
-	    }
 }
