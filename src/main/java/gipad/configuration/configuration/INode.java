@@ -4,22 +4,25 @@ import java.util.List;
 
 public interface INode {
 
-	List<Core> getCores();
+	//general
+	
+	String name();
 
 	int getId();
 
 	List<VirtualMachine> vms();
 
-	String name();
-
-	List<NetworkInterface> getNetworkInterfaces();
-
+	//CPU
+	List<Core> getCores();
+	
 	long[] getCoresCapacities();
-
+	
+	//Memory
 	long[] getMemCapacities();
 
+	// Network
+	List<NetworkInterface> getNetworkInterfaces();
+	
 	long[] getNetworkInCapacities();
 
-	long[] getNetworkOutCapacities();
-	String name();
-}
+	long[] getNetworkOutCapacities();}
