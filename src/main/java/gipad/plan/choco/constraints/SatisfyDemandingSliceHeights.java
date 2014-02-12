@@ -5,22 +5,36 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.discovery.DiscoveryModel.model.Node;
-
 import solver.constraints.Constraint;
 import solver.variables.IntVar;
+import gipad.configuration.configuration.Node;
 import gipad.plan.choco.DefaultReconfigurationProblem;
 import gipad.plan.choco.ReconfigurationProblem;
+import gipad.plan.choco.actionmodel.VirtualMachineActionModel;
 import gipad.plan.choco.actionmodel.slice.DemandingSlice;
 import gipad.plan.choco.actionmodel.slice.Slice;
 
 public class SatisfyDemandingSliceHeights{
 
     public SatisfyDemandingSliceHeights(DefaultReconfigurationProblem rp) {
-        List<Slice> dSlices = new ArrayList<Slice>(rp.getDemandingSlices()));
-        //Consuming et leaving sur lnoeud
+        List<VirtualMachineActionModel> vmActions = rp.getVirtualMachineActions();
+        Node[] pm=rp.getNodes();
+        //Consuming et leaving sur le noeud
         //Collections.sort(dSlices, new SliceComparator(false, SliceComparator.ResourceType.cpuConsumption));
-
+        
+        for(Node n : pm){
+            
+            for(VirtualMachineActionModel vmAM : vmActions){
+        	if(vmAM.getConsumingSlice().equals(null)){
+        	    
+                    Constraint c = new CumulativeMultiDim(vTasks, vHeights, vCapacities, rp.getSolver(), interestingTimePoints);
+                    rp.getSolver().post(c);
+        	}
+            }
+        }
+        
+        
+        
         //VM actions 
         //Puis selon l'action associée on regarde les cas !
         int[][] sizes = new int[2][];
@@ -47,9 +61,6 @@ public class SatisfyDemandingSliceHeights{
             capas[2][i] = rp.getF.getBwInput();
             capas[3][i] = dSlices.get(i).getBwOutput();
         }
-
-        Constraint c = new CumulativeMultiDim(vTasks, vHeights, rp.getC, rp.getSolver(), interestingTimePoints);
-        rp.getSolver().post(c);
     }
     
     public IntVar<?>[] getCapacities(){

@@ -50,7 +50,7 @@ public class IncomingSlice extends Slice {
      * @param consumption from the configuration
      */
     public IncomingSlice(ReconfigurationProblem model, String name, ActionConsumption consumption, Configuration conf) {
-        this(model, name, consumption.getCPU(),
+        this(model, name, consumption.getCpu(),
     					consumption.getMemory(),
     					conf.getMaxBandwidthOut(),
     					conf.getMaxBandwidthIn());
